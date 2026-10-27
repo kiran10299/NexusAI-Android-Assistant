@@ -1,0 +1,2418 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="theme-color" content="#04060e" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <title>Dost.ai — Personal AI Assistant & Visual Search Engine</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <!-- KaTeX for Crisp Mathematical Equations -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+
+  <!-- Highlight.js for Syntax Highlighted Code Blocks -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/tokyo-night-dark.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+
+  <!-- Marked.js for Rich Markdown Rendering -->
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+  <style>
+    :root {
+      --bg-void: #04060e;
+      --bg-surface: rgba(12, 17, 34, 0.72);
+      --bg-card: rgba(17, 24, 48, 0.68);
+      --bg-card-hover: rgba(25, 35, 68, 0.85);
+      --border-glass: rgba(255, 255, 255, 0.08);
+      --border-glow: rgba(56, 189, 248, 0.38);
+      --text-main: #f8fafc;
+      --text-secondary: #94a3b8;
+      --text-muted: #64748b;
+      --accent-cyan: #38bdf8;
+      --accent-indigo: #818cf8;
+      --accent-violet: #c084fc;
+      --accent-emerald: #34d399;
+      --accent-amber: #fbbf24;
+      --accent-rose: #fb7185;
+      --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-display: 'Space Grotesk', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html, body {
+      height: 100%;
+      width: 100%;
+      background-color: var(--bg-void);
+      color: var(--text-main);
+      font-family: var(--font-sans);
+      overflow: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Ambient Aurora Mesh Background */
+    .aurora-bg {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 18% 12%, rgba(56, 189, 248, 0.13) 0%, transparent 42%),
+        radial-gradient(circle at 82% 18%, rgba(192, 132, 252, 0.13) 0%, transparent 45%),
+        radial-gradient(circle at 50% 88%, rgba(99, 102, 241, 0.11) 0%, transparent 50%);
+    }
+
+    .aurora-grid {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(to right, rgba(255,255,255,0.02) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255,255,255,0.02) 1px, transparent 1px);
+      background-size: 44px 44px;
+      mask-image: radial-gradient(ellipse at center, black 35%, transparent 80%);
+      -webkit-mask-image: radial-gradient(ellipse at center, black 35%, transparent 80%);
+    }
+
+    /* Main App Shell */
+    .app-layout {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      height: 100vh;
+      width: 100vw;
+      overflow: hidden;
+    }
+
+    /* Left Sleek Navigation Rail / Sidebar */
+    .sidebar {
+      width: 280px;
+      background: rgba(8, 12, 26, 0.82);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border-right: 1px solid var(--border-glass);
+      display: flex;
+      flex-direction: column;
+      padding: 20px 16px;
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      flex-shrink: 0;
+    }
+
+    .brand-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 4px 6px 18px;
+      border-bottom: 1px solid var(--border-glass);
+    }
+
+    .brand-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: var(--text-main);
+    }
+
+    .brand-orb-mini {
+      width: 36px;
+      height: 36px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #38bdf8 0%, #818cf8 50%, #c084fc 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 20px rgba(56, 189, 248, 0.45);
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 1.05rem;
+      color: #030712;
+    }
+
+    .brand-title {
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      background: linear-gradient(90deg, #ffffff 0%, #bae6fd 55%, #e9d5ff 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .brand-subtitle {
+      font-size: 0.68rem;
+      color: var(--accent-cyan);
+      font-family: var(--font-mono);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      display: block;
+    }
+
+    .new-thread-btn {
+      margin-top: 16px;
+      width: 100%;
+      padding: 11px 14px;
+      border-radius: 12px;
+      border: 1px solid rgba(56, 189, 248, 0.35);
+      background: linear-gradient(135deg, rgba(56, 189, 248, 0.14), rgba(129, 140, 248, 0.12));
+      color: var(--text-main);
+      font-family: var(--font-sans);
+      font-weight: 600;
+      font-size: 0.86rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .new-thread-btn:hover {
+      background: linear-gradient(135deg, rgba(56, 189, 248, 0.24), rgba(129, 140, 248, 0.22));
+      box-shadow: 0 6px 20px rgba(56, 189, 248, 0.2);
+      transform: translateY(-1px);
+    }
+
+    .sidebar-section-label {
+      font-size: 0.68rem;
+      font-family: var(--font-mono);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+      margin: 20px 6px 8px;
+    }
+
+    .mode-pills {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .mode-btn {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 12px;
+      border-radius: 10px;
+      border: 1px solid transparent;
+      background: transparent;
+      color: var(--text-secondary);
+      font-size: 0.84rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.18s ease;
+      text-align: left;
+    }
+
+    .mode-btn:hover {
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--text-main);
+    }
+
+    .mode-btn.active {
+      background: rgba(56, 189, 248, 0.12);
+      border-color: rgba(56, 189, 248, 0.3);
+      color: #f8fafc;
+      font-weight: 600;
+    }
+
+    .mode-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+    }
+
+    /* Quick Engineering & Youth Presets in Sidebar */
+    .history-list {
+      flex: 1;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      padding-right: 4px;
+    }
+
+    .history-item {
+      padding: 9px 11px;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.025);
+      border: 1px solid rgba(255, 255, 255, 0.04);
+      color: var(--text-secondary);
+      font-size: 0.79rem;
+      line-height: 1.35;
+      cursor: pointer;
+      transition: all 0.18s ease;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .history-item:hover {
+      background: rgba(56, 189, 248, 0.09);
+      border-color: rgba(56, 189, 248, 0.28);
+      color: var(--text-main);
+    }
+
+    .sidebar-footer {
+      padding-top: 14px;
+      border-top: 1px solid var(--border-glass);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .engine-status-card {
+      padding: 10px 12px;
+      border-radius: 12px;
+      background: rgba(15, 23, 42, 0.75);
+      border: 1px solid var(--border-glass);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      transition: border-color 0.2s;
+    }
+
+    .engine-status-card:hover {
+      border-color: var(--accent-cyan);
+    }
+
+    .status-led {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--accent-emerald);
+      box-shadow: 0 0 10px var(--accent-emerald);
+      animation: pulseLed 2s infinite;
+    }
+
+    @keyframes pulseLed {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.55; transform: scale(1.18); }
+    }
+
+    /* Center Main Workspace */
+    .main-stage {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Top Glass Header */
+    .top-bar {
+      height: 62px;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--border-glass);
+      background: rgba(6, 9, 20, 0.65);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      flex-shrink: 0;
+      z-index: 10;
+    }
+
+    .top-bar-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .mobile-menu-btn {
+      display: none;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid var(--border-glass);
+      color: var(--text-main);
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      cursor: pointer;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .model-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: rgba(56, 189, 248, 0.1);
+      border: 1px solid rgba(56, 189, 248, 0.26);
+      font-family: var(--font-mono);
+      font-size: 0.74rem;
+      color: #e0f2fe;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .model-badge:hover {
+      background: rgba(56, 189, 248, 0.18);
+      box-shadow: 0 0 15px rgba(56, 189, 248, 0.25);
+    }
+
+    .top-bar-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .glass-action-btn {
+      padding: 7px 13px;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-glass);
+      color: var(--text-secondary);
+      font-size: 0.78rem;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-decoration: none;
+    }
+
+    .glass-action-btn:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: var(--text-main);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .glass-action-btn.primary-glow {
+      background: linear-gradient(135deg, rgba(56, 189, 248, 0.18), rgba(192, 132, 252, 0.18));
+      border-color: rgba(56, 189, 248, 0.4);
+      color: #f8fafc;
+    }
+
+    /* Scrollable Chat & Visual Stream */
+    .chat-viewport {
+      flex: 1;
+      overflow-y: auto;
+      padding: 28px 24px 160px;
+      scroll-behavior: smooth;
+    }
+
+    .chat-container {
+      max-width: 920px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    /* Hero Centerpiece (Dost.ai 3D Neural Orb + Greeting) */
+    .dost-hero {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 18px 16px 10px;
+      transition: all 0.35s ease;
+    }
+
+    .dost-hero.compact {
+      flex-direction: row;
+      justify-content: space-between;
+      padding: 10px 18px;
+      background: rgba(15, 23, 42, 0.55);
+      border: 1px solid var(--border-glass);
+      border-radius: 18px;
+      margin-bottom: 4px;
+    }
+
+    .orb-stage {
+      position: relative;
+      width: 170px;
+      height: 170px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 14px;
+      cursor: pointer;
+      transition: all 0.35s ease;
+    }
+
+    .dost-hero.compact .orb-stage {
+      width: 68px;
+      height: 68px;
+      margin-bottom: 0;
+    }
+
+    #dostOrbCanvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .orb-state-pill {
+      position: absolute;
+      bottom: 2px;
+      padding: 3px 10px;
+      border-radius: 999px;
+      background: rgba(4, 6, 14, 0.85);
+      border: 1px solid rgba(56, 189, 248, 0.4);
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent-cyan);
+      pointer-events: none;
+    }
+
+    .dost-hero.compact .orb-state-pill {
+      display: none;
+    }
+
+    .hero-greeting {
+      font-family: var(--font-display);
+      font-size: clamp(1.65rem, 3.2vw, 2.35rem);
+      font-weight: 700;
+      letter-spacing: -0.025em;
+      line-height: 1.2;
+      margin-bottom: 8px;
+    }
+
+    .dost-hero.compact .hero-greeting {
+      font-size: 1.05rem;
+      margin-bottom: 2px;
+      text-align: left;
+    }
+
+    .gradient-name {
+      background: linear-gradient(135deg, #38bdf8 0%, #818cf8 50%, #e879f9 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-tagline {
+      max-width: 620px;
+      color: var(--text-secondary);
+      font-size: 0.94rem;
+      line-height: 1.55;
+      margin-bottom: 22px;
+    }
+
+    .dost-hero.compact .hero-tagline {
+      font-size: 0.78rem;
+      margin-bottom: 0;
+      text-align: left;
+    }
+
+    /* Bento Starter Cards Grid */
+    .starter-bento {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      width: 100%;
+      max-width: 840px;
+      margin-top: 4px;
+    }
+
+    .dost-hero.compact + .starter-bento {
+      display: none;
+    }
+
+    .bento-card {
+      padding: 16px 18px;
+      border-radius: 16px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-glass);
+      text-align: left;
+      cursor: pointer;
+      transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .bento-card:hover {
+      background: var(--bg-card-hover);
+      border-color: rgba(56, 189, 248, 0.42);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 32px rgba(2, 6, 23, 0.65), 0 0 20px rgba(56, 189, 248, 0.12);
+    }
+
+    .bento-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .bento-tag {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      padding: 3px 8px;
+      border-radius: 6px;
+      background: rgba(56, 189, 248, 0.12);
+      color: var(--accent-cyan);
+    }
+
+    .bento-title {
+      font-weight: 600;
+      font-size: 0.92rem;
+      color: var(--text-main);
+    }
+
+    .bento-desc {
+      font-size: 0.79rem;
+      color: var(--text-secondary);
+      line-height: 1.4;
+    }
+
+    /* Message Bubbles & Rich Visual Cards */
+    .msg-row {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      animation: fadeSlideUp 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @keyframes fadeSlideUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .msg-user {
+      align-self: flex-end;
+      max-width: 78%;
+      padding: 14px 18px;
+      border-radius: 18px 18px 4px 18px;
+      background: linear-gradient(135deg, rgba(56, 189, 248, 0.22), rgba(99, 102, 241, 0.25));
+      border: 1px solid rgba(56, 189, 248, 0.38);
+      color: #f8fafc;
+      font-size: 0.95rem;
+      line-height: 1.55;
+      box-shadow: 0 8px 25px rgba(2, 6, 23, 0.45);
+    }
+
+    .msg-assistant-card {
+      width: 100%;
+      padding: 22px 24px;
+      border-radius: 20px;
+      background: rgba(13, 19, 38, 0.78);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      box-shadow: 0 14px 40px rgba(2, 6, 23, 0.6);
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .assistant-meta-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+    }
+
+    .assistant-identity {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .assistant-avatar {
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, #38bdf8, #c084fc);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 0.8rem;
+      color: #020617;
+    }
+
+    .assistant-name-label {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 0.92rem;
+      color: #f8fafc;
+    }
+
+    .engine-pill {
+      font-family: var(--font-mono);
+      font-size: 0.69rem;
+      padding: 3px 9px;
+      border-radius: 999px;
+      background: rgba(52, 211, 153, 0.12);
+      border: 1px solid rgba(52, 211, 153, 0.3);
+      color: var(--accent-emerald);
+    }
+
+    /* Perplexity-Style Live Search Sources Carousel */
+    .sources-section {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .sources-header {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: var(--text-secondary);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .sources-carousel {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 10px;
+    }
+
+    .source-card {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 6px;
+      padding: 11px 13px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.035);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      text-decoration: none;
+      color: var(--text-main);
+      transition: all 0.18s ease;
+    }
+
+    .source-card:hover {
+      background: rgba(56, 189, 248, 0.09);
+      border-color: rgba(56, 189, 248, 0.35);
+      transform: translateY(-2px);
+    }
+
+    .source-card-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+    }
+
+    .source-provider {
+      font-family: var(--font-mono);
+      font-size: 0.66rem;
+      padding: 2px 7px;
+      border-radius: 5px;
+      background: rgba(56, 189, 248, 0.14);
+      color: var(--accent-cyan);
+      font-weight: 600;
+    }
+
+    .source-badge {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      color: var(--accent-amber);
+    }
+
+    .source-title {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: #f1f5f9;
+      display: -webkit-box;
+      -webkit-line-clamp: 1;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .source-snippet {
+      font-size: 0.74rem;
+      color: var(--text-secondary);
+      line-height: 1.35;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    /* Rich Rendered Markdown Content */
+    .rendered-markdown {
+      font-size: 0.94rem;
+      line-height: 1.7;
+      color: #e2e8f0;
+    }
+
+    .rendered-markdown h1,
+    .rendered-markdown h2,
+    .rendered-markdown h3,
+    .rendered-markdown h4 {
+      font-family: var(--font-display);
+      color: #ffffff;
+      margin: 16px 0 8px;
+      letter-spacing: -0.015em;
+    }
+
+    .rendered-markdown h3 {
+      font-size: 1.12rem;
+      color: #bae6fd;
+    }
+
+    .rendered-markdown h4 {
+      font-size: 0.98rem;
+      color: #e9d5ff;
+    }
+
+    .rendered-markdown p {
+      margin-bottom: 12px;
+    }
+
+    .rendered-markdown ul,
+    .rendered-markdown ol {
+      margin: 8px 0 14px 20px;
+    }
+
+    .rendered-markdown li {
+      margin-bottom: 6px;
+    }
+
+    .rendered-markdown strong {
+      color: #ffffff;
+      font-weight: 700;
+    }
+
+    .rendered-markdown blockquote {
+      margin: 12px 0;
+      padding: 10px 14px;
+      border-left: 3px solid var(--accent-cyan);
+      background: rgba(56, 189, 248, 0.07);
+      border-radius: 0 10px 10px 0;
+      color: #bae6fd;
+      font-size: 0.88rem;
+    }
+
+    .rendered-markdown pre {
+      position: relative;
+      margin: 14px 0;
+      border-radius: 14px;
+      background: #090d1a !important;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 38px 16px 16px;
+      overflow-x: auto;
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      line-height: 1.55;
+    }
+
+    .code-header-bar {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 30px;
+      padding: 0 12px;
+      background: rgba(255, 255, 255, 0.05);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      color: var(--text-secondary);
+    }
+
+    .copy-code-btn {
+      background: rgba(56, 189, 248, 0.14);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      color: var(--accent-cyan);
+      padding: 2px 8px;
+      border-radius: 5px;
+      font-family: var(--font-mono);
+      font-size: 0.66rem;
+      cursor: pointer;
+    }
+
+    .copy-code-btn:hover {
+      background: rgba(56, 189, 248, 0.28);
+      color: #fff;
+    }
+
+    .katex-display {
+      padding: 12px 16px;
+      border-radius: 12px;
+      background: rgba(15, 23, 42, 0.85);
+      border: 1px solid rgba(129, 140, 248, 0.25);
+      overflow-x: auto;
+      margin: 12px 0 !important;
+    }
+
+    /* Interactive Generative Visual Widget Card inside Assistant Reply */
+    .visual-lab-widget {
+      margin-top: 6px;
+      padding: 18px;
+      border-radius: 16px;
+      background: linear-gradient(145deg, rgba(8, 13, 28, 0.92), rgba(15, 23, 45, 0.88));
+      border: 1px solid rgba(56, 189, 248, 0.28);
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .visual-lab-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .visual-lab-title {
+      font-family: var(--font-display);
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: var(--accent-cyan);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .widget-canvas-wrap {
+      width: 100%;
+      height: 175px;
+      border-radius: 12px;
+      background: #040711;
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .widget-canvas-wrap canvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .widget-controls-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+      gap: 12px;
+    }
+
+    .control-group {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      padding: 10px 12px;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .control-label {
+      display: flex;
+      justify-content: space-between;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--text-secondary);
+    }
+
+    .control-val {
+      color: var(--accent-cyan);
+      font-weight: 600;
+    }
+
+    input[type="range"] {
+      width: 100%;
+      accent-color: var(--accent-cyan);
+      cursor: pointer;
+    }
+
+    .telemetry-readout-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 10px;
+    }
+
+    .telemetry-kpi {
+      padding: 10px 12px;
+      border-radius: 10px;
+      background: rgba(56, 189, 248, 0.06);
+      border: 1px solid rgba(56, 189, 248, 0.18);
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .telemetry-kpi-label {
+      font-family: var(--font-mono);
+      font-size: 0.66rem;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+    }
+
+    .telemetry-kpi-value {
+      font-family: var(--font-mono);
+      font-size: 1.02rem;
+      font-weight: 700;
+      color: #f8fafc;
+    }
+
+    /* Follow-up Smart Suggestion Chips */
+    .suggestions-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      padding-top: 4px;
+    }
+
+    .suggestion-chip {
+      padding: 7px 13px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--text-secondary);
+      font-size: 0.78rem;
+      cursor: pointer;
+      transition: all 0.18s ease;
+    }
+
+    .suggestion-chip:hover {
+      background: rgba(56, 189, 248, 0.14);
+      border-color: rgba(56, 189, 248, 0.4);
+      color: #fff;
+    }
+
+    /* Floating Bottom Command Bar */
+    .command-dock {
+      position: absolute;
+      bottom: 18px;
+      left: 24px;
+      right: 24px;
+      z-index: 20;
+      pointer-events: none;
+    }
+
+    .command-box {
+      max-width: 880px;
+      margin: 0 auto;
+      pointer-events: auto;
+      background: rgba(10, 15, 32, 0.88);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid rgba(56, 189, 248, 0.32);
+      border-radius: 22px;
+      padding: 10px 14px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.75), 0 0 28px rgba(56, 189, 248, 0.12);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .command-box:focus-within {
+      border-color: var(--accent-cyan);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.82), 0 0 34px rgba(56, 189, 248, 0.24);
+    }
+
+    .voice-mic-btn {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--accent-cyan);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: all 0.2s;
+    }
+
+    .voice-mic-btn.listening {
+      background: rgba(251, 113, 133, 0.22);
+      border-color: var(--accent-rose);
+      color: var(--accent-rose);
+      box-shadow: 0 0 20px rgba(251, 113, 133, 0.45);
+      animation: pulseLed 1s infinite;
+    }
+
+    .command-input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      outline: none;
+      color: var(--text-main);
+      font-family: var(--font-sans);
+      font-size: 0.96rem;
+      padding: 6px 4px;
+    }
+
+    .command-input::placeholder {
+      color: var(--text-muted);
+    }
+
+    .send-btn {
+      height: 42px;
+      padding: 0 18px;
+      border-radius: 14px;
+      border: none;
+      background: linear-gradient(135deg, #38bdf8 0%, #818cf8 55%, #c084fc 100%);
+      color: #020617;
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 0.86rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+      flex-shrink: 0;
+    }
+
+    .send-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(56, 189, 248, 0.4);
+    }
+
+    /* Slide-Over Youth & Engineering Daily Companion Drawer */
+    .companion-drawer {
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      width: 350px;
+      max-width: 92vw;
+      background: rgba(8, 12, 26, 0.95);
+      backdrop-filter: blur(28px);
+      border-left: 1px solid var(--border-glass);
+      z-index: 50;
+      padding: 22px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      transform: translateX(105%);
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      overflow-y: auto;
+    }
+
+    .companion-drawer.open {
+      transform: translateX(0);
+    }
+
+    /* Settings Modal for Gemini Key & Render Backend */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(2, 4, 12, 0.78);
+      backdrop-filter: blur(10px);
+      z-index: 100;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+
+    .modal-backdrop.open {
+      display: flex;
+    }
+
+    .modal-card {
+      width: 100%;
+      max-width: 520px;
+      background: #0b1022;
+      border: 1px solid rgba(56, 189, 248, 0.35);
+      border-radius: 22px;
+      padding: 24px;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.85);
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .modal-input {
+      width: 100%;
+      padding: 11px 14px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: var(--text-main);
+      font-family: var(--font-mono);
+      font-size: 0.83rem;
+      outline: none;
+    }
+
+    .modal-input:focus {
+      border-color: var(--accent-cyan);
+    }
+
+    @media (max-width: 900px) {
+      .sidebar {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        z-index: 60;
+        transform: translateX(-105%);
+      }
+      .sidebar.open {
+        transform: translateX(0);
+      }
+      .mobile-menu-btn {
+        display: inline-flex;
+      }
+      .starter-bento {
+        grid-template-columns: 1fr;
+      }
+      .msg-user {
+        max-width: 90%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="aurora-bg"></div>
+  <div class="aurora-grid"></div>
+
+  <div class="app-layout">
+    <!-- Left Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="brand-header">
+        <a href="dost-ai.html" class="brand-logo">
+          <div class="brand-orb-mini">D</div>
+          <div>
+            <span class="brand-title">Dost.ai</span>
+            <span class="brand-subtitle">Gemini Visual Assistant</span>
+          </div>
+        </a>
+      </div>
+
+      <button class="new-thread-btn" onclick="resetConversation()">
+        <span>+ New Dost.ai Session</span>
+        <span style="font-family:var(--font-mono);font-size:0.72rem;opacity:0.7;">Ctrl+K</span>
+      </button>
+
+      <div class="sidebar-section-label">Intelligence Modes</div>
+      <div class="mode-pills" id="modePills">
+        <button class="mode-btn active" data-mode="auto" onclick="setAssistantMode('auto', this)">
+          <span class="mode-dot" style="background:var(--accent-cyan);"></span>
+          All-Rounder Personal Dost
+        </button>
+        <button class="mode-btn" data-mode="engineering" onclick="setAssistantMode('engineering', this)">
+          <span class="mode-dot" style="background:var(--accent-emerald);"></span>
+          Hardware, PLC & Embedded Lab
+        </button>
+        <button class="mode-btn" data-mode="code" onclick="setAssistantMode('code', this)">
+          <span class="mode-dot" style="background:var(--accent-violet);"></span>
+          Full-Stack & Algorithm Architect
+        </button>
+        <button class="mode-btn" data-mode="youth" onclick="setAssistantMode('youth', this)">
+          <span class="mode-dot" style="background:var(--accent-amber);"></span>
+          Career, Research & Exam Prep
+        </button>
+      </div>
+
+      <div class="sidebar-section-label">Instant Visual Explorations</div>
+      <div class="history-list" id="quickPromptsList">
+        <div class="history-item" onclick="triggerPrompt('Design a 4-20mA current loop sensor interface for a 12-bit STM32 ADC with wire-break detection and interactive scaling')">
+          ⚡ 4–20mA Current Loop & STM32 12-Bit ADC Scaling Lab
+        </div>
+        <div class="history-item" onclick="triggerPrompt('Calculate and visualize an RC low-pass anti-aliasing filter cutoff frequency with Bode attenuation math')">
+          🎛️ Interactive RC Low-Pass Filter & Cutoff Frequency Lab
+        </div>
+        <div class="history-item" onclick="triggerPrompt('Simulate a PWM & Fourier harmonic signal waveform and explain Nyquist sampling theorem')">
+          🌊 Fourier Harmonics, PWM Modulation & Nyquist Oscilloscope
+        </div>
+        <div class="history-item" onclick="triggerPrompt('Give me a high-impact 90-day Embedded Systems & AI Engineer roadmap with top open-source GitHub repos')">
+          🚀 90-Day Embedded + AI Engineering Roadmap & Repos
+        </div>
+      </div>
+
+      <div class="sidebar-footer">
+        <div class="engine-status-card" onclick="openSettingsModal()">
+          <div style="display:flex;align-items:center;gap:10px;">
+            <span class="status-led" id="sidebarLed"></span>
+            <div>
+              <div style="font-size:0.78rem;font-weight:600;" id="sidebarEngineTitle">Gemini + Live Search</div>
+              <div style="font-size:0.68rem;color:var(--text-secondary);" id="sidebarEngineSub">Click to configure API / Render</div>
+            </div>
+          </div>
+          <span style="font-size:0.85rem;color:var(--accent-cyan);">⚙️</span>
+        </div>
+        <a href="index.html" class="glass-action-btn" style="justify-content:center;width:100%;">
+          ← Back to Kiran's Portfolio
+        </a>
+      </div>
+    </aside>
+
+    <!-- Main Center Stage -->
+    <main class="main-stage">
+      <!-- Top Glass Header -->
+      <header class="top-bar">
+        <div class="top-bar-left">
+          <button class="mobile-menu-btn" onclick="toggleSidebar()" aria-label="Menu">☰</button>
+          <div class="model-badge" onclick="openSettingsModal()" id="topModelBadge">
+            <span style="width:7px;height:7px;border-radius:50%;background:var(--accent-cyan);"></span>
+            <span id="activeEngineBadgeText">Dost.ai · Gemini 2.0 + Live Grounding</span>
+          </div>
+        </div>
+
+        <div class="top-bar-actions">
+          <button class="glass-action-btn" onclick="toggleVoiceOutput()" id="ttsToggleBtn" title="Toggle Voice Readout">
+            🔊 <span id="ttsStatusLabel">Voice: Off</span>
+          </button>
+          <button class="glass-action-btn primary-glow" onclick="toggleCompanionDrawer()">
+            ⏱️ Daily Focus & Tools
+          </button>
+          <button class="glass-action-btn" onclick="openSettingsModal()">
+            ⚡ Gemini / Render Setup
+          </button>
+        </div>
+      </header>
+
+      <!-- Scrollable Conversation + Visual Canvas -->
+      <div class="chat-viewport" id="chatViewport">
+        <div class="chat-container" id="chatContainer">
+          <!-- Hero Centerpiece -->
+          <section class="dost-hero" id="dostHero">
+            <div class="orb-stage" onclick="toggleVoiceRecognition()" title="Tap Orb to Talk to Dost.ai">
+              <canvas id="dostOrbCanvas" width="340" height="340"></canvas>
+              <span class="orb-state-pill" id="orbStatePill">NEURAL CORE READY</span>
+            </div>
+            <div>
+              <h1 class="hero-greeting">
+                Hey, I'm <span class="gradient-name">Dost.ai</span> — your personal visual intelligence.
+              </h1>
+              <p class="hero-tagline">
+                Powered by Google Gemini & real-time multi-source search (Wikipedia, GitHub, HackerNews) with interactive oscilloscopes, LaTeX math, and live engineering labs rendered right inside every answer.
+              </p>
+            </div>
+          </section>
+
+          <!-- Bento Starter Cards -->
+          <section class="starter-bento" id="starterBento">
+            <div class="bento-card" onclick="triggerPrompt('Design a 4-20mA current loop sensor interface for a 12-bit STM32 ADC with wire-break detection and interactive scaling')">
+              <div class="bento-card-header">
+                <span class="bento-tag">Industrial & Embedded</span>
+                <span>⚡</span>
+              </div>
+              <div class="bento-title">4–20mA Current Loop & ADC Lab</div>
+              <div class="bento-desc">Derive shunt equations, C firmware, and manipulate a live 4–20mA transmitter simulator right in chat.</div>
+            </div>
+
+            <div class="bento-card" onclick="triggerPrompt('Explain RC low-pass filter design, derive the -3dB cutoff formula, and launch the interactive RC calculator')">
+              <div class="bento-card-header">
+                <span class="bento-tag">Analog Signal Conditioning</span>
+                <span>🎛️</span>
+              </div>
+              <div class="bento-title">RC Filter & Bode Cutoff Explorer</div>
+              <div class="bento-desc">Interactive resistor/capacitor sliders with real-time cutoff frequency ($f_c$) and phase shift readouts.</div>
+            </div>
+
+            <div class="bento-card" onclick="triggerPrompt('Simulate Fourier harmonic synthesis and PWM waveforms on the live oscilloscope and explain total harmonic distortion')">
+              <div class="bento-card-header">
+                <span class="bento-tag">Live Oscilloscope</span>
+                <span>🌊</span>
+              </div>
+              <div class="bento-title">Real-Time Signal & Harmonic Scope</div>
+              <div class="bento-desc">Render a 60 FPS interactive oscilloscope inside the response with frequency and noise sliders.</div>
+            </div>
+
+            <div class="bento-card" onclick="triggerPrompt('Search GitHub and Wikipedia for the best open-source RTOS and embedded Linux frameworks in 2026 with comparison')">
+              <div class="bento-card-header">
+                <span class="bento-tag">Live Search Engine</span>
+                <span>🌐</span>
+              </div>
+              <div class="bento-title">Live GitHub & Encyclopedia Research</div>
+              <div class="bento-desc">Fetches live repositories, star counts, and technical citations synthesized into a clean briefing.</div>
+            </div>
+          </section>
+
+          <!-- Dynamic Messages Stream -->
+          <div id="messagesStream" style="display:flex;flex-direction:column;gap:22px;"></div>
+        </div>
+      </div>
+
+      <!-- Bottom Floating Command Dock -->
+      <div class="command-dock">
+        <form class="command-box" onsubmit="handleFormSubmit(event)">
+          <button type="button" class="voice-mic-btn" id="micBtn" onclick="toggleVoiceRecognition()" title="Voice Input">
+            🎙️
+          </button>
+          <input
+            type="text"
+            id="userPromptInput"
+            class="command-input"
+            placeholder="Ask Dost.ai anything — circuits, code, math, career, or live search..."
+            autocomplete="off"
+          />
+          <button type="submit" class="send-btn" id="sendBtn">
+            <span>Ask Dost.ai</span>
+            <span>↗</span>
+          </button>
+        </form>
+      </div>
+    </main>
+  </div>
+
+  <!-- Right Slide-Over Youth & Engineering Daily Companion Drawer -->
+  <aside class="companion-drawer" id="companionDrawer">
+    <div style="display:flex;align-items:center;justify-content:space-between;">
+      <div style="font-family:var(--font-display);font-weight:700;font-size:1.05rem;">⏱️ Dost.ai Daily Focus Hub</div>
+      <button class="glass-action-btn" onclick="toggleCompanionDrawer()">✕</button>
+    </div>
+
+    <!-- Pomodoro Focus Timer Card -->
+    <div style="padding:16px;border-radius:16px;background:rgba(255,255,255,0.03);border:1px solid var(--border-glass);text-align:center;">
+      <div style="font-family:var(--font-mono);font-size:0.7rem;color:var(--accent-cyan);text-transform:uppercase;letter-spacing:0.08em;">Deep Work Sprint</div>
+      <div id="pomoDisplay" style="font-family:var(--font-mono);font-size:2.4rem;font-weight:700;margin:10px 0;color:#fff;">25:00</div>
+      <div style="display:flex;gap:8px;justify-content:center;">
+        <button class="glass-action-btn primary-glow" onclick="togglePomodoro()" id="pomoStartBtn">▶ Start</button>
+        <button class="glass-action-btn" onclick="resetPomodoro()">↺ Reset</button>
+      </div>
+    </div>
+
+    <!-- Quick Unit & Decibel Converter -->
+    <div style="padding:16px;border-radius:16px;background:rgba(255,255,255,0.03);border:1px solid var(--border-glass);display:flex;flex-direction:column;gap:10px;">
+      <div style="font-family:var(--font-mono);font-size:0.7rem;color:var(--accent-emerald);text-transform:uppercase;">Instant Voltage Ratio → dB Calculator</div>
+      <div style="display:flex;gap:8px;align-items:center;">
+        <input type="number" id="dbGainInput" value="0.707" step="0.01" class="modal-input" oninput="updateQuickDb()" />
+        <span style="font-family:var(--font-mono);font-size:0.78rem;color:var(--text-secondary);">Vout/Vin</span>
+      </div>
+      <div id="dbGainResult" style="font-family:var(--font-mono);font-size:0.95rem;font-weight:700;color:var(--accent-cyan);">
+        -3.01 dB (Power: 50.0%)
+      </div>
+    </div>
+
+    <!-- Daily Engineering Habits Checklist -->
+    <div style="padding:16px;border-radius:16px;background:rgba(255,255,255,0.03);border:1px solid var(--border-glass);display:flex;flex-direction:column;gap:10px;">
+      <div style="font-family:var(--font-mono);font-size:0.7rem;color:var(--accent-violet);text-transform:uppercase;">Daily Growth Checklist</div>
+      <label style="display:flex;align-items:center;gap:10px;font-size:0.84rem;cursor:pointer;">
+        <input type="checkbox" checked style="accent-color:var(--accent-cyan);" />
+        <span>1 Deep Architecture / Circuit Problem</span>
+      </label>
+      <label style="display:flex;align-items:center;gap:10px;font-size:0.84rem;cursor:pointer;">
+        <input type="checkbox" style="accent-color:var(--accent-cyan);" />
+        <span>Push 1 Open-Source Commit on GitHub</span>
+      </label>
+      <label style="display:flex;align-items:center;gap:10px;font-size:0.84rem;cursor:pointer;">
+        <input type="checkbox" style="accent-color:var(--accent-cyan);" />
+        <span>Review 1 Datasheet or Research Paper</span>
+      </label>
+    </div>
+  </aside>
+
+  <!-- Gemini & Render Backend Configuration Modal -->
+  <div class="modal-backdrop" id="settingsModal">
+    <div class="modal-card">
+      <div style="display:flex;align-items:center;justify-content:space-between;">
+        <div style="font-family:var(--font-display);font-size:1.15rem;font-weight:700;">⚡ Dost.ai Gemini & Free Render Backend</div>
+        <button class="glass-action-btn" onclick="closeSettingsModal()">✕</button>
+      </div>
+
+      <p style="font-size:0.82rem;color:var(--text-secondary);line-height:1.5;">
+        <strong>Dost.ai</strong> works immediately out-of-the-box! For direct <strong>Google Gemini 2.0 Flash</strong> responses or your own free <strong>Render.com Python Backend</strong>, paste your key or URL below:
+      </p>
+
+      <div>
+        <label style="font-family:var(--font-mono);font-size:0.72rem;color:var(--accent-cyan);display:block;margin-bottom:6px;">
+          1. GOOGLE GEMINI API KEY (Get free at aistudio.google.com)
+        </label>
+        <input type="password" id="geminiKeyInput" class="modal-input" placeholder="AIzaSy..." />
+      </div>
+
+      <div>
+        <label style="font-family:var(--font-mono);font-size:0.72rem;color:var(--accent-violet);display:block;margin-bottom:6px;">
+          2. RENDER.COM PYTHON BACKEND URL (Optional — auto-detected if hosted on Render)
+        </label>
+        <input type="text" id="backendUrlInput" class="modal-input" placeholder="https://dost-ai-personal-assistant.onrender.com" />
+      </div>
+
+      <div style="padding:12px;border-radius:12px;background:rgba(56,189,248,0.07);border:1px solid rgba(56,189,248,0.2);font-size:0.76rem;color:#bae6fd;line-height:1.45;">
+        💡 <strong>Free Hosting on Render.com:</strong> This repository includes <code>backend/dost_server.py</code> and <code>render.yaml</code>. Connect your GitHub repo on <strong>render.com → New Blueprint</strong>, paste your <code>GEMINI_API_KEY</code> in Render Environment Variables, and your personal assistant backend runs 24/7 for free!
+      </div>
+
+      <div style="display:flex;justify-content:flex-end;gap:10px;margin-top:4px;">
+        <button class="glass-action-btn" onclick="closeSettingsModal()">Cancel</button>
+        <button class="send-btn" onclick="saveSettings()">Save & Activate</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ============================================================================
+    // 1. DOST.AI 3D VOLUMETRIC FLUID & PARTICLE NEURAL ORB ENGINE
+    // ============================================================================
+    const orbCanvas = document.getElementById('dostOrbCanvas');
+    const orbCtx = orbCanvas.getContext('2d');
+    let orbState = 'IDLE'; // IDLE | LISTENING | SEARCHING | SPEAKING
+    let orbTime = 0;
+
+    // Generate Fibonacci Sphere 3D Points for the Neural Core
+    const NUM_PARTICLES = 110;
+    const spherePoints = [];
+    const goldenRatio = (1 + Math.sqrt(5)) / 2;
+    for (let i = 0; i < NUM_PARTICLES; i++) {
+      const theta = 2 * Math.PI * i / goldenRatio;
+      const phi = Math.acos(1 - 2 * (i + 0.5) / NUM_PARTICLES);
+      spherePoints.push({
+        x: Math.cos(theta) * Math.sin(phi),
+        y: Math.sin(theta) * Math.sin(phi),
+        z: Math.cos(phi),
+        phase: Math.random() * Math.PI * 2
+      });
+    }
+
+    function setOrbState(state, labelText) {
+      orbState = state;
+      const pill = document.getElementById('orbStatePill');
+      if (pill) {
+        pill.textContent = labelText || state;
+      }
+    }
+
+    function renderDostOrb() {
+      const w = orbCanvas.width;
+      const h = orbCanvas.height;
+      const cx = w / 2;
+      const cy = h / 2;
+      orbCtx.clearRect(0, 0, w, h);
+
+      let speed = 0.018;
+      let baseRadius = 92;
+      let primaryHue = 198;   // Cyan
+      let secondaryHue = 268; // Violet
+      let warpAmp = 6;
+
+      if (orbState === 'LISTENING') {
+        speed = 0.045;
+        primaryHue = 155;
+        secondaryHue = 190;
+        warpAmp = 15;
+      } else if (orbState === 'SEARCHING') {
+        speed = 0.068;
+        primaryHue = 38;
+        secondaryHue = 290;
+        warpAmp = 18;
+      } else if (orbState === 'SPEAKING') {
+        speed = 0.042;
+        primaryHue = 195;
+        secondaryHue = 315;
+        warpAmp = 14;
+      }
+
+      orbTime += speed;
+
+      // Outer Ambient Glow Halo
+      const haloGrad = orbCtx.createRadialGradient(cx, cy, baseRadius * 0.2, cx, cy, baseRadius * 1.55);
+      haloGrad.addColorStop(0, `hsla(${primaryHue}, 95%, 62%, 0.32)`);
+      haloGrad.addColorStop(0.55, `hsla(${secondaryHue}, 90%, 58%, 0.14)`);
+      haloGrad.addColorStop(1, 'rgba(4, 6, 14, 0)');
+      orbCtx.fillStyle = haloGrad;
+      orbCtx.beginPath();
+      orbCtx.arc(cx, cy, baseRadius * 1.55, 0, Math.PI * 2);
+      orbCtx.fill();
+
+      // Multi-layered Harmonic Plasma Ribbons
+      for (let ring = 0; ring < 3; ring++) {
+        orbCtx.beginPath();
+        const ringHue = ring % 2 === 0 ? primaryHue : secondaryHue;
+        orbCtx.strokeStyle = `hsla(${ringHue}, 92%, 68%, ${0.42 - ring * 0.1})`;
+        orbCtx.lineWidth = 2.2 - ring * 0.4;
+
+        for (let a = 0; a <= Math.PI * 2 + 0.05; a += 0.08) {
+          const wave =
+            Math.sin(a * (3 + ring) + orbTime * (1.6 + ring * 0.4)) * warpAmp +
+            Math.cos(a * (5 - ring) - orbTime * 1.2) * (warpAmp * 0.55);
+          const r = baseRadius + wave - ring * 8;
+          const px = cx + Math.cos(a) * r;
+          const py = cy + Math.sin(a) * r;
+          if (a === 0) orbCtx.moveTo(px, py);
+          else orbCtx.lineTo(px, py);
+        }
+        orbCtx.closePath();
+        orbCtx.stroke();
+      }
+
+      // 3D Rotating Fibonacci Neural Core Particles
+      const rotY = orbTime * 0.85;
+      const rotX = orbTime * 0.55;
+      const cosY = Math.cos(rotY), sinY = Math.sin(rotY);
+      const cosX = Math.cos(rotX), sinX = Math.sin(rotX);
+
+      for (let i = 0; i < spherePoints.length; i++) {
+        const p = spherePoints[i];
+        const pulse = 1 + 0.08 * Math.sin(orbTime * 2.5 + p.phase);
+        let x1 = p.x * cosY - p.z * sinY;
+        let z1 = p.z * cosY + p.x * sinY;
+        let y1 = p.y * cosX - z1 * sinX;
+        let z2 = z1 * cosX + p.y * sinX;
+
+        const scale = 220 / (220 + z2 * 75);
+        const sx = cx + x1 * baseRadius * 0.78 * pulse * scale;
+        const sy = cy + y1 * baseRadius * 0.78 * pulse * scale;
+        const alpha = Math.max(0.15, (z2 + 1.2) / 2.2);
+        const dotSize = Math.max(1.2, 2.8 * scale);
+
+        orbCtx.fillStyle = z2 > 0
+          ? `hsla(${primaryHue}, 95%, 75%, ${alpha})`
+          : `hsla(${secondaryHue}, 85%, 65%, ${alpha * 0.6})`;
+        orbCtx.beginPath();
+        orbCtx.arc(sx, sy, dotSize, 0, Math.PI * 2);
+        orbCtx.fill();
+      }
+
+      requestAnimationFrame(renderDostOrb);
+    }
+    requestAnimationFrame(renderDostOrb);
+
+    // ============================================================================
+    // 2. CONFIGURATION, STATE & MULTI-SOURCE LIVE SEARCH ENGINE
+    // ============================================================================
+    let currentMode = 'auto';
+    let voiceReadoutEnabled = false;
+    let conversationHistory = [];
+    let widgetCounter = 0;
+
+    let savedGeminiKey = localStorage.getItem('dost_gemini_key') || '';
+    let savedBackendUrl = localStorage.getItem('dost_backend_url') || '';
+
+    function updateEngineBadges() {
+      const badge = document.getElementById('activeEngineBadgeText');
+      const sideTitle = document.getElementById('sidebarEngineTitle');
+      const sideSub = document.getElementById('sidebarEngineSub');
+      if (savedGeminiKey) {
+        badge.textContent = 'Dost.ai · Gemini 2.0 Flash (Direct Key Active)';
+        sideTitle.textContent = 'Gemini 2.0 Flash Active';
+        sideSub.textContent = 'Direct API + Live Search';
+      } else if (savedBackendUrl) {
+        badge.textContent = 'Dost.ai · Render Python Backend Active';
+        sideTitle.textContent = 'Render FastAPI Connected';
+        sideSub.textContent = savedBackendUrl.replace(/^https?:\/\//, '').slice(0, 26);
+      } else {
+        badge.textContent = 'Dost.ai · Hybrid Cloud + Live Search Ready';
+        sideTitle.textContent = 'Gemini + Live Search';
+        sideSub.textContent = 'Click to add Gemini Key / Render';
+      }
+    }
+    updateEngineBadges();
+
+    function setAssistantMode(mode, btnEl) {
+      currentMode = mode;
+      document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+      if (btnEl) btnEl.classList.add('active');
+    }
+
+    function toggleSidebar() {
+      document.getElementById('sidebar').classList.toggle('open');
+    }
+
+    function toggleCompanionDrawer() {
+      document.getElementById('companionDrawer').classList.toggle('open');
+    }
+
+    function openSettingsModal() {
+      document.getElementById('geminiKeyInput').value = savedGeminiKey;
+      document.getElementById('backendUrlInput').value = savedBackendUrl;
+      document.getElementById('settingsModal').classList.add('open');
+    }
+
+    function closeSettingsModal() {
+      document.getElementById('settingsModal').classList.remove('open');
+    }
+
+    function saveSettings() {
+      savedGeminiKey = document.getElementById('geminiKeyInput').value.trim();
+      savedBackendUrl = document.getElementById('backendUrlInput').value.trim().replace(/\/+$/, '');
+      localStorage.setItem('dost_gemini_key', savedGeminiKey);
+      localStorage.setItem('dost_backend_url', savedBackendUrl);
+      updateEngineBadges();
+      closeSettingsModal();
+    }
+
+    function resetConversation() {
+      conversationHistory = [];
+      document.getElementById('messagesStream').innerHTML = '';
+      document.getElementById('dostHero').classList.remove('compact');
+      setOrbState('IDLE', 'NEURAL CORE READY');
+    }
+
+    // Clean keyword extractor for Wikipedia, GitHub & HackerNews APIs
+    function extractSearchTopic(rawQuery) {
+      const stop = new Set([
+        'what','is','are','how','does','do','work','explain','tell','me','about',
+        'the','a','an','in','for','to','with','and','or','calculate','design',
+        'show','simulate','please','dost','hey','can','you','give','write','code',
+        'example','formula','interactive','launch','create'
+      ]);
+      const words = rawQuery.replace(/[^\w\s\-\.]/g, ' ').split(/\s+/).filter(w => w.length > 1 && !stop.has(w.toLowerCase()));
+      return words.slice(0, 4).join(' ') || rawQuery.slice(0, 36);
+    }
+
+    async function fetchLiveSourcesClient(query) {
+      const topic = extractSearchTopic(query);
+      const sources = [];
+
+      const wikiPromise = fetch(`https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(topic)}&utf8=1&format=json&origin=*&srlimit=2`)
+        .then(r => r.json())
+        .then(data => {
+          const items = (data?.query?.search || []).slice(0, 2);
+          items.forEach(item => {
+            sources.push({
+              provider: 'Wikipedia',
+              title: item.title,
+              snippet: item.snippet.replace(/<[^>]+>/g, ''),
+              url: `https://en.wikipedia.org/wiki/${encodeURIComponent(item.title.replace(/ /g, '_'))}`,
+              badge: 'Encyclopedia'
+            });
+          });
+        }).catch(() => {});
+
+      const ghPromise = fetch(`https://api.github.com/search/repositories?q=${encodeURIComponent(topic)}&sort=stars&order=desc&per_page=2`)
+        .then(r => r.ok ? r.json() : null)
+        .then(data => {
+          const items = (data?.items || []).slice(0, 2);
+          items.forEach(repo => {
+            sources.push({
+              provider: 'GitHub',
+              title: repo.full_name,
+              snippet: repo.description || 'Open-source engineering & software repository.',
+              url: repo.html_url,
+              badge: `★ ${(repo.stargazers_count || 0).toLocaleString()} · ${repo.language || 'Code'}`
+            });
+          });
+        }).catch(() => {});
+
+      const hnPromise = fetch(`https://hn.algolia.com/api/v1/search?query=${encodeURIComponent(topic)}&tags=story&hitsPerPage=1`)
+        .then(r => r.ok ? r.json() : null)
+        .then(data => {
+          const hit = (data?.hits || [])[0];
+          if (hit && hit.title) {
+            sources.push({
+              provider: 'HackerNews',
+              title: hit.title,
+              snippet: `Engineering community discussion (${hit.points || 0} upvotes · ${hit.num_comments || 0} comments)`,
+              url: hit.url || `https://news.ycombinator.com/item?id=${hit.objectID}`,
+              badge: `▲ ${hit.points || 0} pts`
+            });
+          }
+        }).catch(() => {});
+
+      await Promise.allSettled([wikiPromise, ghPromise, hnPromise]);
+      return sources.slice(0, 4);
+    }
+
+    function detectClientVisualWidget(query) {
+      const q = query.toLowerCase();
+      if (q.includes('4-20') || q.includes('current loop') || q.includes('plc') || q.includes('adc')) {
+        return {
+          widget_type: 'circuit_calc',
+          title: 'Interactive 4–20mA Current Loop & 12-Bit ADC Lab',
+          params: { mode: '4_20ma', current_ma: 12.0, shunt_ohm: 250.0 }
+        };
+      }
+      if (q.includes('rc') || q.includes('filter') || q.includes('cutoff') || q.includes('bode') || q.includes('capacitor')) {
+        return {
+          widget_type: 'circuit_calc',
+          title: 'Interactive RC Low-Pass Filter & Cutoff Frequency Lab',
+          params: { mode: 'rc_filter', resistor_ohm: 1000, cap_nf: 100 }
+        };
+      }
+      return {
+        widget_type: 'oscilloscope',
+        title: 'Dost.ai Real-Time Interactive Signal & Harmonic Oscilloscope',
+        params: { freq_hz: 4.0, harmonics: 3, noise: 0.05 }
+      };
+    }
+
+    function buildClientExpertMarkdown(query, sources) {
+      const q = query.toLowerCase();
+      if (q.includes('4-20') || q.includes('current loop')) {
+        return `### ⚡ 4–20mA Industrial Current Loop & 12-Bit ADC Interface
+
+In industrial automation and PLC instrumentation, a **4–20mA current loop** transmits sensor telemetry over long twisted-pair cables with high noise immunity and built-in **live-zero wire-break detection** ($I < 3.6\\text{ mA}$).
+
+#### 1. Precision Shunt & Scaling Equations
+Across a precision $R_{\\text{shunt}} = 250\\,\\Omega$ (or $165\\,\\Omega$ for $3.3\\text{ V}$ MCUs), the sensed voltage and normalized engineering value $\\text{PV}$ are governed by:
+
+$$V_{\\text{ADC}} = I_{\\text{loop}} \\times R_{\\text{shunt}}, \\qquad \\text{PV}(I) = \\text{PV}_{\\text{min}} + \\left(\\frac{I_{\\text{mA}} - 4.0}{16.0}\\right)\\cdot(\\text{PV}_{\\text{max}} - \\text{PV}_{\\text{min}})$$
+
+- **Live Zero ($4.0\\text{ mA}$):** $V_{\\text{min}} = 0.004\\text{ A} \\times 250\\,\\Omega = 1.000\\text{ V}$ ($\\text{ADC}_{12\\text{-bit}} \\approx 819$)
+- **Full Scale ($20.0\\text{ mA}$):** $V_{\\text{max}} = 0.020\\text{ A} \\times 250\\,\\Omega = 5.000\\text{ V}$ ($\\text{ADC}_{12\\text{-bit}} = 4095$)
+
+\`\`\`c
+// Dost.ai Embedded C Firmware: 12-Bit STM32 ADC 4-20mA Reader with Wire-Break Alarm
+#include <stdint.h>
+
+typedef struct {
+    float current_ma;
+    float process_value;
+    uint8_t fault_open_wire;
+} DostLoopResult_t;
+
+DostLoopResult_t Dost_Read420mA(uint16_t adc_raw, float v_ref, float r_shunt, float pv_min, float pv_max) {
+    DostLoopResult_t res;
+    float v_in = ((float)adc_raw / 4095.0f) * v_ref;
+    res.current_ma = (v_in / r_shunt) * 1000.0f;
+    res.fault_open_wire = (res.current_ma < 3.6f) ? 1U : 0U;
+
+    float span = (res.current_ma - 4.0f) / 16.0f;
+    if (span < 0.0f) span = 0.0f;
+    if (span > 1.0f) span = 1.0f;
+    res.process_value = pv_min + span * (pv_max - pv_min);
+    return res;
+}
+\`\`\`
+
+> **Interactive Lab Below:** Drag the **Loop Current ($\\text{mA}$)** and **Shunt Resistor ($\\Omega$)** sliders in the visual card below to inspect live voltage drop, power dissipation, and 12-bit ADC counts!`;
+      }
+
+      if (q.includes('rc') || q.includes('filter') || q.includes('cutoff')) {
+        return `### 🎛️ First-Order RC Low-Pass Filter & Bode Attenuation Analysis
+
+An **RC low-pass filter** attenuates high-frequency switching noise and prevents aliasing prior to ADC sampling while passing signals below the $-3\\text{ dB}$ cutoff frequency $f_c$.
+
+#### 1. Transfer Function & $-3\\text{ dB}$ Cutoff Derivation
+In the complex frequency domain ($s = j\\omega$), the capacitive reactance is $X_C = \\frac{1}{j\\omega C}$:
+
+$$H(j\\omega) = \\frac{V_{\\text{out}}(j\\omega)}{V_{\\text{in}}(j\\omega)} = \\frac{1}{1 + j\\omega R C}, \\qquad f_c = \\frac{1}{2\\pi R C}$$
+
+At $f = f_c$, the magnitude response drops to $\\frac{1}{\\sqrt{2}} \\approx 0.7071$ ($-3.01\\text{ dB}$) and the phase shift is $\\phi = -\\arctan(f / f_c) = -45^\\circ$.
+
+\`\`\`python
+# Dost.ai Python Signal Conditioning & Nyquist Verification
+import math
+
+def design_rc_filter(r_ohm: float = 1000.0, c_nf: float = 100.0, signal_freq_hz: float = 1000.0):
+    c_farad = c_nf * 1e-9
+    f_cutoff = 1.0 / (2.0 * math.pi * r_ohm * c_farad)
+    ratio = signal_freq_hz / f_cutoff
+    gain = 1.0 / math.sqrt(1.0 + ratio**2)
+    gain_db = 20.0 * math.log10(gain)
+    phase_deg = -math.degrees(math.atan(ratio))
+    return {"f_cutoff_hz": round(f_cutoff, 2), "gain_db": round(gain_db, 2), "phase_deg": round(phase_deg, 1)}
+
+print(design_rc_filter(1000, 100, 1591.5))
+\`\`\``;
+      }
+
+      const srcList = sources.length
+        ? `\n\n#### 🌐 Live Multi-Source Intelligence Synthesized\n` +
+          sources.map(s => `- **[${s.provider}] [${s.title}](${s.url})** — ${s.snippet}`).join('\n')
+        : '';
+
+      return `### ✨ Dost.ai Visual Synthesis: *${query}*
+
+Here is your structured engineering & technical breakdown with mathematical foundations and executable code:
+
+#### 1. Governing Analytical Model
+In continuous and discrete-time signal processing and systems engineering, harmonic superposition and Nyquist-Shannon sampling follow:
+
+$$x(t) = \\sum_{k=1}^{N} A_k \\sin(2\\pi k f_0 t + \\phi_k), \\qquad f_{\\text{sample}} \\ge 2 f_{\\text{max}}$$
+
+\`\`\`python
+# Dost.ai Rapid Systems & Telemetry Analyzer
+import math
+
+def compute_harmonic_rms(fundamental_v: float, harmonics_v: list[float]) -> dict:
+    sum_sq = fundamental_v**2 + sum(h**2 for h in harmonics_v)
+    rms = math.sqrt(sum_sq / 2.0)
+    thd_percent = (math.sqrt(sum(h**2 for h in harmonics_v)) / fundamental_v) * 100.0
+    return {"rms_voltage": round(rms, 4), "thd_percent": round(thd_percent, 2)}
+
+print(compute_harmonic_rms(5.0, [0.8, 0.35, 0.15]))
+\`\`\`${srcList}
+
+> **Interactive Oscilloscope Below:** Adjust the **Frequency ($\\text{Hz}$)**, **Harmonic Complexity**, and **Noise Injection** sliders below to inspect the live waveform!`;
+    }
+
+    // ============================================================================
+    // 3. CALL BACKEND (RENDER / LOCAL FASTAPI) OR DIRECT GEMINI 2.0 FLASH
+    // ============================================================================
+    async function queryDostAssistant(userMessage) {
+      // 1. Try Local / Render FastAPI Backend first if on same origin or configured
+      const candidateEndpoints = [];
+      if (savedBackendUrl) {
+        candidateEndpoints.push(`${savedBackendUrl}/api/chat`);
+      }
+      if (location.protocol.startsWith('http') && !location.hostname.includes('github.io')) {
+        candidateEndpoints.push('/api/chat');
+      }
+
+      for (const endpoint of candidateEndpoints) {
+        try {
+          const resp = await fetch(endpoint, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              message: userMessage,
+              history: conversationHistory.slice(-6),
+              gemini_key: savedGeminiKey || null,
+              mode: currentMode
+            })
+          });
+          if (resp.ok) {
+            return await resp.json();
+          }
+        } catch (e) {
+          // Proceed to client-side Gemini + Live Search pipeline
+        }
+      }
+
+      // 2. Client-side Live Multi-Source Search (Wikipedia + GitHub + HackerNews)
+      const t0 = performance.now();
+      const sources = await fetchLiveSourcesClient(userMessage);
+      const visual_widget = detectClientVisualWidget(userMessage);
+      let reply_markdown = null;
+      let engine_used = 'Dost.ai Hybrid Engine + Live Search';
+
+      // 3. If user configured a Gemini API key, call Google Gemini 2.0 Flash directly
+      if (savedGeminiKey) {
+        try {
+          const groundingContext = sources.map(s => `- [${s.provider}] ${s.title}: ${s.snippet} (${s.url})`).join('\n');
+          const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${encodeURIComponent(savedGeminiKey)}`;
+          const sysPrompt = `You are Dost.ai, a top-notch Visual Personal Assistant & Search Engine for engineers, developers, and youth. Format answers with crisp Markdown headings, LaTeX math in $$...$$ or $...$, and clean code blocks.`;
+          const gResp = await fetch(geminiUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              systemInstruction: { parts: [{ text: sysPrompt }] },
+              contents: [{
+                role: 'user',
+                parts: [{ text: `${userMessage}\n\n[Live Search Sources]:\n${groundingContext}` }]
+              }],
+              generationConfig: { temperature: 0.45, maxOutputTokens: 1500 }
+            })
+          });
+          if (gResp.ok) {
+            const gData = await gResp.json();
+            const text = gData?.candidates?.[0]?.content?.parts?.map(p => p.text).join('') || '';
+            if (text.trim()) {
+              reply_markdown = text;
+              engine_used = 'Google Gemini 2.0 Flash + Live Search';
+            }
+          }
+        } catch (err) {
+          console.warn('Direct Gemini call fallback:', err);
+        }
+      }
+
+      if (!reply_markdown) {
+        reply_markdown = buildClientExpertMarkdown(userMessage, sources);
+      }
+
+      return {
+        assistant_name: 'Dost.ai',
+        engine_used,
+        reply_markdown,
+        sources,
+        visual_widget,
+        suggestions: [
+          'Derive the step-by-step math & component tolerances',
+          'Generate production C / Python firmware with unit tests',
+          'Simulate extreme fault conditions on the oscilloscope'
+        ],
+        latency_ms: Math.round(performance.now() - t0)
+      };
+    }
+
+    // ============================================================================
+    // 4. RICH UI RENDERER (MARKDOWN + KATEX + HIGHLIGHT.JS + INTERACTIVE LABS)
+    // ============================================================================
+    function renderAssistantCard(data) {
+      const stream = document.getElementById('messagesStream');
+      const card = document.createElement('div');
+      card.className = 'msg-assistant-card msg-row';
+
+      // 1. Top Identity & Telemetry Bar
+      const metaHtml = `
+        <div class="assistant-meta-bar">
+          <div class="assistant-identity">
+            <div class="assistant-avatar">D</div>
+            <div>
+              <div class="assistant-name-label">Dost.ai</div>
+              <div style="font-size:0.7rem;color:var(--text-secondary);">Personal AI Assistant & Visual Search</div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <span class="engine-pill">${data.engine_used}</span>
+            <span style="font-family:var(--font-mono);font-size:0.68rem;color:var(--text-muted);">${data.latency_ms || 140} ms</span>
+          </div>
+        </div>
+      `;
+
+      // 2. Perplexity-Style Live Sources Carousel
+      let sourcesHtml = '';
+      if (data.sources && data.sources.length > 0) {
+        const cards = data.sources.map(s => `
+          <a href="${s.url}" target="_blank" rel="noopener noreferrer" class="source-card">
+            <div class="source-card-top">
+              <span class="source-provider">${s.provider}</span>
+              <span class="source-badge">${s.badge || 'Verified'}</span>
+            </div>
+            <div class="source-title">${s.title}</div>
+            <div class="source-snippet">${s.snippet}</div>
+          </a>
+        `).join('');
+        sourcesHtml = `
+          <div class="sources-section">
+            <div class="sources-header">🌐 Live Multi-Source Citations (${data.sources.length})</div>
+            <div class="sources-carousel">${cards}</div>
+          </div>
+        `;
+      }
+
+      // 3. Markdown Body Container
+      const mdId = `md-body-${++widgetCounter}`;
+      const rawHtml = (typeof marked !== 'undefined')
+        ? marked.parse(data.reply_markdown || '')
+        : (data.reply_markdown || '').replace(/\n/g, '<br>');
+
+      // 4. Interactive Visual Widget Container
+      const widgetHtml = buildInteractiveWidgetHtml(data.visual_widget, widgetCounter);
+
+      // 5. Smart Follow-up Suggestion Chips
+      const chipsHtml = (data.suggestions || []).map(s =>
+        `<button class="suggestion-chip" onclick="triggerPrompt('${s.replace(/'/g, "\\'")}')">✨ ${s}</button>`
+      ).join('');
+
+      card.innerHTML = `
+        ${metaHtml}
+        ${sourcesHtml}
+        <div class="rendered-markdown" id="${mdId}">${rawHtml}</div>
+        ${widgetHtml}
+        <div class="suggestions-row">${chipsHtml}</div>
+      `;
+
+      stream.appendChild(card);
+
+      // Post-process Code Blocks (Syntax Highlighting + Copy Button)
+      const mdContainer = document.getElementById(mdId);
+      if (mdContainer) {
+        mdContainer.querySelectorAll('pre code').forEach(block => {
+          if (typeof hljs !== 'undefined') {
+            hljs.highlightElement(block);
+          }
+          const pre = block.parentElement;
+          const lang = (block.className.match(/language-(\w+)/) || [null, 'code'])[1];
+          const header = document.createElement('div');
+          header.className = 'code-header-bar';
+          header.innerHTML = `
+            <span>${lang.toUpperCase()}</span>
+            <button class="copy-code-btn" onclick="copyCodeBlock(this)">Copy Code</button>
+          `;
+          pre.insertBefore(header, block);
+        });
+
+        // Render LaTeX Equations via KaTeX
+        if (typeof renderMathInElement !== 'undefined') {
+          renderMathInElement(mdContainer, {
+            delimiters: [
+              { left: '$$', right: '$$', display: true },
+              { left: '$', right: '$', display: false }
+            ],
+            throwOnError: false
+          });
+        }
+      }
+
+      // Initialize Interactive Canvas / Circuit Lab inside this message
+      initInteractiveWidget(data.visual_widget, widgetCounter);
+
+      // Scroll smoothly
+      const viewport = document.getElementById('chatViewport');
+      viewport.scrollTo({ top: viewport.scrollHeight, behavior: 'smooth' });
+    }
+
+    function copyCodeBlock(btn) {
+      const pre = btn.closest('pre');
+      const code = pre ? pre.querySelector('code') : null;
+      if (code) {
+        navigator.clipboard.writeText(code.innerText);
+        btn.textContent = '✓ Copied';
+        setTimeout(() => { btn.textContent = 'Copy Code'; }, 1800);
+      }
+    }
+
+    // ============================================================================
+    // 5. INTERACTIVE VISUAL WIDGETS (OSCILLOSCOPE & CIRCUIT CALCULATORS)
+    // ============================================================================
+    function buildInteractiveWidgetHtml(widget, id) {
+      if (!widget) return '';
+      if (widget.widget_type === 'circuit_calc' && widget.params?.mode === '4_20ma') {
+        return `
+          <div class="visual-lab-widget" id="widget-${id}">
+            <div class="visual-lab-header">
+              <div class="visual-lab-title">⚡ ${widget.title}</div>
+              <span class="engine-pill">Real-Time Interactive Simulator</span>
+            </div>
+            <div class="widget-controls-grid">
+              <div class="control-group">
+                <div class="control-label">
+                  <span>Loop Current ($I_{\\text{loop}}$)</span>
+                  <span class="control-val" id="val-i-${id}">12.0 mA</span>
+                </div>
+                <input type="range" min="0" max="24" step="0.1" value="12.0" oninput="update420Widget(${id})" id="slider-i-${id}" />
+              </div>
+              <div class="control-group">
+                <div class="control-label">
+                  <span>Shunt Resistor ($R_{\\text{shunt}}$)</span>
+                  <span class="control-val" id="val-r-${id}">250 Ω</span>
+                </div>
+                <input type="range" min="100" max="500" step="5" value="250" oninput="update420Widget(${id})" id="slider-r-${id}" />
+              </div>
+            </div>
+            <div class="telemetry-readout-row">
+              <div class="telemetry-kpi">
+                <span class="telemetry-kpi-label">ADC Sense Voltage</span>
+                <span class="telemetry-kpi-value" id="kpi-v-${id}">3.000 V</span>
+              </div>
+              <div class="telemetry-kpi">
+                <span class="telemetry-kpi-label">12-Bit ADC Count (5V)</span>
+                <span class="telemetry-kpi-value" id="kpi-adc-${id}">2458 / 4095</span>
+              </div>
+              <div class="telemetry-kpi">
+                <span class="telemetry-kpi-label">Process Variable (%)</span>
+                <span class="telemetry-kpi-value" id="kpi-pv-${id}">50.0%</span>
+              </div>
+              <div class="telemetry-kpi">
+                <span class="telemetry-kpi-label">Loop Diagnostics</span>
+                <span class="telemetry-kpi-value" id="kpi-stat-${id}" style="color:var(--accent-emerald);">NOMINAL</span>
+              </div>
+            </div>
+          </div>
+        `;
+      }
+
+      if (widget.widget_type === 'circuit_calc' && widget.params?.mode === 'rc_filter') {
+        return `
+          <div class="visual-lab-widget" id="widget-${id}">
+            <div class="visual-lab-header">
+              <div class="visual-lab-title">🎛️ ${widget.title}</div>
+              <span class="engine-pill">Interactive Bode Lab</span>
+            </div>
+            <div class="widget-controls-grid">
+              <div class="control-group">
+                <div class="control-label">
+                  <span>Resistance ($R$)</span>
+                  <span class="control-val" id="val-rc-r-${id}">1000 Ω</span>
+                </div>
+                <input type="range" min="100" max="10000" step="100" value="1000" oninput="updateRcWidget(${id})" id="slider-rc-r-${id}" />
+              </div>
+              <div class="control-group">
+                <div class="control-label">
+                  <span>Capacitance ($C$)</span>
+                  <span class="control-val" id="val-rc-c-${id}">100 nF</span>
+                </div>
+                <input type="range" min="10" max="1000" step="10" value="100" oninput="updateRcWidget(${id})" id="slider-rc-c-${id}" />
+              </div>
+            </div>
+            <div class="telemetry-readout-row">
+              <div class="telemetry-kpi">
+                <span class="telemetry-kpi-label">-3dB Cutoff ($f_c$)</span>
+                <span class="telemetry-kpi-value" id="kpi-fc-${id}">1591.5 Hz</span>
+              </div>
+              <div class="telemetry-kpi">
+                <span class="telemetry-kpi-label">Time Constant ($\\tau = RC$)</span>
+                <span class="telemetry-kpi-value" id="kpi-tau-${id}">100.0 μs</span>
+              </div>
+              <div class="telemetry-kpi">
+                <span class="telemetry-kpi-label">Min Nyquist ADC Rate</span>
+                <span class="telemetry-kpi-value" id="kpi-nyq-${id}">3.18 kSPS</span>
+              </div>
+            </div>
+          </div>
+        `;
+      }
+
+      // Default: Interactive 60 FPS Signal & Harmonic Oscilloscope
+      return `
+        <div class="visual-lab-widget" id="widget-${id}">
+          <div class="visual-lab-header">
+            <div class="visual-lab-title">🌊 ${widget.title}</div>
+            <span class="engine-pill">60 FPS Live Canvas Scope</span>
+          </div>
+          <div class="widget-canvas-wrap">
+            <canvas id="scope-canvas-${id}" width="760" height="175"></canvas>
+          </div>
+          <div class="widget-controls-grid">
+            <div class="control-group">
+              <div class="control-label">
+                <span>Fundamental Freq</span>
+                <span class="control-val" id="val-freq-${id}">4.0 Hz</span>
+              </div>
+              <input type="range" min="1" max="16" step="0.5" value="4.0" id="slider-freq-${id}" />
+            </div>
+            <div class="control-group">
+              <div class="control-label">
+                <span>Harmonic Overtones</span>
+                <span class="control-val" id="val-harm-${id}">3 Harmonics</span>
+              </div>
+              <input type="range" min="1" max="7" step="1" value="3" id="slider-harm-${id}" />
+            </div>
+            <div class="control-group">
+              <div class="control-label">
+                <span>Noise Floor</span>
+                <span class="control-val" id="val-noise-${id}">5%</span>
+              </div>
+              <input type="range" min="0" max="35" step="1" value="5" id="slider-noise-${id}" />
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    window.update420Widget = function(id) {
+      const iMa = parseFloat(document.getElementById(`slider-i-${id}`).value);
+      const rOhm = parseFloat(document.getElementById(`slider-r-${id}`).value);
+      document.getElementById(`val-i-${id}`).textContent = `${iMa.toFixed(1)} mA`;
+      document.getElementById(`val-r-${id}`).textContent = `${rOhm.toFixed(0)} Ω`;
+
+      const vSense = (iMa / 1000.0) * rOhm;
+      const adcCount = Math.min(4095, Math.max(0, Math.round((vSense / 5.0) * 4095)));
+      const pvPct = Math.min(100, Math.max(0, ((iMa - 4.0) / 16.0) * 100));
+
+      document.getElementById(`kpi-v-${id}`).textContent = `${vSense.toFixed(3)} V`;
+      document.getElementById(`kpi-adc-${id}`).textContent = `${adcCount} / 4095`;
+      document.getElementById(`kpi-pv-${id}`).textContent = `${pvPct.toFixed(1)}%`;
+
+      const statEl = document.getElementById(`kpi-stat-${id}`);
+      if (iMa < 3.6) {
+        statEl.textContent = 'FAULT: OPEN WIRE';
+        statEl.style.color = 'var(--accent-rose)';
+      } else if (iMa > 20.5) {
+        statEl.textContent = 'OVER-RANGE SATURATION';
+        statEl.style.color = 'var(--accent-amber)';
+      } else {
+        statEl.textContent = 'NOMINAL LOOP';
+        statEl.style.color = 'var(--accent-emerald)';
+      }
+    };
+
+    window.updateRcWidget = function(id) {
+      const r = parseFloat(document.getElementById(`slider-rc-r-${id}`).value);
+      const cNf = parseFloat(document.getElementById(`slider-rc-c-${id}`).value);
+      document.getElementById(`val-rc-r-${id}`).textContent = `${r} Ω`;
+      document.getElementById(`val-rc-c-${id}`).textContent = `${cNf} nF`;
+
+      const cFarad = cNf * 1e-9;
+      const fc = 1.0 / (2.0 * Math.PI * r * cFarad);
+      const tauUs = r * cFarad * 1e6;
+      const nyqKhz = (fc * 2.0) / 1000.0;
+
+      document.getElementById(`kpi-fc-${id}`).textContent = `${fc.toFixed(1)} Hz`;
+      document.getElementById(`kpi-tau-${id}`).textContent = `${tauUs.toFixed(1)} μs`;
+      document.getElementById(`kpi-nyq-${id}`).textContent = `${nyqKhz.toFixed(2)} kSPS`;
+    };
+
+    function initInteractiveWidget(widget, id) {
+      const canvas = document.getElementById(`scope-canvas-${id}`);
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      let phase = 0;
+
+      function drawScope() {
+        if (!document.body.contains(canvas)) return;
+        const freqSlider = document.getElementById(`slider-freq-${id}`);
+        const harmSlider = document.getElementById(`slider-harm-${id}`);
+        const noiseSlider = document.getElementById(`slider-noise-${id}`);
+
+        const freq = freqSlider ? parseFloat(freqSlider.value) : 4.0;
+        const harms = harmSlider ? parseInt(harmSlider.value, 10) : 3;
+        const noise = noiseSlider ? parseFloat(noiseSlider.value) / 100.0 : 0.05;
+
+        if (freqSlider) document.getElementById(`val-freq-${id}`).textContent = `${freq.toFixed(1)} Hz`;
+        if (harmSlider) document.getElementById(`val-harm-${id}`).textContent = `${harms} Harmonics`;
+        if (noiseSlider) document.getElementById(`val-noise-${id}`).textContent = `${Math.round(noise * 100)}%`;
+
+        const w = canvas.width;
+        const h = canvas.height;
+        ctx.clearRect(0, 0, w, h);
+
+        // Oscilloscope Graticule Grid
+        ctx.strokeStyle = 'rgba(56, 189, 248, 0.08)';
+        ctx.lineWidth = 1;
+        for (let gx = 0; gx < w; gx += 48) {
+          ctx.beginPath(); ctx.moveTo(gx, 0); ctx.lineTo(gx, h); ctx.stroke();
+        }
+        for (let gy = 0; gy < h; gy += 35) {
+          ctx.beginPath(); ctx.moveTo(0, gy); ctx.lineTo(w, gy); ctx.stroke();
+        }
+
+        // Synthesized Harmonic Waveform
+        ctx.beginPath();
+        ctx.strokeStyle = '#38bdf8';
+        ctx.lineWidth = 2.4;
+        ctx.shadowColor = '#38bdf8';
+        ctx.shadowBlur = 10;
+
+        for (let x = 0; x < w; x++) {
+          const t = (x / w) * Math.PI * 2 * freq + phase;
+          let yVal = 0;
+          for (let k = 1; k <= harms; k++) {
+            const odd = 2 * k - 1;
+            yVal += Math.sin(odd * t) / odd;
+          }
+          yVal += (Math.random() - 0.5) * noise * 2.0;
+          const py = h / 2 - yVal * (h * 0.32);
+          if (x === 0) ctx.moveTo(x, py);
+          else ctx.lineTo(x, py);
+        }
+        ctx.stroke();
+        ctx.shadowBlur = 0;
+
+        phase += 0.045;
+        requestAnimationFrame(drawScope);
+      }
+      requestAnimationFrame(drawScope);
+    }
+
+    // ============================================================================
+    // 6. USER INTERACTION, VOICE I/O & POMODORO COMPANION
+    // ============================================================================
+    async function triggerPrompt(promptText) {
+      const input = document.getElementById('userPromptInput');
+      input.value = promptText;
+      await submitMessage(promptText);
+    }
+
+    async function handleFormSubmit(e) {
+      e.preventDefault();
+      const input = document.getElementById('userPromptInput');
+      const text = input.value.trim();
+      if (!text) return;
+      input.value = '';
+      await submitMessage(text);
+    }
+
+    async function submitMessage(text) {
+      document.getElementById('dostHero').classList.add('compact');
+      const stream = document.getElementById('messagesStream');
+
+      // Append User Bubble
+      const userBubble = document.createElement('div');
+      userBubble.className = 'msg-user msg-row';
+      userBubble.textContent = text;
+      stream.appendChild(userBubble);
+
+      const viewport = document.getElementById('chatViewport');
+      viewport.scrollTo({ top: viewport.scrollHeight, behavior: 'smooth' });
+
+      setOrbState('SEARCHING', 'SEARCHING & SYNTHESIZING...');
+
+      const responseData = await queryDostAssistant(text);
+      conversationHistory.push({ role: 'user', content: text });
+      conversationHistory.push({ role: 'assistant', content: responseData.reply_markdown });
+
+      renderAssistantCard(responseData);
+
+      if (voiceReadoutEnabled && 'speechSynthesis' in window) {
+        setOrbState('SPEAKING', 'SPEAKING RESPONSE...');
+        const cleanSpeech = (responseData.reply_markdown || '')
+          .replace(/```[\s\S]*?```/g, 'Code block generated below.')
+          .replace(/\$\$[\s\S]*?\$\$/g, '')
+          .replace(/[#*`_>-]/g, ' ');
+        const utter = new SpeechSynthesisUtterance(cleanSpeech.slice(0, 380));
+        utter.onend = () => setOrbState('IDLE', 'NEURAL CORE READY');
+        window.speechSynthesis.cancel();
+        window.speechSynthesis.speak(utter);
+      } else {
+        setOrbState('IDLE', 'NEURAL CORE READY');
+      }
+    }
+
+    function toggleVoiceOutput() {
+      voiceReadoutEnabled = !voiceReadoutEnabled;
+      document.getElementById('ttsStatusLabel').textContent = voiceReadoutEnabled ? 'Voice: On' : 'Voice: Off';
+      if (!voiceReadoutEnabled && 'speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+      }
+    }
+
+    let recognition = null;
+    function toggleVoiceRecognition() {
+      const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
+      const micBtn = document.getElementById('micBtn');
+      if (!SpeechRec) {
+        triggerPrompt('Design a 4-20mA current loop sensor interface for a 12-bit STM32 ADC with wire-break detection');
+        return;
+      }
+      if (!recognition) {
+        recognition = new SpeechRec();
+        recognition.lang = 'en-US';
+        recognition.interimResults = false;
+        recognition.onstart = () => {
+          micBtn.classList.add('listening');
+          setOrbState('LISTENING', 'LISTENING TO YOU...');
+        };
+        recognition.onresult = (event) => {
+          const transcript = event.results[0][0].transcript;
+          document.getElementById('userPromptInput').value = transcript;
+          submitMessage(transcript);
+        };
+        recognition.onend = () => {
+          micBtn.classList.remove('listening');
+          if (orbState === 'LISTENING') setOrbState('IDLE', 'NEURAL CORE READY');
+        };
+      }
+      recognition.start();
+    }
+
+    // Pomodoro & dB Calculator in Companion Drawer
+    let pomoSeconds = 25 * 60;
+    let pomoInterval = null;
+    function togglePomodoro() {
+      const btn = document.getElementById('pomoStartBtn');
+      if (pomoInterval) {
+        clearInterval(pomoInterval);
+        pomoInterval = null;
+        btn.textContent = '▶ Resume';
+      } else {
+        btn.textContent = '⏸ Pause';
+        pomoInterval = setInterval(() => {
+          if (pomoSeconds > 0) {
+            pomoSeconds--;
+            const m = String(Math.floor(pomoSeconds / 60)).padStart(2, '0');
+            const s = String(pomoSeconds % 60).padStart(2, '0');
+            document.getElementById('pomoDisplay').textContent = `${m}:${s}`;
+          }
+        }, 1000);
+      }
+    }
+    function resetPomodoro() {
+      clearInterval(pomoInterval);
+      pomoInterval = null;
+      pomoSeconds = 25 * 60;
+      document.getElementById('pomoDisplay').textContent = '25:00';
+      document.getElementById('pomoStartBtn').textContent = '▶ Start';
+    }
+    function updateQuickDb() {
+      const ratio = parseFloat(document.getElementById('dbGainInput').value) || 0.0001;
+      const db = 20 * Math.log10(Math.max(0.00001, ratio));
+      const pwr = (ratio * ratio * 100).toFixed(1);
+      document.getElementById('dbGainResult').textContent = `${db.toFixed(2)} dB (Power: ${pwr}%)`;
+    }
+  </script>
+</body>
+</html>

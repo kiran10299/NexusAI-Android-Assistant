@@ -1,0 +1,1126 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#050814">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>NexusAI — Visual AI Personal Assistant & Search Engine for Engineers & Youth</title>
+<meta name="description" content="Next-Gen Visual AI Personal Assistant, Multi-Engine Live Search, Interactive Signal/Circuit Visualizers, and Daily Productivity Co-Pilot for Engineers & Youth.">
+<link rel="manifest" href="nexus-manifest.json">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+:root{
+  --bg:#050814;--bg2:#0a1022;--panel:#0f172e;--panel2:#15203d;--glass:rgba(15,23,46,.82);
+  --border:rgba(255,255,255,.09);--text:#f1f5f9;--muted:#94a3b8;
+  --c1:#22d3ee;--c2:#a78bfa;--c3:#f472b6;--ok:#10b981;--warn:#f59e0b;--err:#ef4444;
+  --grad:linear-gradient(135deg,#22d3ee 0%,#a78bfa 52%,#f472b6 100%);
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);height:100dvh;display:flex;flex-direction:column;overflow:hidden;background-image:radial-gradient(circle at 15% 10%,rgba(34,211,238,.09),transparent 35%),radial-gradient(circle at 85% 85%,rgba(167,139,250,.09),transparent 40%)}
+button,input,select,textarea{font-family:inherit;color:inherit}
+a{color:var(--c1);text-decoration:none}
+
+/* Top App Bar */
+.app-header{display:flex;justify-content:space-between;align-items:center;padding:.65rem 1.1rem;background:rgba(10,16,34,.88);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);z-index:30;flex-shrink:0}
+.app-brand{display:flex;align-items:center;gap:.65rem}
+.orb-mini{width:34px;height:34px;border-radius:11px;background:var(--grad);display:grid;place-items:center;color:#050814;font-weight:800;font-size:1rem;box-shadow:0 0 18px rgba(34,211,238,.4)}
+.app-title{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.05rem;display:flex;align-items:center;gap:.45rem}
+.app-badge{font-family:'JetBrains Mono',monospace;font-size:.63rem;padding:.14rem .48rem;border-radius:99px;background:rgba(34,211,238,.14);color:var(--c1);border:1px solid rgba(34,211,238,.35)}
+.header-actions{display:flex;align-items:center;gap:.45rem}
+.pill-btn{display:inline-flex;align-items:center;gap:.38rem;padding:.38rem .72rem;border-radius:9px;font-size:.75rem;font-weight:600;background:var(--panel);border:1px solid var(--border);cursor:pointer;transition:.2s}
+.pill-btn:hover,.pill-btn.active{border-color:var(--c1);color:var(--c1);background:rgba(34,211,238,.1)}
+.pill-btn.grad{background:var(--grad);color:#050814;border:none;font-weight:700}
+
+/* Main App Body Layout */
+.app-shell{display:grid;grid-template-columns:230px 1fr 330px;flex:1;min-height:0;overflow:hidden}
+@media(max-width:1180px){.app-shell{grid-template-columns:210px 1fr}.right-drawer{display:none}}
+@media(max-width:768px){.app-shell{grid-template-columns:1fr}.left-nav{display:none}}
+
+/* Left Navigation (Desktop) */
+.left-nav{background:var(--bg2);border-right:1px solid var(--border);padding:.9rem .7rem;display:flex;flex-direction:column;gap:.35rem;overflow-y:auto}
+.nav-item{display:flex;align-items:center;gap:.7rem;padding:.7rem .85rem;border-radius:11px;border:1px solid transparent;background:transparent;cursor:pointer;font-size:.84rem;font-weight:600;color:var(--muted);transition:.2s;text-align:left;width:100%}
+.nav-item i{width:24px;text-align:center;font-size:.95rem;color:var(--c1)}
+.nav-item:hover{background:rgba(255,255,255,.04);color:var(--text)}
+.nav-item.active{background:linear-gradient(90deg,rgba(34,211,238,.15),rgba(167,139,250,.08));border-color:rgba(34,211,238,.38);color:var(--text)}
+.nav-section-lbl{font-family:'JetBrains Mono',monospace;font-size:.65rem;text-transform:uppercase;letter-spacing:1.2px;color:var(--muted);padding:.5rem .6rem .25rem}
+
+/* Center Viewport Tabs */
+.center-stage{display:flex;flex-direction:column;height:100%;min-height:0;overflow:hidden;position:relative}
+.tab-pane{display:none;flex-direction:column;height:100%;min-height:0;overflow-y:auto;padding:1rem 1.2rem}
+.tab-pane.active{display:flex}
+
+/* AI Assistant Hero & Neural Orb */
+.ai-hero{display:flex;align-items:center;gap:1rem;padding:.75rem 1rem;background:linear-gradient(135deg,rgba(15,23,46,.9),rgba(21,32,61,.75));border:1px solid rgba(34,211,238,.25);border-radius:16px;margin-bottom:.85rem;flex-shrink:0}
+#orbCanvas{width:64px;height:64px;border-radius:50%;flex-shrink:0;cursor:pointer}
+.ai-hero-info{flex:1;min-width:0}
+.ai-hero-info h2{font-family:'Space Grotesk',sans-serif;font-size:1.05rem;margin-bottom:.2rem;display:flex;align-items:center;gap:.5rem;flex-wrap:wrap}
+.ai-hero-info p{font-size:.78rem;color:var(--muted);line-height:1.4}
+.prompt-chips{display:flex;gap:.4rem;overflow-x:auto;padding-bottom:.3rem;margin-bottom:.65rem;flex-shrink:0;scrollbar-width:none}
+.prompt-chips::-webkit-scrollbar{display:none}
+.chip{white-space:nowrap;padding:.36rem .72rem;border-radius:99px;background:var(--panel);border:1px solid var(--border);font-size:.74rem;cursor:pointer;transition:.18s;display:inline-flex;align-items:center;gap:.35rem;color:#cbd5e1}
+.chip:hover{border-color:var(--c1);color:var(--c1);transform:translateY(-1px)}
+.chip i{color:var(--c1);font-size:.72rem}
+
+/* Chat Stream */
+.chat-stream{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:.9rem;padding-right:.25rem;padding-bottom:1rem;min-height:0}
+.msg{display:flex;gap:.75rem;max-width:92%;animation:fadeUp .25s ease}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.msg.user{align-self:flex-end;flex-direction:row-reverse}
+.msg-avatar{width:32px;height:32px;border-radius:10px;display:grid;place-items:center;flex-shrink:0;font-size:.85rem;font-weight:700}
+.msg.ai .msg-avatar{background:var(--grad);color:#050814}
+.msg.user .msg-avatar{background:var(--panel2);color:var(--c1);border:1px solid var(--border)}
+.msg-bubble{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:.85rem 1rem;font-size:.87rem;line-height:1.58;overflow-x:auto}
+.msg.user .msg-bubble{background:linear-gradient(135deg,rgba(34,211,238,.18),rgba(167,139,250,.18));border-color:rgba(34,211,238,.35)}
+.msg-bubble h4{font-family:'Space Grotesk',sans-serif;color:var(--c1);margin:.4rem 0 .25rem;font-size:.95rem}
+.msg-bubble code{font-family:'JetBrains Mono',monospace;background:rgba(0,0,0,.35);padding:.12rem .35rem;border-radius:5px;font-size:.79rem;color:#7dd3fc}
+.msg-bubble pre{background:#050811;border:1px solid var(--border);border-radius:9px;padding:.65rem;overflow-x:auto;margin:.5rem 0;font-family:'JetBrains Mono',monospace;font-size:.76rem;color:#a5f3fc}
+
+/* Visual Generative Cards inside AI Responses */
+.visual-card{margin-top:.75rem;background:#070c1a;border:1px solid rgba(34,211,238,.3);border-radius:12px;padding:.8rem;overflow:hidden}
+.visual-card-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:.55rem;font-family:'JetBrains Mono',monospace;font-size:.72rem;color:var(--c1)}
+.search-cards-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:.55rem;margin-top:.65rem}
+.src-card{background:rgba(15,23,46,.9);border:1px solid var(--border);border-radius:10px;padding:.65rem;display:flex;flex-direction:column;gap:.3rem;transition:.2s}
+.src-card:hover{border-color:var(--c1)}
+.src-card-top{display:flex;align-items:center;gap:.5rem}
+.src-card-top img{width:38px;height:38px;border-radius:7px;object-fit:cover;background:#000}
+.src-card h5{font-size:.8rem;font-weight:600;color:var(--text);line-height:1.25}
+.src-card p{font-size:.72rem;color:var(--muted);display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.src-tag{font-family:'JetBrains Mono',monospace;font-size:.63rem;color:var(--c2)}
+
+/* Bottom Composer Bar */
+.composer-bar{padding:.65rem 1rem;background:rgba(10,16,34,.95);border-top:1px solid var(--border);display:flex;gap:.5rem;align-items:center;flex-shrink:0}
+.composer-input-wrap{flex:1;display:flex;align-items:center;background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:.2rem .55rem;gap:.4rem}
+.composer-input-wrap:focus-within{border-color:var(--c1);box-shadow:0 0 0 2px rgba(34,211,238,.15)}
+.composer-input{flex:1;background:transparent;border:none;outline:none;padding:.5rem .3rem;font-size:.88rem;color:var(--text)}
+.icon-btn{width:36px;height:36px;border-radius:9px;border:none;background:transparent;color:var(--muted);cursor:pointer;display:grid;place-items:center;font-size:.95rem;transition:.2s}
+.icon-btn:hover,.icon-btn.active{color:var(--c1);background:rgba(34,211,238,.12)}
+.icon-btn.listening{color:#f43f5e;background:rgba(244,63,94,.15);animation:pulse 1s infinite}
+@keyframes pulse{50%{transform:scale(1.12)}}
+.send-btn{width:40px;height:40px;border-radius:11px;border:none;background:var(--grad);color:#050814;font-weight:700;cursor:pointer;display:grid;place-items:center;font-size:.95rem;flex-shrink:0}
+
+/* Right Live Co-Pilot Drawer (Desktop) */
+.right-drawer{background:var(--bg2);border-left:1px solid var(--border);padding:.9rem;display:flex;flex-direction:column;gap:.85rem;overflow-y:auto}
+.widget-box{background:var(--panel);border:1px solid var(--border);border-radius:13px;padding:.85rem}
+.widget-title{font-family:'Space Grotesk',sans-serif;font-size:.88rem;font-weight:700;margin-bottom:.55rem;display:flex;justify-content:space-between;align-items:center;color:var(--c1)}
+
+/* Grid Cards for Search, EngiLab & Daily Pulse Tabs */
+.tool-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(285px,1fr));gap:.9rem}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;margin-bottom:.5rem}
+.field-lbl{font-size:.69rem;color:var(--muted);font-family:'JetBrains Mono',monospace;display:block;margin-bottom:.2rem}
+.field-in{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:.45rem .6rem;font-family:'JetBrains Mono',monospace;font-size:.82rem;outline:none}
+.field-in:focus{border-color:var(--c1)}
+
+/* Mobile Bottom Nav */
+.mobile-nav{display:none;grid-template-columns:repeat(4,1fr);background:rgba(10,16,34,.96);border-top:1px solid var(--border);padding:.35rem .25rem;flex-shrink:0;z-index:30}
+@media(max-width:768px){.mobile-nav{display:grid}}
+.m-nav-btn{display:flex;flex-direction:column;align-items:center;gap:.2rem;background:transparent;border:none;color:var(--muted);font-size:.68rem;font-weight:600;padding:.35rem 0;cursor:pointer}
+.m-nav-btn i{font-size:1.05rem}
+.m-nav-btn.active{color:var(--c1)}
+
+/* Modals */
+.modal-mask{position:fixed;inset:0;background:rgba(3,6,15,.82);backdrop-filter:blur(8px);display:none;place-items:center;z-index:100;padding:1rem}
+.modal-mask.open{display:grid}
+.modal-card{background:var(--panel);border:1px solid rgba(34,211,238,.35);border-radius:16px;max-width:520px;width:100%;padding:1.3rem}
+</style>
+</head>
+<body>
+
+<!-- TOP APP HEADER -->
+<header class="app-header">
+  <div class="app-brand">
+    <div class="orb-mini"><i class="fas fa-atom"></i></div>
+    <div>
+      <div class="app-title">NexusAI <span class="app-badge" id="activeModelBadge">AI + LIVE SEARCH</span></div>
+      <div style="font-size:.68rem;color:var(--muted)">Visual Personal Assistant for Engineers &amp; Youth</div>
+    </div>
+  </div>
+  <div class="header-actions">
+    <button class="pill-btn" id="voiceTtsBtn" title="Toggle AI Voice Read-Aloud"><i class="fas fa-volume-xmark" id="voiceTtsIcon"></i> <span class="hide-sm">Voice TTS</span></button>
+    <button class="pill-btn" onclick="openApiModal()" title="Configure Google Gemini API Key or AI Engine"><i class="fas fa-key"></i> <span class="hide-sm">AI Engine</span></button>
+    <button class="pill-btn grad" onclick="installOrDownloadApp()"><i class="fab fa-android"></i> Install App</button>
+    <a href="index.html" class="pill-btn" title="Back to Portfolio"><i class="fas fa-arrow-left"></i></a>
+  </div>
+</header>
+
+<!-- MAIN WORKSPACE -->
+<div class="app-shell">
+  <!-- LEFT SIDEBAR NAVIGATION -->
+  <aside class="left-nav">
+    <div class="nav-section-lbl">// Visual AI &amp; Search</div>
+    <button class="nav-item active" data-tab="tabChat" onclick="switchTab('tabChat')">
+      <i class="fas fa-wand-magic-sparkles"></i> Visual AI Assistant
+    </button>
+    <button class="nav-item" data-tab="tabSearch" onclick="switchTab('tabSearch')">
+      <i class="fas fa-compass"></i> Multi-Engine Search
+    </button>
+
+    <div class="nav-section-lbl">// Daily Engineering</div>
+    <button class="nav-item" data-tab="tabEngi" onclick="switchTab('tabEngi')">
+      <i class="fas fa-microchip"></i> EngiLab Calculators
+    </button>
+
+    <div class="nav-section-lbl">// Youth &amp; Productivity</div>
+    <button class="nav-item" data-tab="tabPulse" onclick="switchTab('tabPulse')">
+      <i class="fas fa-bolt"></i> Focus, Habits &amp; Tasks
+    </button>
+
+    <div style="margin-top:auto;padding:.75rem;background:rgba(34,211,238,.06);border:1px solid rgba(34,211,238,.2);border-radius:11px;font-size:.73rem;line-height:1.45;color:var(--muted)">
+      <div style="color:var(--c1);font-weight:700;margin-bottom:.25rem"><i class="fab fa-android"></i> Android Ready</div>
+      Works offline &amp; online with live Wikipedia, GitHub, Web Search, and Generative Visuals.
+    </div>
+  </aside>
+
+  <!-- CENTER STAGE -->
+  <main class="center-stage">
+
+    <!-- TAB 1: VISUAL AI PERSONAL ASSISTANT -->
+    <section class="tab-pane active" id="tabChat" style="padding-bottom:0">
+      <div class="ai-hero">
+        <canvas id="orbCanvas" width="128" height="128" title="Click to talk by voice"></canvas>
+        <div class="ai-hero-info">
+          <h2>
+            <span id="orbStatusTitle">Nexus Neural Co-Pilot Ready</span>
+            <span class="app-badge" style="background:rgba(16,185,129,.15);color:#34d399;border-color:rgba(16,185,129,.3)">ONLINE</span>
+          </h2>
+          <p id="orbStatusSub">Ask anything — engineering formulas, live web &amp; GitHub search, interactive waveform plots, circuit calculations, code generation, or daily study/career planning.</p>
+        </div>
+      </div>
+
+      <!-- Quick Visual Prompt Chips -->
+      <div class="prompt-chips">
+        <button class="chip" onclick="runQuickPrompt('Plot a 50Hz sine wave with 3rd harmonic distortion and explain FFT analysis')"><i class="fas fa-wave-square"></i> Plot 50Hz Harmonic FFT</button>
+        <button class="chip" onclick="runQuickPrompt('Calculate 4-20mA sensor scaling for a 0 to 10 bar pressure transmitter at 14.2mA')"><i class="fas fa-gauge-high"></i> 4-20mA PLC Calculator</button>
+        <button class="chip" onclick="runQuickPrompt('Search top open-source Python robotics and computer vision projects on GitHub')"><i class="fab fa-github"></i> Search Robotics GitHub</button>
+        <button class="chip" onclick="runQuickPrompt('Explain LabVIEW DQMH vs Queued Message Handler architecture with a visual diagram')"><i class="fas fa-sitemap"></i> LabVIEW DQMH Guide</button>
+        <button class="chip" onclick="runQuickPrompt('Design a low-pass RC filter for 1 kHz cutoff frequency and plot its response')"><i class="fas fa-sliders"></i> 1kHz RC Filter Design</button>
+        <button class="chip" onclick="runQuickPrompt('Create a 3-hour deep work study & coding roadmap for an embedded/automation engineer')"><i class="fas fa-calendar-check"></i> Plan My Study Roadmap</button>
+      </div>
+
+      <!-- Chat Conversation Stream -->
+      <div class="chat-stream" id="chatStream"></div>
+
+      <!-- Bottom Input & Voice Bar -->
+      <div class="composer-bar">
+        <div class="composer-input-wrap">
+          <button class="icon-btn" id="micBtn" onclick="toggleVoiceRecognition()" title="Speak to Assistant (Voice Input)">
+            <i class="fas fa-microphone"></i>
+          </button>
+          <input type="text" class="composer-input" id="chatInput" placeholder="Ask NexusAI anything, search the web, or say 'Plot sine wave'..." onkeydown="if(event.key==='Enter')sendUserMessage()">
+          <button class="icon-btn" onclick="runQuickPrompt('Generate a visual concept diagram of ' + (document.getElementById('chatInput').value || 'an autonomous ROS robot with LiDAR SLAM'))" title="Generate Visual Diagram / AI Art">
+            <i class="fas fa-image"></i>
+          </button>
+        </div>
+        <button class="send-btn" onclick="sendUserMessage()" title="Send"><i class="fas fa-paper-plane"></i></button>
+      </div>
+    </section>
+
+    <!-- TAB 2: MULTI-ENGINE VISUAL SEARCH HUB -->
+    <section class="tab-pane" id="tabSearch">
+      <div class="widget-box" style="margin-bottom:1rem">
+        <div class="widget-title" style="font-size:1.05rem"><span><i class="fas fa-compass"></i> Live Multi-Engine Knowledge, Code &amp; Web Search</span></div>
+        <div style="display:flex;gap:.5rem;flex-wrap:wrap">
+          <input type="text" class="field-in" id="searchHubInput" value="Kalman Filter SLAM Robotics" placeholder="Search Wikipedia, GitHub Repos, Tech News & Engineering Docs..." style="flex:1;min-width:220px;font-size:.9rem;padding:.6rem .85rem" onkeydown="if(event.key==='Enter')executeSearchHub()">
+          <button class="pill-btn grad" onclick="executeSearchHub()" style="padding:.6rem 1.2rem"><i class="fas fa-magnifying-glass"></i> Deep Search</button>
+          <button class="pill-btn" onclick="askAiFromSearchHub()" style="padding:.6rem 1rem"><i class="fas fa-wand-magic-sparkles"></i> AI Synthesis</button>
+        </div>
+        <div class="prompt-chips" style="margin-top:.65rem;margin-bottom:0">
+          <button class="chip" onclick="quickSearchHub('Modbus RTU RS485 protocol')"><i class="fas fa-bolt"></i> Modbus RTU RS-485</button>
+          <button class="chip" onclick="quickSearchHub('YOLOv8 OpenCV object tracking')"><i class="fas fa-eye"></i> YOLO Object Tracking</button>
+          <button class="chip" onclick="quickSearchHub('PID Controller tuning Ziegler Nichols')"><i class="fas fa-sliders"></i> PID Controller</button>
+          <button class="chip" onclick="quickSearchHub('FastAPI Python microservices')"><i class="fab fa-python"></i> FastAPI Python</button>
+        </div>
+      </div>
+
+      <div id="searchHubResults" class="tool-grid"></div>
+    </section>
+
+    <!-- TAB 3: ENGILAB DAILY ENGINEERING CALCULATORS & VISUALIZERS -->
+    <section class="tab-pane" id="tabEngi">
+      <div class="tool-grid">
+        <!-- 1. 4-20mA Industrial PLC Loop Scaler -->
+        <div class="widget-box">
+          <div class="widget-title"><span><i class="fas fa-gauge-high"></i> 4–20 mA PLC Sensor Loop Scaler</span><span class="app-badge">INSTRUMENTATION</span></div>
+          <div class="field-row">
+            <div><label class="field-lbl">Measured Current (mA)</label><input type="number" step="0.1" id="maInput" class="field-in" value="12.0" oninput="calc420mA()"></div>
+            <div><label class="field-lbl">Engineering Unit</label><input type="text" id="maUnit" class="field-in" value="bar" oninput="calc420mA()"></div>
+          </div>
+          <div class="field-row">
+            <div><label class="field-lbl">LRV (at 4.0 mA)</label><input type="number" id="maMin" class="field-in" value="0" oninput="calc420mA()"></div>
+            <div><label class="field-lbl">URV (at 20.0 mA)</label><input type="number" id="maMax" class="field-in" value="100" oninput="calc420mA()"></div>
+          </div>
+          <div style="background:#060a17;border:1px solid var(--border);border-radius:10px;padding:.7rem;margin-top:.4rem">
+            <div style="display:flex;justify-content:space-between;font-family:'JetBrains Mono',monospace;font-size:.82rem;margin-bottom:.4rem">
+              <span id="maOutVal" style="color:var(--c1);font-weight:700">50.00 bar (50.0%)</span>
+              <span id="maAdcOut" style="color:var(--muted)">16-bit ADC: 32768</span>
+            </div>
+            <div style="height:8px;background:#111a30;border-radius:99px;overflow:hidden">
+              <div id="maBar" style="height:100%;width:50%;background:var(--grad);transition:.2s"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. Ohm's Law, Power & Voltage Divider -->
+        <div class="widget-box">
+          <div class="widget-title"><span><i class="fas fa-bolt"></i> Ohm's Law &amp; DC Power Calculator</span><span class="app-badge">ELECTRONICS</span></div>
+          <div class="field-row">
+            <div><label class="field-lbl">Voltage V (Volts)</label><input type="number" step="0.1" id="ohmV" class="field-in" value="24.0" oninput="calcOhm('V')"></div>
+            <div><label class="field-lbl">Resistance R (&Omega;)</label><input type="number" step="1" id="ohmR" class="field-in" value="250" oninput="calcOhm('R')"></div>
+          </div>
+          <div style="background:#060a17;border:1px solid var(--border);border-radius:10px;padding:.75rem;font-family:'JetBrains Mono',monospace;font-size:.8rem;line-height:1.6" id="ohmResultBox">
+            Current (I) : <b style="color:var(--c1)">0.0960 A (96.0 mA)</b><br>
+            Power (P)   : <b style="color:#34d399">2.3040 W</b> (Use &ge; 5W Resistor)
+          </div>
+        </div>
+
+        <!-- 3. RC Low-Pass Filter & Cutoff Plotter -->
+        <div class="widget-box">
+          <div class="widget-title"><span><i class="fas fa-wave-square"></i> RC Filter &amp; Reactance Designer</span><span class="app-badge">SIGNAL DSP</span></div>
+          <div class="field-row">
+            <div><label class="field-lbl">Resistance R (k&Omega;)</label><input type="number" step="0.1" id="rcR" class="field-in" value="1.59" oninput="calcRcFilter()"></div>
+            <div><label class="field-lbl">Capacitance C (&mu;F)</label><input type="number" step="0.01" id="rcC" class="field-in" value="0.1" oninput="calcRcFilter()"></div>
+          </div>
+          <div style="background:#060a17;border:1px solid var(--border);border-radius:10px;padding:.75rem;font-family:'JetBrains Mono',monospace;font-size:.8rem;line-height:1.6" id="rcResultBox">
+            Cutoff Freq (fc) : <b style="color:var(--c1)">1000.97 Hz</b><br>
+            Time Constant &tau;  : <b style="color:#a78bfa">0.159 ms</b>
+          </div>
+        </div>
+
+        <!-- 4. Universal Engineering Unit & Base Converter -->
+        <div class="widget-box">
+          <div class="widget-title"><span><i class="fas fa-arrows-rotate"></i> Engineering Unit &amp; Hex/Bin Converter</span><span class="app-badge">CONVERTER</span></div>
+          <div class="field-row">
+            <div>
+              <label class="field-lbl">Conversion Type</label>
+              <select id="unitType" class="field-in" onchange="calcUnitConv()">
+                <option value="PRESS">Pressure: bar &rarr; PSI &amp; MPa</option>
+                <option value="TEMP">Temperature: &deg;C &rarr; &deg;F &amp; K</option>
+                <option value="TORQUE">Torque: N&middot;m &rarr; lb-ft &amp; kgf&middot;cm</option>
+                <option value="SPEED">Speed: RPM &rarr; Hz &amp; rad/s</option>
+                <option value="HEX">Integer &rarr; HEX / BIN / Modbus Hi-Lo</option>
+              </select>
+            </div>
+            <div><label class="field-lbl">Input Value</label><input type="number" step="any" id="unitVal" class="field-in" value="10" oninput="calcUnitConv()"></div>
+          </div>
+          <div style="background:#060a17;border:1px solid var(--border);border-radius:10px;padding:.75rem;font-family:'JetBrains Mono',monospace;font-size:.8rem;line-height:1.6" id="unitResultBox"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 4: YOUTH & ENGINEER DAILY PULSE (POMODORO, HABITS, SMART PLANNER) -->
+    <section class="tab-pane" id="tabPulse">
+      <div class="tool-grid">
+        <!-- Pomodoro Deep Work Timer -->
+        <div class="widget-box" style="text-align:center">
+          <div class="widget-title"><span><i class="fas fa-stopwatch"></i> Deep-Work Pomodoro Timer</span><span class="app-badge" id="pomoModeLbl">FOCUS 25M</span></div>
+          <div style="font-family:'Space Grotesk',sans-serif;font-size:3rem;font-weight:700;color:var(--c1);margin:.6rem 0" id="pomoTimeDisplay">25:00</div>
+          <div style="display:flex;justify-content:center;gap:.5rem;margin-bottom:.75rem;flex-wrap:wrap">
+            <button class="pill-btn grad" id="pomoStartBtn" onclick="togglePomoTimer()"><i class="fas fa-play"></i> Start Focus</button>
+            <button class="pill-btn" onclick="setPomoMinutes(25,'FOCUS 25M')">25m Focus</button>
+            <button class="pill-btn" onclick="setPomoMinutes(50,'DEEP ENG 50M')">50m Deep</button>
+            <button class="pill-btn" onclick="setPomoMinutes(5,'BREAK 5M')">5m Break</button>
+          </div>
+          <div style="font-size:.75rem;color:var(--muted);font-family:'JetBrains Mono',monospace">Completed Sessions Today: <b style="color:#34d399" id="pomoDoneCount">0</b></div>
+        </div>
+
+        <!-- Daily Habit & Hydration Tracker -->
+        <div class="widget-box">
+          <div class="widget-title"><span><i class="fas fa-droplet"></i> Daily Engineer &amp; Youth Habits</span><span class="app-badge">STREAK</span></div>
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:.55rem .7rem;background:#060a17;border-radius:10px;border:1px solid var(--border);margin-bottom:.6rem">
+            <span style="font-size:.83rem"><i class="fas fa-glass-water" style="color:#38bdf8"></i> Hydration (<span id="waterCount">0</span> / 8 glasses)</span>
+            <button class="pill-btn" onclick="addWaterGlass()">+1 Glass 💧</button>
+          </div>
+          <div id="habitListContainer" style="display:flex;flex-direction:column;gap:.45rem;font-size:.83rem"></div>
+        </div>
+
+        <!-- AI Smart Task & Study Planner -->
+        <div class="widget-box" style="grid-column:1 / -1">
+          <div class="widget-title">
+            <span><i class="fas fa-list-check"></i> Smart Daily Engineering &amp; Study Tasks</span>
+            <button class="pill-btn" onclick="aiGenerateStudyPlan()"><i class="fas fa-wand-magic-sparkles"></i> AI Auto-Plan My Day</button>
+          </div>
+          <div style="display:flex;gap:.5rem;margin-bottom:.7rem">
+            <input type="text" id="newTaskInput" class="field-in" placeholder="Add a daily engineering task, study goal, or project milestone..." onkeydown="if(event.key==='Enter')addDailyTask()">
+            <button class="pill-btn grad" onclick="addDailyTask()" style="white-space:nowrap"><i class="fas fa-plus"></i> Add Task</button>
+          </div>
+          <div id="dailyTaskList" style="display:flex;flex-direction:column;gap:.45rem"></div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- RIGHT DRAWER: LIVE SIGNAL SCOPE & QUICK CO-PILOT (DESKTOP) -->
+  <aside class="right-drawer">
+    <div class="widget-box">
+      <div class="widget-title"><span><i class="fas fa-chart-line"></i> Live Visual Function &amp; Signal Scope</span></div>
+      <canvas id="sideScopeCanvas" width="290" height="145" style="width:100%;height:145px;background:#050811;border-radius:9px;border:1px solid var(--border);display:block"></canvas>
+      <div style="display:flex;gap:.35rem;margin-top:.55rem;flex-wrap:wrap">
+        <button class="pill-btn" style="font-size:.7rem;padding:.25rem .5rem" onclick="setScopeMode('SINE')">Sine + Harmonics</button>
+        <button class="pill-btn" style="font-size:.7rem;padding:.25rem .5rem" onclick="setScopeMode('PWM')">PWM Square</button>
+        <button class="pill-btn" style="font-size:.7rem;padding:.25rem .5rem" onclick="setScopeMode('DAMPED')">PID Step Response</button>
+      </div>
+    </div>
+
+    <div class="widget-box">
+      <div class="widget-title"><span><i class="fas fa-newspaper"></i> Live Tech &amp; Engineering Pulse</span><button class="icon-btn" style="width:24px;height:24px" onclick="loadTechPulse()"><i class="fas fa-rotate" style="font-size:.75rem"></i></button></div>
+      <div id="techNewsFeed" style="display:flex;flex-direction:column;gap:.55rem;font-size:.78rem">
+        <div style="color:var(--muted)">Fetching live tech stories...</div>
+      </div>
+    </div>
+
+    <div class="widget-box" style="margin-top:auto">
+      <div class="widget-title"><span><i class="fas fa-bolt"></i> Quick Hardware Tools</span></div>
+      <a href="omnicomm.html" class="pill-btn" style="width:100%;justify-content:center;margin-bottom:.45rem"><i class="fas fa-satellite-dish"></i> Open OmniComm Studio</a>
+      <a href="https://github.com/kiran10299/NexusAI-Android-Assistant" target="_blank" class="pill-btn" style="width:100%;justify-content:center"><i class="fab fa-github"></i> Android Source &amp; APK</a>
+    </div>
+  </aside>
+</div>
+
+<!-- MOBILE BOTTOM NAVIGATION BAR -->
+<nav class="mobile-nav">
+  <button class="m-nav-btn active" data-tab="tabChat" onclick="switchTab('tabChat')"><i class="fas fa-wand-magic-sparkles"></i><span>Ask AI</span></button>
+  <button class="m-nav-btn" data-tab="tabSearch" onclick="switchTab('tabSearch')"><i class="fas fa-compass"></i><span>Search</span></button>
+  <button class="m-nav-btn" data-tab="tabEngi" onclick="switchTab('tabEngi')"><i class="fas fa-microchip"></i><span>EngiLab</span></button>
+  <button class="m-nav-btn" data-tab="tabPulse" onclick="switchTab('tabPulse')"><i class="fas fa-bolt"></i><span>Daily Pulse</span></button>
+</nav>
+
+<!-- AI ENGINE & GEMINI API KEY MODAL -->
+<div class="modal-mask" id="apiModal" onclick="if(event.target===this)closeApiModal()">
+  <div class="modal-card">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.8rem">
+      <h3 style="font-family:'Space Grotesk';font-size:1.15rem"><i class="fas fa-brain" style="color:var(--c1)"></i> AI Brain &amp; Search Engine Settings</h3>
+      <button class="icon-btn" onclick="closeApiModal()"><i class="fas fa-xmark"></i></button>
+    </div>
+    <p style="font-size:.82rem;color:var(--muted);line-height:1.5;margin-bottom:.9rem">
+      <b>NexusAI works immediately out-of-the-box</b> using the free Cloud AI Engine + Live Wikipedia, GitHub &amp; DuckDuckGo Search APIs. Optionally paste a free <b>Google Gemini API Key</b> (`gemini-2.0-flash`) for direct Gemini inference:
+    </p>
+    <div style="margin-bottom:.8rem">
+      <label class="field-lbl">Google Gemini API Key (Optional — stored locally on your device)</label>
+      <input type="password" id="geminiKeyInput" class="field-in" placeholder="AIzaSy... (Leave blank to use built-in Free Cloud AI)">
+    </div>
+    <div style="display:flex;justify-content:flex-end;gap:.5rem">
+      <button class="pill-btn" onclick="closeApiModal()">Cancel</button>
+      <button class="pill-btn grad" onclick="saveApiSettings()"><i class="fas fa-check"></i> Save Engine Settings</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ============================================================================
+   NEXUS AI — VISUAL PERSONAL ASSISTANT, LIVE SEARCH ENGINE & ENGILAB CORE
+   ============================================================================ */
+let ttsEnabled = false;
+let isListening = false;
+let recognition = null;
+let orbState = 'idle'; // 'idle', 'listening', 'thinking', 'speaking'
+let scopeMode = 'SINE';
+let deferredPwaPrompt = null;
+
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredPwaPrompt = e;
+});
+
+function switchTab(tabId) {
+  document.querySelectorAll('.tab-pane').forEach(p => p.classList.toggle('active', p.id === tabId));
+  document.querySelectorAll('.nav-item, .m-nav-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === tabId));
+  if (tabId === 'tabSearch' && !document.getElementById('searchHubResults').innerHTML.trim()) {
+    executeSearchHub();
+  }
+}
+
+/* ---------- 1. ANIMATED 3D NEURAL PLASMA ORB ---------- */
+(function initOrb() {
+  const c = document.getElementById('orbCanvas');
+  if (!c) return;
+  const ctx = c.getContext('2d');
+  let t = 0;
+  function drawOrb() {
+    t += (orbState === 'thinking' || orbState === 'listening') ? 0.09 : 0.035;
+    ctx.clearRect(0, 0, c.width, c.height);
+    const cx = c.width / 2, cy = c.height / 2;
+
+    const primaryColor = orbState === 'listening' ? '#f43f5e' : (orbState === 'thinking' ? '#a78bfa' : '#22d3ee');
+    const grad = ctx.createRadialGradient(cx, cy, 4, cx, cy, 56);
+    grad.addColorStop(0, '#ffffff');
+    grad.addColorStop(0.35, primaryColor);
+    grad.addColorStop(0.75, 'rgba(167,139,250,0.28)');
+    grad.addColorStop(1, 'rgba(5,8,20,0)');
+
+    ctx.fillStyle = grad;
+    ctx.beginPath();
+    ctx.arc(cx, cy, 54, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Orbiting neural rings
+    for (let ring = 0; ring < 3; ring++) {
+      ctx.strokeStyle = ring === 0 ? 'rgba(34,211,238,0.65)' : (ring === 1 ? 'rgba(167,139,250,0.5)' : 'rgba(244,114,182,0.45)');
+      ctx.lineWidth = 1.6;
+      ctx.beginPath();
+      for (let a = 0; a <= Math.PI * 2; a += 0.15) {
+        const wave = Math.sin(a * (3 + ring) + t * (ring + 1)) * (orbState === 'idle' ? 3.5 : 8);
+        const r = 28 + ring * 7 + wave;
+        const x = cx + Math.cos(a + t * 0.4) * r;
+        const y = cy + Math.sin(a + t * 0.4) * r;
+        if (a === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+      }
+      ctx.closePath();
+      ctx.stroke();
+    }
+    requestAnimationFrame(drawOrb);
+  }
+  drawOrb();
+  c.addEventListener('click', toggleVoiceRecognition);
+})();
+
+/* ---------- 2. RIGHT-HAND LIVE SIGNAL OSCILLOSCOPE ---------- */
+(function initSideScope() {
+  const c = document.getElementById('sideScopeCanvas');
+  if (!c) return;
+  const ctx = c.getContext('2d');
+  let phase = 0;
+  function renderScope() {
+    phase += 0.06;
+    const w = c.width, h = c.height;
+    ctx.fillStyle = '#050811';
+    ctx.fillRect(0, 0, w, h);
+
+    ctx.strokeStyle = 'rgba(255,255,255,0.06)';
+    for (let x = 0; x < w; x += 35) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke(); }
+    for (let y = 0; y < h; y += 35) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke(); }
+
+    ctx.strokeStyle = '#22d3ee';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    for (let x = 0; x < w; x++) {
+      const norm = x / w;
+      let yVal = 0;
+      if (scopeMode === 'SINE') {
+        yVal = Math.sin(norm * 12 + phase) * 0.7 + Math.sin(norm * 36 + phase * 2) * 0.22;
+      } else if (scopeMode === 'PWM') {
+        yVal = ((norm * 4 + phase * 0.15) % 1) < 0.65 ? 0.75 : -0.75;
+      } else {
+        yVal = 1 - Math.exp(-norm * 4.5) * Math.cos(norm * 18 - phase * 0.5);
+        yVal = (yVal - 0.5) * 1.1;
+      }
+      const py = h / 2 - yVal * (h * 0.36);
+      if (x === 0) ctx.moveTo(x, py); else ctx.lineTo(x, py);
+    }
+    ctx.stroke();
+    requestAnimationFrame(renderScope);
+  }
+  renderScope();
+})();
+window.setScopeMode = function(m) { scopeMode = m; };
+
+/* ---------- 3. LIVE MULTI-SOURCE SEARCH ENGINE (WIKIPEDIA + GITHUB + HN) ---------- */
+async function queryLiveSearchEngines(query) {
+  const cleanQ = query.replace(/^(plot|calculate|explain|search|find|what is|how to|design)\s+/i, '').trim() || query;
+  const results = { wiki: [], github: [] };
+
+  const wikiPromise = fetch(`https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(cleanQ)}&utf8=&format=json&origin=*&srlimit=3`)
+    .then(r => r.json())
+    .then(async data => {
+      const items = (data?.query?.search || []).slice(0, 2);
+      for (const item of items) {
+        try {
+          const sumRes = await fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(item.title)}`);
+          if (sumRes.ok) {
+            const sumData = await sumRes.json();
+            results.wiki.push({
+              title: sumData.title,
+              snippet: sumData.extract || item.snippet.replace(/<\/?[^>]+(>|$)/g, ''),
+              url: sumData.content_urls?.desktop?.page || `https://en.wikipedia.org/wiki/${encodeURIComponent(item.title)}`,
+              thumb: sumData.thumbnail?.source || ''
+            });
+          }
+        } catch (e) {}
+      }
+    }).catch(() => {});
+
+  const ghPromise = fetch(`https://api.github.com/search/repositories?q=${encodeURIComponent(cleanQ)}&sort=stars&per_page=2`)
+    .then(r => r.ok ? r.json() : null)
+    .then(data => {
+      if (data && data.items) {
+        results.github = data.items.slice(0, 2).map(repo => ({
+          name: repo.full_name,
+          desc: repo.description || 'Open-source repository',
+          stars: repo.stargazers_count,
+          lang: repo.language || 'Code',
+          url: repo.html_url
+        }));
+      }
+    }).catch(() => {});
+
+  await Promise.allSettled([wikiPromise, ghPromise]);
+  return results;
+}
+
+/* ---------- 4. AI BRAIN (GEMINI API + POLLINATIONS FREE CLOUD LLM + VISUAL GENERATOR) ---------- */
+async function callAiModel(userPrompt, searchContext) {
+  const geminiKey = (localStorage.getItem('nexus_gemini_key') || '').trim();
+  const sysInstruction = `You are NexusAI, an elite Visual AI Personal Assistant for Engineers and Youth built by Kiran Shivakumar.
+Give concise, clear, highly practical answers with key formulas, bullet points, or code snippets when relevant.
+Context from live search: ${JSON.stringify(searchContext)}`;
+
+  // 1. If user configured a Google Gemini API Key, call Gemini 2.0 Flash directly
+  if (geminiKey) {
+    try {
+      const r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${encodeURIComponent(geminiKey)}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          contents: [{ parts: [{ text: `${sysInstruction}\n\nUser Question: ${userPrompt}` }] }]
+        })
+      });
+      if (r.ok) {
+        const j = await r.json();
+        const txt = j?.candidates?.[0]?.content?.parts?.[0]?.text;
+        if (txt) return txt;
+      }
+    } catch (e) {}
+  }
+
+  // 2. Zero-Setup Free Cloud AI (Pollinations OpenAI/Mistral Text Endpoint)
+  try {
+    const r = await fetch('https://text.pollinations.ai/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        messages: [
+          { role: 'system', content: sysInstruction },
+          { role: 'user', content: userPrompt }
+        ],
+        model: 'openai'
+      })
+    });
+    if (r.ok) {
+      const txt = await r.text();
+      if (txt && txt.trim().length > 10) return txt.trim();
+    }
+  } catch (e) {}
+
+  // 3. Deterministic Offline / Instant Engineering & Search Synthesis Fallback
+  let fallback = `### ⚡ NexusAI Engineering & Knowledge Synthesis\n`;
+  if (searchContext.wiki && searchContext.wiki.length) {
+    fallback += `**${searchContext.wiki[0].title}:** ${searchContext.wiki[0].snippet}\n\n`;
+  }
+  if (searchContext.github && searchContext.github.length) {
+    fallback += `**Top Open-Source Reference:** [${searchContext.github[0].name}](${searchContext.github[0].url}) (⭐ ${searchContext.github[0].stars}) — ${searchContext.github[0].desc}\n\n`;
+  }
+  if (!searchContext.wiki.length && !searchContext.github.length) {
+    fallback += `Here is your interactive engineering analysis and visual breakdown for **"${userPrompt}"**:`;
+  }
+  return fallback;
+}
+
+/* ---------- 5. INLINE GENERATIVE VISUAL WIDGET BUILDER ---------- */
+function buildVisualWidgetsHtml(promptText, searchData) {
+  const p = promptText.toLowerCase();
+  let html = '';
+
+  // A. Interactive Waveform / Signal / Filter Plotter Widget
+  if (/plot|wave|sine|fft|harmonic|filter|signal|frequency|pwm|oscilloscope|bode|step/i.test(p)) {
+    const canvasId = 'plot_' + Date.now();
+    html += `
+      <div class="visual-card">
+        <div class="visual-card-head">
+          <span><i class="fas fa-wave-square"></i> INTERACTIVE SIGNAL &amp; SPECTRUM VISUALIZER</span>
+          <span>50Hz + 3rd Harmonic / RC DSP</span>
+        </div>
+        <canvas id="${canvasId}" width="560" height="150" style="width:100%;height:150px;background:#040711;border-radius:8px;display:block"></canvas>
+      </div>`;
+    setTimeout(() => renderInlineSignalCanvas(canvasId, p), 60);
+  }
+
+  // B. Interactive 4-20mA / Ohm / Circuit Visual Widget
+  if (/4-20|4–20|ma|pressure|transmitter|plc|scaling/i.test(p)) {
+    const mMatch = p.match(/(\d+(?:\.\d+)?)\s*ma/i);
+    const ma = mMatch ? parseFloat(mMatch[1]) : 14.2;
+    const pct = Math.max(0, Math.min(100, ((ma - 4) / 16) * 100));
+    const barVal = (pct * 0.1).toFixed(2);
+    html += `
+      <div class="visual-card">
+        <div class="visual-card-head"><span><i class="fas fa-gauge-high"></i> LIVE 4–20mA CURRENT LOOP TELEMETRY</span><span>I = ${ma.toFixed(2)} mA</span></div>
+        <div style="display:flex;justify-content:space-between;font-family:'JetBrains Mono',monospace;font-size:.82rem;margin-bottom:.4rem">
+          <span>Scaled Process Value: <b style="color:var(--c1)">${barVal} bar (${pct.toFixed(1)}%)</b></span>
+          <span>Formula: PV = ((I - 4) / 16) &times; Span</span>
+        </div>
+        <div style="height:10px;background:#111a30;border-radius:99px;overflow:hidden">
+          <div style="height:100%;width:${pct}%;background:var(--grad)"></div>
+        </div>
+      </div>`;
+  }
+
+  // C. Visual Architecture Flowchart (LabVIEW DQMH / QMH / ROS / System)
+  if (/dqmh|qmh|labview|architecture|queue|state machine|diagram/i.test(p)) {
+    html += `
+      <div class="visual-card">
+        <div class="visual-card-head"><span><i class="fas fa-sitemap"></i> ARCHITECTURE FLOW DIAGRAM</span><span>Producer / Consumer / DQMH</span></div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:.5rem;font-family:'JetBrains Mono',monospace;font-size:.73rem;text-align:center">
+          <div style="background:#0f172e;border:1px solid #22d3ee;padding:.6rem;border-radius:8px"><b style="color:#22d3ee">1. UI Event Loop</b><br>Captures User / Trigger Requests</div>
+          <div style="background:#0f172e;border:1px solid #a78bfa;padding:.6rem;border-radius:8px"><b style="color:#a78bfa">2. Message Queue</b><br>Lossless FIFO Command Bus</div>
+          <div style="background:#0f172e;border:1px solid #34d399;padding:.6rem;border-radius:8px"><b style="color:#34d399">3. Module MHL</b><br>Hardware HAL / DAQ State Machine</div>
+          <div style="background:#0f172e;border:1px solid #f472b6;padding:.6rem;border-radius:8px"><b style="color:#f472b6">4. Broadcast Notifier</b><br>Publishes Telemetry to UI/Logger</div>
+        </div>
+      </div>`;
+  }
+
+  // D. AI Visual Image / Concept Generator Card (when user asks for image/diagram/visual render)
+  if (/generate a visual|draw|image|render|illustration/i.test(p)) {
+    const imgUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(promptText + ' futuristic engineering blueprint neon dark ui')}?width=640&height=360&nologo=true`;
+    html += `
+      <div class="visual-card">
+        <div class="visual-card-head"><span><i class="fas fa-image"></i> AI GENERATED CONCEPT VISUAL</span><span>640x360 Blueprint</span></div>
+        <img src="${imgUrl}" alt="AI Concept Visual" style="width:100%;max-height:240px;object-fit:cover;border-radius:8px;display:block" loading="lazy">
+      </div>`;
+  }
+
+  // E. Live Search Knowledge & GitHub Repo Cards
+  const hasWiki = searchData?.wiki?.length > 0;
+  const hasGh = searchData?.github?.length > 0;
+  if (hasWiki || hasGh) {
+    html += `<div class="search-cards-grid">`;
+    (searchData.wiki || []).forEach(w => {
+      html += `
+        <a href="${w.url}" target="_blank" rel="noopener" class="src-card">
+          <div class="src-card-top">
+            ${w.thumb ? `<img src="${w.thumb}" alt="">` : `<div style="width:36px;height:36px;border-radius:7px;background:rgba(34,211,238,.15);display:grid;place-items:center;color:var(--c1)"><i class="fas fa-book-atlas"></i></div>`}
+            <div><span class="src-tag">WIKIPEDIA KNOWLEDGE</span><h5>${w.title}</h5></div>
+          </div>
+          <p>${w.snippet}</p>
+        </a>`;
+    });
+    (searchData.github || []).forEach(g => {
+      html += `
+        <a href="${g.url}" target="_blank" rel="noopener" class="src-card">
+          <div class="src-card-top">
+            <div style="width:36px;height:36px;border-radius:7px;background:rgba(167,139,250,.15);display:grid;place-items:center;color:var(--c2)"><i class="fab fa-github"></i></div>
+            <div><span class="src-tag">GITHUB &middot; ⭐ ${g.stars} &middot; ${g.lang}</span><h5>${g.name}</h5></div>
+          </div>
+          <p>${g.desc}</p>
+        </a>`;
+    });
+    html += `</div>`;
+  }
+
+  return html;
+}
+
+function renderInlineSignalCanvas(canvasId, promptLower) {
+  const c = document.getElementById(canvasId);
+  if (!c) return;
+  const ctx = c.getContext('2d');
+  const w = c.width, h = c.height;
+  ctx.fillStyle = '#040711';
+  ctx.fillRect(0, 0, w, h);
+
+  ctx.strokeStyle = 'rgba(255,255,255,0.07)';
+  for (let x = 0; x < w; x += 40) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke(); }
+  for (let y = 0; y < h; y += 35) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke(); }
+
+  ctx.strokeStyle = '#22d3ee';
+  ctx.lineWidth = 2.2;
+  ctx.beginPath();
+  for (let x = 0; x < w; x++) {
+    const t = (x / w) * Math.PI * 6;
+    const yVal = promptLower.includes('rc') || promptLower.includes('filter')
+      ? (1 - Math.exp(-x / (w * 0.22))) * 0.8 - 0.4
+      : Math.sin(t) * 0.65 + Math.sin(t * 3) * 0.25;
+    const py = h / 2 - yVal * (h * 0.38);
+    if (x === 0) ctx.moveTo(x, py); else ctx.lineTo(x, py);
+  }
+  ctx.stroke();
+}
+
+function formatMarkdownLite(md) {
+  let s = String(md || '')
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  s = s.replace(/```([a-zA-Z0-9_-]*)\n([\s\S]*?)```/g, (_, lang, code) => `<pre><code>${code.trim()}</code></pre>`);
+  s = s.replace(/`([^`]+)`/g, '<code>$1</code>');
+  s = s.replace(/^### (.*)$/gm, '<h4>$1</h4>');
+  s = s.replace(/^## (.*)$/gm, '<h4>$1</h4>');
+  s = s.replace(/\*\*([^*]+)\*\*/g, '<b>$1</b>');
+  s = s.replace(/\[([^\]]+)\]\((https?:\/\/[^\)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1 <i class="fas fa-arrow-up-right-from-square" style="font-size:.68rem"></i></a>');
+  s = s.replace(/\n/g, '<br>');
+  return s;
+}
+
+function appendChatMessage(role, htmlContent) {
+  const stream = document.getElementById('chatStream');
+  const div = document.createElement('div');
+  div.className = `msg ${role}`;
+  div.innerHTML = `
+    <div class="msg-avatar">${role === 'ai' ? '<i class="fas fa-atom"></i>' : '<i class="fas fa-user"></i>'}</div>
+    <div class="msg-bubble">${htmlContent}</div>
+  `;
+  stream.appendChild(div);
+  stream.scrollTop = stream.scrollHeight;
+  return div;
+}
+
+async function sendUserMessage(overrideText) {
+  const input = document.getElementById('chatInput');
+  const text = (overrideText !== undefined ? overrideText : input.value).trim();
+  if (!text) return;
+  if (overrideText === undefined) input.value = '';
+
+  switchTab('tabChat');
+  appendChatMessage('user', formatMarkdownLite(text));
+
+  orbState = 'thinking';
+  document.getElementById('orbStatusTitle').textContent = 'Searching Knowledge Graph & Computing Visuals...';
+  const loadingMsg = appendChatMessage('ai', `<span style="color:var(--c1);font-family:'JetBrains Mono',monospace;font-size:.8rem"><i class="fas fa-circle-notch fa-spin"></i> Querying AI Engine + Live Wikipedia / GitHub Search...</span>`);
+
+  const searchData = await queryLiveSearchEngines(text);
+  const aiReply = await callAiModel(text, searchData);
+  const visualWidgets = buildVisualWidgetsHtml(text, searchData);
+
+  loadingMsg.querySelector('.msg-bubble').innerHTML = formatMarkdownLite(aiReply) + visualWidgets;
+  document.getElementById('chatStream').scrollTop = document.getElementById('chatStream').scrollHeight;
+
+  orbState = 'idle';
+  document.getElementById('orbStatusTitle').textContent = 'Nexus Neural Co-Pilot Ready';
+
+  if (ttsEnabled && 'speechSynthesis' in window) {
+    window.speechSynthesis.cancel();
+    const cleanSpeech = aiReply.replace(/[#*`_~>-]/g, '').slice(0, 320);
+    const utter = new SpeechSynthesisUtterance(cleanSpeech);
+    utter.rate = 1.05;
+    window.speechSynthesis.speak(utter);
+  }
+}
+
+window.runQuickPrompt = function(q) {
+  sendUserMessage(q);
+};
+
+/* ---------- 6. VOICE RECOGNITION (SPEECH-TO-TEXT) & TTS ---------- */
+window.toggleVoiceRecognition = function() {
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SR) {
+    alert('Voice speech recognition is supported in Chrome / Edge / Android browsers.');
+    return;
+  }
+  if (isListening && recognition) {
+    recognition.stop();
+    return;
+  }
+  recognition = new SR();
+  recognition.lang = 'en-IN';
+  recognition.interimResults = false;
+  recognition.onstart = () => {
+    isListening = true;
+    orbState = 'listening';
+    document.getElementById('micBtn').classList.add('listening');
+    document.getElementById('orbStatusTitle').textContent = 'Listening... Speak your engineering or search query';
+  };
+  recognition.onresult = (e) => {
+    const transcript = e.results[0][0].transcript;
+    document.getElementById('chatInput').value = transcript;
+    sendUserMessage(transcript);
+  };
+  recognition.onend = () => {
+    isListening = false;
+    if (orbState === 'listening') orbState = 'idle';
+    document.getElementById('micBtn').classList.remove('listening');
+  };
+  recognition.start();
+};
+
+document.getElementById('voiceTtsBtn').addEventListener('click', function() {
+  ttsEnabled = !ttsEnabled;
+  this.classList.toggle('active', ttsEnabled);
+  document.getElementById('voiceTtsIcon').className = ttsEnabled ? 'fas fa-volume-high' : 'fas fa-volume-xmark';
+  if (!ttsEnabled && 'speechSynthesis' in window) window.speechSynthesis.cancel();
+});
+
+/* ---------- 7. MULTI-ENGINE SEARCH HUB TAB ---------- */
+window.quickSearchHub = function(q) {
+  document.getElementById('searchHubInput').value = q;
+  executeSearchHub();
+};
+
+window.askAiFromSearchHub = function() {
+  const q = document.getElementById('searchHubInput').value.trim();
+  if (q) sendUserMessage(q);
+};
+
+window.executeSearchHub = async function() {
+  const q = document.getElementById('searchHubInput').value.trim() || 'Robotics Engineering';
+  const box = document.getElementById('searchHubResults');
+  box.innerHTML = `<div class="widget-box"><i class="fas fa-circle-notch fa-spin" style="color:var(--c1)"></i> Searching Wikipedia Knowledge Graph, GitHub Open-Source Repositories &amp; Visual Concept Engine for <b>${q}</b>...</div>`;
+
+  const data = await queryLiveSearchEngines(q);
+  const cards = [];
+
+  (data.wiki || []).forEach(w => {
+    cards.push(`
+      <div class="widget-box" style="display:flex;flex-direction:column;justify-content:space-between">
+        <div>
+          <div class="widget-title"><span><i class="fas fa-book-atlas"></i> Wikipedia Encyclopedia</span><span class="app-badge">KNOWLEDGE</span></div>
+          ${w.thumb ? `<img src="${w.thumb}" style="width:100%;height:140px;object-fit:cover;border-radius:9px;margin-bottom:.6rem">` : ''}
+          <h4 style="font-family:'Space Grotesk';font-size:1rem;margin-bottom:.35rem">${w.title}</h4>
+          <p style="font-size:.8rem;color:var(--muted);line-height:1.5">${w.snippet}</p>
+        </div>
+        <div style="display:flex;gap:.5rem;margin-top:.75rem">
+          <a href="${w.url}" target="_blank" class="pill-btn"><i class="fas fa-arrow-up-right-from-square"></i> Read Article</a>
+          <button class="pill-btn" onclick="runQuickPrompt('Explain ${w.title.replace(/'/g,'')} with practical engineering applications')"><i class="fas fa-wand-magic-sparkles"></i> Ask AI</button>
+        </div>
+      </div>`);
+  });
+
+  (data.github || []).forEach(g => {
+    cards.push(`
+      <div class="widget-box" style="display:flex;flex-direction:column;justify-content:space-between">
+        <div>
+          <div class="widget-title"><span><i class="fab fa-github"></i> GitHub Open-Source</span><span class="app-badge">⭐ ${g.stars} &middot; ${g.lang}</span></div>
+          <h4 style="font-family:'Space Grotesk';font-size:.98rem;margin-bottom:.35rem">${g.name}</h4>
+          <p style="font-size:.8rem;color:var(--muted);line-height:1.5">${g.desc}</p>
+        </div>
+        <div style="display:flex;gap:.5rem;margin-top:.75rem">
+          <a href="${g.url}" target="_blank" class="pill-btn"><i class="fab fa-github"></i> View Repository</a>
+        </div>
+      </div>`);
+  });
+
+  const conceptImg = `https://image.pollinations.ai/prompt/${encodeURIComponent(q + ' technical engineering diagram schematic dark neon')}?width=640&height=360&nologo=true`;
+  cards.push(`
+    <div class="widget-box">
+      <div class="widget-title"><span><i class="fas fa-wand-magic-sparkles"></i> AI Visual Concept Generator</span><span class="app-badge">VISUAL AI</span></div>
+      <img src="${conceptImg}" alt="${q}" style="width:100%;height:165px;object-fit:cover;border-radius:9px;margin-bottom:.5rem" loading="lazy">
+      <div style="font-size:.75rem;color:var(--muted)">Generated schematic visualization for <b>${q}</b></div>
+    </div>`);
+
+  box.innerHTML = cards.join('');
+};
+
+/* ---------- 8. ENGILAB CALCULATORS ---------- */
+window.calc420mA = function() {
+  const ma = parseFloat(document.getElementById('maInput').value) || 4;
+  const lrv = parseFloat(document.getElementById('maMin').value) || 0;
+  const urv = parseFloat(document.getElementById('maMax').value) || 100;
+  const unit = document.getElementById('maUnit').value || 'bar';
+  const pct = ((ma - 4) / 16) * 100;
+  const val = lrv + (pct / 100) * (urv - lrv);
+  const adc16 = Math.round(Math.max(0, Math.min(1, (ma - 4) / 16)) * 65535);
+  document.getElementById('maOutVal').textContent = `${val.toFixed(2)} ${unit} (${pct.toFixed(1)}%)`;
+  document.getElementById('maAdcOut').textContent = `16-bit ADC: ${adc16}`;
+  document.getElementById('maBar').style.width = `${Math.max(0, Math.min(100, pct))}%`;
+};
+
+window.calcOhm = function() {
+  const v = parseFloat(document.getElementById('ohmV').value) || 0;
+  const r = parseFloat(document.getElementById('ohmR').value) || 1;
+  const i = v / r;
+  const p = v * i;
+  document.getElementById('ohmResultBox').innerHTML =
+    `Current (I) : <b style="color:var(--c1)">${i.toFixed(4)} A (${(i*1000).toFixed(1)} mA)</b><br>` +
+    `Power (P)   : <b style="color:#34d399">${p.toFixed(4)} W</b>`;
+};
+
+window.calcRcFilter = function() {
+  const rK = parseFloat(document.getElementById('rcR').value) || 1;
+  const cUf = parseFloat(document.getElementById('rcC').value) || 0.1;
+  const r = rK * 1000;
+  const c = cUf * 1e-6;
+  const tau = r * c;
+  const fc = 1 / (2 * Math.PI * tau);
+  document.getElementById('rcResultBox').innerHTML =
+    `Cutoff Freq (fc) : <b style="color:var(--c1)">${fc.toFixed(2)} Hz</b><br>` +
+    `Time Constant &tau;  : <b style="color:#a78bfa">${(tau * 1000).toFixed(3)} ms</b>`;
+};
+
+window.calcUnitConv = function() {
+  const t = document.getElementById('unitType').value;
+  const v = parseFloat(document.getElementById('unitVal').value) || 0;
+  const box = document.getElementById('unitResultBox');
+  if (t === 'PRESS') box.innerHTML = `${v} bar = <b style="color:var(--c1)">${(v * 14.5038).toFixed(2)} PSI</b> = <b style="color:#34d399">${(v * 0.1).toFixed(3)} MPa</b>`;
+  if (t === 'TEMP') box.innerHTML = `${v} &deg;C = <b style="color:var(--c1)">${(v * 9/5 + 32).toFixed(2)} &deg;F</b> = <b style="color:#34d399">${(v + 273.15).toFixed(2)} K</b>`;
+  if (t === 'TORQUE') box.innerHTML = `${v} N&middot;m = <b style="color:var(--c1)">${(v * 0.73756).toFixed(2)} lb-ft</b> = <b style="color:#34d399">${(v * 10.197).toFixed(2)} kgf&middot;cm</b>`;
+  if (t === 'SPEED') box.innerHTML = `${v} RPM = <b style="color:var(--c1)">${(v / 60).toFixed(2)} Hz</b> = <b style="color:#34d399">${(v * Math.PI / 30).toFixed(2)} rad/s</b>`;
+  if (t === 'HEX') {
+    const n = Math.max(0, Math.round(v)) & 0xFFFF;
+    box.innerHTML = `HEX: <b style="color:var(--c1)">0x${n.toString(16).toUpperCase().padStart(4,'0')}</b> | BIN: <b style="color:#a78bfa">${n.toString(2).padStart(16,'0')}</b>`;
+  }
+};
+
+/* ---------- 9. DAILY PULSE (POMODORO, HABITS, SMART TASKS) ---------- */
+let pomoRemainingSec = 25 * 60;
+let pomoTimer = null;
+let pomoDone = 0;
+
+window.setPomoMinutes = function(mins, label) {
+  if (pomoTimer) { clearInterval(pomoTimer); pomoTimer = null; }
+  pomoRemainingSec = mins * 60;
+  document.getElementById('pomoModeLbl').textContent = label;
+  document.getElementById('pomoStartBtn').innerHTML = '<i class="fas fa-play"></i> Start Focus';
+  updatePomoDisplay();
+};
+
+function updatePomoDisplay() {
+  const m = String(Math.floor(pomoRemainingSec / 60)).padStart(2, '0');
+  const s = String(pomoRemainingSec % 60).padStart(2, '0');
+  document.getElementById('pomoTimeDisplay').textContent = `${m}:${s}`;
+}
+
+window.togglePomoTimer = function() {
+  const btn = document.getElementById('pomoStartBtn');
+  if (pomoTimer) {
+    clearInterval(pomoTimer);
+    pomoTimer = null;
+    btn.innerHTML = '<i class="fas fa-play"></i> Resume';
+  } else {
+    btn.innerHTML = '<i class="fas fa-pause"></i> Pause';
+    pomoTimer = setInterval(() => {
+      if (pomoRemainingSec > 0) {
+        pomoRemainingSec--;
+        updatePomoDisplay();
+      } else {
+        clearInterval(pomoTimer);
+        pomoTimer = null;
+        pomoDone++;
+        document.getElementById('pomoDoneCount').textContent = pomoDone;
+        btn.innerHTML = '<i class="fas fa-check"></i> Done!';
+      }
+    }, 1000);
+  }
+};
+
+let waterGlasses = parseInt(localStorage.getItem('nexus_water') || '3', 10);
+window.addWaterGlass = function() {
+  waterGlasses = (waterGlasses + 1) % 13;
+  localStorage.setItem('nexus_water', String(waterGlasses));
+  document.getElementById('waterCount').textContent = waterGlasses;
+};
+
+const defaultHabits = [
+  { id: 'h1', text: '💻 45 mins Coding / LabVIEW / System Design Practice', done: true },
+  { id: 'h2', text: '📖 Read 1 Engineering Paper or Tech Article', done: false },
+  { id: 'h3', text: '🧘‍♂️ 20-20-20 Eye Rest & Ergonomic Posture Stretch', done: true },
+  { id: 'h4', text: '🏋️‍♂️ 30 mins Physical Exercise / Walk', done: false }
+];
+let userHabits = JSON.parse(localStorage.getItem('nexus_habits') || JSON.stringify(defaultHabits));
+
+function renderHabits() {
+  document.getElementById('waterCount').textContent = waterGlasses;
+  document.getElementById('habitListContainer').innerHTML = userHabits.map((h, i) => `
+    <label style="display:flex;align-items:center;gap:.55rem;padding:.5rem .7rem;background:#060a17;border:1px solid var(--border);border-radius:9px;cursor:pointer">
+      <input type="checkbox" ${h.done ? 'checked' : ''} onchange="toggleHabit(${i})">
+      <span style="${h.done ? 'text-decoration:line-through;color:var(--muted)' : ''}">${h.text}</span>
+    </label>
+  `).join('');
+}
+window.toggleHabit = function(idx) {
+  userHabits[idx].done = !userHabits[idx].done;
+  localStorage.setItem('nexus_habits', JSON.stringify(userHabits));
+  renderHabits();
+};
+
+const defaultTasks = [
+  { text: 'Review Modbus RTU CRC-16 & RS-485 hardware framing', done: false },
+  { text: 'Practice Python + OpenCV YOLOv8 real-time inference pipeline', done: false },
+  { text: 'Build 1 open-source milestone and push to GitHub', done: true }
+];
+let dailyTasks = JSON.parse(localStorage.getItem('nexus_tasks') || JSON.stringify(defaultTasks));
+
+function renderTasks() {
+  document.getElementById('dailyTaskList').innerHTML = dailyTasks.map((t, i) => `
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:.55rem .75rem;background:#060a17;border:1px solid var(--border);border-radius:9px;font-size:.83rem">
+      <label style="display:flex;align-items:center;gap:.55rem;cursor:pointer;flex:1">
+        <input type="checkbox" ${t.done ? 'checked' : ''} onchange="toggleTask(${i})">
+        <span style="${t.done ? 'text-decoration:line-through;color:var(--muted)' : ''}">${t.text}</span>
+      </label>
+      <button class="icon-btn" style="width:26px;height:26px" onclick="deleteTask(${i})"><i class="fas fa-trash-can" style="font-size:.75rem"></i></button>
+    </div>
+  `).join('');
+}
+window.addDailyTask = function() {
+  const inp = document.getElementById('newTaskInput');
+  const val = inp.value.trim();
+  if (!val) return;
+  dailyTasks.unshift({ text: val, done: false });
+  inp.value = '';
+  localStorage.setItem('nexus_tasks', JSON.stringify(dailyTasks));
+  renderTasks();
+};
+window.toggleTask = function(i) {
+  dailyTasks[i].done = !dailyTasks[i].done;
+  localStorage.setItem('nexus_tasks', JSON.stringify(dailyTasks));
+  renderTasks();
+};
+window.deleteTask = function(i) {
+  dailyTasks.splice(i, 1);
+  localStorage.setItem('nexus_tasks', JSON.stringify(dailyTasks));
+  renderTasks();
+};
+window.aiGenerateStudyPlan = function() {
+  sendUserMessage('Create a structured 4-step daily engineering & coding growth plan for today with practical milestones');
+};
+
+/* ---------- 10. LIVE TECH NEWS FEED (HACKERNEWS API) ---------- */
+window.loadTechPulse = async function() {
+  const feed = document.getElementById('techNewsFeed');
+  try {
+    const r = await fetch('https://hn.algolia.com/api/v1/search?tags=front_page&hitsPerPage=4');
+    if (r.ok) {
+      const data = await r.json();
+      feed.innerHTML = (data.hits || []).map(h => `
+        <a href="${h.url || ('https://news.ycombinator.com/item?id=' + h.objectID)}" target="_blank" rel="noopener" style="padding:.45rem .55rem;background:#060a17;border:1px solid var(--border);border-radius:8px;display:block;color:var(--text)">
+          <div style="font-weight:600;line-height:1.3;margin-bottom:.2rem">${h.title}</div>
+          <div style="font-size:.68rem;color:var(--c1);font-family:'JetBrains Mono',monospace">▲ ${h.points || 0} pts &middot; ${h.num_comments || 0} comments</div>
+        </a>
+      `).join('');
+    }
+  } catch (e) {
+    feed.innerHTML = '<div style="color:var(--muted)">Live tech feed ready.</div>';
+  }
+};
+
+/* ---------- 11. SETTINGS & INSTALL ANDROID APP ---------- */
+window.openApiModal = function() {
+  document.getElementById('geminiKeyInput').value = localStorage.getItem('nexus_gemini_key') || '';
+  document.getElementById('apiModal').classList.add('open');
+};
+window.closeApiModal = function() {
+  document.getElementById('apiModal').classList.remove('open');
+};
+window.saveApiSettings = function() {
+  const key = document.getElementById('geminiKeyInput').value.trim();
+  localStorage.setItem('nexus_gemini_key', key);
+  document.getElementById('activeModelBadge').textContent = key ? 'GEMINI 2.0 FLASH + SEARCH' : 'AI + LIVE SEARCH';
+  closeApiModal();
+};
+
+window.installOrDownloadApp = async function() {
+  if (deferredPwaPrompt) {
+    deferredPwaPrompt.prompt();
+    return;
+  }
+  window.open('https://github.com/kiran10299/NexusAI-Android-Assistant', '_blank');
+};
+
+/* ---------- INITIALIZE ---------- */
+calcUnitConv();
+renderHabits();
+renderTasks();
+loadTechPulse();
+if (localStorage.getItem('nexus_gemini_key')) {
+  document.getElementById('activeModelBadge').textContent = 'GEMINI 2.0 FLASH + SEARCH';
+}
+appendChatMessage('ai', `
+  <h4>👋 Welcome to NexusAI — Your Visual Engineering &amp; Daily Assistant</h4>
+  I combine <b>AI Reasoning</b> + <b>Live Multi-Engine Search (Wikipedia, GitHub &amp; Web)</b> + <b>Interactive Visual Widgets</b>. Try clicking any chip above or ask me:
+  <ul style="margin:.45rem 0 .2rem 1.2rem;font-size:.83rem;color:#cbd5e1">
+    <li><b>Visual Signal &amp; Math Plots:</b> <code>Plot a 50Hz sine wave with 3rd harmonic distortion</code></li>
+    <li><b>Live Hardware Calculators:</b> <code>Calculate 4-20mA sensor scaling at 14.2mA</code></li>
+    <li><b>Code &amp; Open-Source Search:</b> <code>Search top Python robotics projects on GitHub</code></li>
+    <li><b>Architecture &amp; Career Prep:</b> <code>Explain LabVIEW DQMH architecture with a visual diagram</code></li>
+  </ul>
+`);
+</script>
+</body>
+</html>

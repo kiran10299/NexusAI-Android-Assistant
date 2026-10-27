@@ -1,0 +1,18 @@
+{
+  "name": "NexusAI — Visual AI Assistant & Engineering Co-Pilot",
+  "short_name": "NexusAI",
+  "description": "Daily Visual AI Personal Assistant, Live Multi-Engine Search, Interactive Signal/Math Plotter, Engineering Calculators & Focus Co-Pilot for Engineers and Youth.",
+  "start_url": "/nexus-ai.html",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#050814",
+  "theme_color": "#050814",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%2322d3ee'/%3E%3Cstop offset='50%25' stop-color='%23a78bfa'/%3E%3Cstop offset='100%25' stop-color='%23f472b6'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='512' height='512' rx='115' fill='%23050814'/%3E%3Ccircle cx='256' cy='256' r='170' fill='none' stroke='url(%23g)' stroke-width='28'/%3E%3Ccircle cx='256' cy='256' r='75' fill='url(%23g)'/%3E%3C/svg%3E",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

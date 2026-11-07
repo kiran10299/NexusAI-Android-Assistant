@@ -1233,19 +1233,19 @@
         </button>
       </div>
 
-      <div class="sidebar-section-label">Instant Visual Explorations</div>
+      <div class="sidebar-section-label">Quick Assistant Actions</div>
       <div class="history-list" id="quickPromptsList">
-        <div class="history-item" onclick="triggerPrompt('Design a 4-20mA current loop sensor interface for a 12-bit STM32 ADC with wire-break detection and interactive scaling')">
-          ⚡ 4–20mA Current Loop & STM32 12-Bit ADC Scaling Lab
+        <div class="history-item" onclick="triggerPrompt('Hey Dost! How are you doing today? Help me plan a productive schedule for today')">
+          🗓️ Plan My Day & Deep-Work Schedule
         </div>
-        <div class="history-item" onclick="triggerPrompt('Calculate and visualize an RC low-pass anti-aliasing filter cutoff frequency with Bode attenuation math')">
-          🎛️ Interactive RC Low-Pass Filter & Cutoff Frequency Lab
+        <div class="history-item" onclick="triggerPrompt('Write a professional email to my manager/client updating them on our project milestone')">
+          ✉️ Draft a Professional Email or Update
         </div>
-        <div class="history-item" onclick="triggerPrompt('Simulate a PWM & Fourier harmonic signal waveform and explain Nyquist sampling theorem')">
-          🌊 Fourier Harmonics, PWM Modulation & Nyquist Oscilloscope
+        <div class="history-item" onclick="triggerPrompt('Design a 4-20mA current loop sensor interface for a 12-bit STM32 ADC with wire-break detection')">
+          ⚡ 4–20mA Current Loop & STM32 12-Bit ADC Lab
         </div>
-        <div class="history-item" onclick="triggerPrompt('Give me a high-impact 90-day Embedded Systems & AI Engineer roadmap with top open-source GitHub repos')">
-          🚀 90-Day Embedded + AI Engineering Roadmap & Repos
+        <div class="history-item" onclick="triggerPrompt('Calculate and visualize an RC low-pass anti-aliasing filter cutoff frequency')">
+          🎛️ Interactive RC Low-Pass Filter & Cutoff Lab
         </div>
       </div>
 
@@ -1312,40 +1312,40 @@
 
           <!-- Bento Starter Cards -->
           <section class="starter-bento" id="starterBento">
+            <div class="bento-card" onclick="triggerPrompt('Hey Dost! How are you doing today? Help me plan a productive schedule for my day')">
+              <div class="bento-card-header">
+                <span class="bento-tag">Personal Assistant</span>
+                <span>🤝</span>
+              </div>
+              <div class="bento-title">Chat & Plan My Day with Dost</div>
+              <div class="bento-desc">Talk naturally like a best friend — organize your schedule, set priorities, or brainstorm ideas.</div>
+            </div>
+
+            <div class="bento-card" onclick="triggerPrompt('Write a clean, professional email to a client/manager sharing our latest project update')">
+              <div class="bento-card-header">
+                <span class="bento-tag">Executive Comms</span>
+                <span>✍️</span>
+              </div>
+              <div class="bento-title">Draft Emails, Posts & Messages</div>
+              <div class="bento-desc">Instantly write polished client updates, LinkedIn posts, cover letters, or technical summaries.</div>
+            </div>
+
             <div class="bento-card" onclick="triggerPrompt('Design a 4-20mA current loop sensor interface for a 12-bit STM32 ADC with wire-break detection and interactive scaling')">
               <div class="bento-card-header">
-                <span class="bento-tag">Industrial & Embedded</span>
+                <span class="bento-tag">Interactive Hardware Lab</span>
                 <span>⚡</span>
               </div>
-              <div class="bento-title">4–20mA Current Loop & ADC Lab</div>
-              <div class="bento-desc">Derive shunt equations, C firmware, and manipulate a live 4–20mA transmitter simulator right in chat.</div>
+              <div class="bento-title">4–20mA & RC Filter Simulator</div>
+              <div class="bento-desc">Derive equations, C firmware, and manipulate live circuit sliders right inside the chat reply.</div>
             </div>
 
-            <div class="bento-card" onclick="triggerPrompt('Explain RC low-pass filter design, derive the -3dB cutoff formula, and launch the interactive RC calculator')">
+            <div class="bento-card" onclick="triggerPrompt('What is Retrieval-Augmented Generation (RAG) and how do modern AI agents work?')">
               <div class="bento-card-header">
-                <span class="bento-tag">Analog Signal Conditioning</span>
-                <span>🎛️</span>
-              </div>
-              <div class="bento-title">RC Filter & Bode Cutoff Explorer</div>
-              <div class="bento-desc">Interactive resistor/capacitor sliders with real-time cutoff frequency ($f_c$) and phase shift readouts.</div>
-            </div>
-
-            <div class="bento-card" onclick="triggerPrompt('Simulate Fourier harmonic synthesis and PWM waveforms on the live oscilloscope and explain total harmonic distortion')">
-              <div class="bento-card-header">
-                <span class="bento-tag">Live Oscilloscope</span>
-                <span>🌊</span>
-              </div>
-              <div class="bento-title">Real-Time Signal & Harmonic Scope</div>
-              <div class="bento-desc">Render a 60 FPS interactive oscilloscope inside the response with frequency and noise sliders.</div>
-            </div>
-
-            <div class="bento-card" onclick="triggerPrompt('Search GitHub and Wikipedia for the best open-source RTOS and embedded Linux frameworks in 2026 with comparison')">
-              <div class="bento-card-header">
-                <span class="bento-tag">Live Search Engine</span>
+                <span class="bento-tag">Live Knowledge Search</span>
                 <span>🌐</span>
               </div>
-              <div class="bento-title">Live GitHub & Encyclopedia Research</div>
-              <div class="bento-desc">Fetches live repositories, star counts, and technical citations synthesized into a clean briefing.</div>
+              <div class="bento-title">Ask Anything & Live Encyclopedia</div>
+              <div class="bento-desc">Synthesizes live Wikipedia & GitHub knowledge into clear, conversational answers.</div>
             </div>
           </section>
 
@@ -1684,35 +1684,89 @@
       setOrbState('IDLE', 'NEURAL CORE READY');
     }
 
-    // Clean keyword extractor for Wikipedia, GitHub & HackerNews APIs
-    function extractSearchTopic(rawQuery) {
-      const stop = new Set([
-        'what','is','are','how','does','do','work','explain','tell','me','about',
-        'the','a','an','in','for','to','with','and','or','calculate','design',
-        'show','simulate','please','dost','hey','can','you','give','write','code',
-        'example','formula','interactive','launch','create'
-      ]);
-      const words = rawQuery.replace(/[^\w\s\-\.]/g, ' ').split(/\s+/).filter(w => w.length > 1 && !stop.has(w.toLowerCase()));
-      return words.slice(0, 4).join(' ') || rawQuery.slice(0, 36);
+    function classifyClientIntent(query) {
+      const q = query.toLowerCase().trim();
+      const words = q.split(/\s+/);
+
+      if (['4-20', '4 to 20', 'current loop', 'rc filter', 'low pass', 'low-pass', 'cutoff', 'bode', 'ohm', 'oscilloscope', 'pwm', 'fourier', 'harmonic', 'nyquist', 'shunt'].some(k => q.includes(k))) {
+        return 'engineering_lab';
+      }
+
+      const greetings = [
+        'hi', 'hello', 'hey', 'hii', 'heyy', 'yo', 'namaste', 'good morning',
+        'good afternoon', 'good evening', 'good night', 'how are you', 'how r u',
+        'what\'s up', 'whats up', 'sup', 'who are you', 'what is your name',
+        'whats your name', 'are you there', 'can we talk', 'talk to me',
+        'thank you', 'thanks', 'cool', 'awesome', 'great', 'nice', 'okay', 'ok',
+        'tell me a joke', 'motivate me', 'i am tired', 'i\'m tired', 'i am bored',
+        'i feel stressed', 'help me', 'what can you do'
+      ];
+      if (greetings.includes(q) || (words.length <= 7 && greetings.some(g => q.includes(g)))) {
+        return 'casual_chat';
+      }
+
+      if (['plan my day', 'schedule', 'routine', 'time table', 'timetable', 'to-do', 'todo', 'organize', 'productive', 'study plan', 'workout', 'remind me', 'habit', 'prioritize'].some(k => q.includes(k))) {
+        return 'daily_planner';
+      }
+
+      if (['write an email', 'draft', 'email to', 'linkedin post', 'cover letter', 'message to', 'reply to', 'summarize'].some(k => q.includes(k))) {
+        return 'writing_assistant';
+      }
+
+      if (['write code', 'python', 'javascript', 'c++', 'fastapi', 'react', 'kotlin', 'android', 'sql', 'algorithm', 'debug', 'labview'].some(k => q.includes(k))) {
+        return 'coding_assistant';
+      }
+
+      return 'knowledge_qa';
     }
 
-    async function fetchLiveSourcesClient(query) {
+    function extractSearchTopic(rawQuery) {
+      const stop = new Set([
+        'what','is','are','was','were','who','how','does','do','did','work','explain',
+        'tell','me','about','the','a','an','in','for','to','with','and','or','calculate',
+        'design','show','simulate','please','dost','dost.ai','hey','hi','hello','can',
+        'you','give','write','code','example','formula','interactive','launch','create',
+        'today','doing','help','my','your'
+      ]);
+      const words = rawQuery.replace(/[^\w\s\-\.]/g, ' ').split(/\s+/).filter(w => w.length > 1 && !stop.has(w.toLowerCase()));
+      return words.slice(0, 4).join(' ');
+    }
+
+    async function fetchLiveSourcesClient(query, intent) {
+      if (intent === 'casual_chat' || intent === 'daily_planner' || intent === 'writing_assistant') {
+        return { sources: [], wikiExtract: '' };
+      }
       const topic = extractSearchTopic(query);
+      if (!topic) return { sources: [], wikiExtract: '' };
+
       const sources = [];
+      let wikiExtract = '';
 
       const wikiPromise = fetch(`https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(topic)}&utf8=1&format=json&origin=*&srlimit=2`)
         .then(r => r.json())
-        .then(data => {
+        .then(async data => {
           const items = (data?.query?.search || []).slice(0, 2);
-          items.forEach(item => {
+          for (let i = 0; i < items.length; i++) {
+            const item = items[i];
+            let snip = item.snippet.replace(/<[^>]+>/g, '').slice(0, 180);
+            try {
+              const sumResp = await fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(item.title.replace(/ /g, '_'))}`);
+              if (sumResp.ok) {
+                const sumData = await sumResp.json();
+                if (sumData.extract) {
+                  if (i === 0) wikiExtract = sumData.extract;
+                  snip = sumData.extract.slice(0, 180) + (sumData.extract.length > 180 ? '...' : '');
+                }
+              }
+            } catch (e) {}
             sources.push({
               provider: 'Wikipedia',
               title: item.title,
-              snippet: item.snippet.replace(/<[^>]+>/g, ''),
+              snippet: snip,
               url: `https://en.wikipedia.org/wiki/${encodeURIComponent(item.title.replace(/ /g, '_'))}`,
               badge: 'Encyclopedia'
             });
-          });
+          }
         }).catch(() => {});
 
       const ghPromise = fetch(`https://api.github.com/search/repositories?q=${encodeURIComponent(topic)}&sort=stars&order=desc&per_page=2`)
@@ -1720,45 +1774,32 @@
         .then(data => {
           const items = (data?.items || []).slice(0, 2);
           items.forEach(repo => {
+            const rawDesc = (repo.description || 'Open-source repository.').replace(/\s+/g, ' ').trim();
             sources.push({
               provider: 'GitHub',
-              title: repo.full_name,
-              snippet: repo.description || 'Open-source engineering & software repository.',
+              title: (repo.full_name || '').slice(0, 75),
+              snippet: rawDesc.slice(0, 160) + (rawDesc.length > 160 ? '...' : ''),
               url: repo.html_url,
               badge: `★ ${(repo.stargazers_count || 0).toLocaleString()} · ${repo.language || 'Code'}`
             });
           });
         }).catch(() => {});
 
-      const hnPromise = fetch(`https://hn.algolia.com/api/v1/search?query=${encodeURIComponent(topic)}&tags=story&hitsPerPage=1`)
-        .then(r => r.ok ? r.json() : null)
-        .then(data => {
-          const hit = (data?.hits || [])[0];
-          if (hit && hit.title) {
-            sources.push({
-              provider: 'HackerNews',
-              title: hit.title,
-              snippet: `Engineering community discussion (${hit.points || 0} upvotes · ${hit.num_comments || 0} comments)`,
-              url: hit.url || `https://news.ycombinator.com/item?id=${hit.objectID}`,
-              badge: `▲ ${hit.points || 0} pts`
-            });
-          }
-        }).catch(() => {});
-
-      await Promise.allSettled([wikiPromise, ghPromise, hnPromise]);
-      return sources.slice(0, 4);
+      await Promise.allSettled([wikiPromise, ghPromise]);
+      return { sources: sources.slice(0, 4), wikiExtract };
     }
 
-    function detectClientVisualWidget(query) {
+    function detectClientVisualWidget(query, intent) {
+      if (intent !== 'engineering_lab') return null;
       const q = query.toLowerCase();
-      if (q.includes('4-20') || q.includes('current loop') || q.includes('plc') || q.includes('adc')) {
+      if (q.includes('4-20') || q.includes('current loop') || q.includes('plc') || q.includes('shunt')) {
         return {
           widget_type: 'circuit_calc',
           title: 'Interactive 4–20mA Current Loop & 12-Bit ADC Lab',
           params: { mode: '4_20ma', current_ma: 12.0, shunt_ohm: 250.0 }
         };
       }
-      if (q.includes('rc') || q.includes('filter') || q.includes('cutoff') || q.includes('bode') || q.includes('capacitor')) {
+      if (q.includes('rc') || q.includes('filter') || q.includes('cutoff') || q.includes('bode')) {
         return {
           widget_type: 'circuit_calc',
           title: 'Interactive RC Low-Pass Filter & Cutoff Frequency Lab',
@@ -1772,112 +1813,177 @@
       };
     }
 
-    function buildClientExpertMarkdown(query, sources) {
-      const q = query.toLowerCase();
-      if (q.includes('4-20') || q.includes('current loop')) {
-        return `### ⚡ 4–20mA Industrial Current Loop & 12-Bit ADC Interface
+    function buildClientConversationalMarkdown(query, intent, sources, wikiExtract) {
+      const q = query.toLowerCase().trim();
+
+      if (intent === 'casual_chat') {
+        if (['how are you', 'how r u', 'how\'s it going', 'how are u'].some(w => q.includes(w))) {
+          return `Hey my friend! 👋 I'm doing awesome — all neural cores are humming smoothly and I'm right here at your side!
+
+How is your day going so far? Tell me what's on your mind — whether you want to:
+- 🗓️ **Plan out your day or prioritize your tasks**
+- ✉️ **Draft an email, LinkedIn post, or client message**
+- 💻 **Brainstorm or debug Python / C++ / LabVIEW / Android code**
+- ⚡ **Run an interactive circuit or signal simulation**
+
+Or we can just chat! What are we tackling today, Dost?`;
+        }
+        if (['who are you', 'your name', 'what can you do', 'help me'].some(w => q.includes(w))) {
+          return `I'm **Dost.ai** — your personal AI companion, chief-of-staff, and engineering co-pilot! 🤝✨
+
+*"Dost"* means a trusted friend, and I'm built to help you with both **everyday life** and **deep technical work**:
+1. **Personal Executive Assistant:** Daily schedules, habit tracking, Pomodoro deep-work sprints, drafting emails, and brainstorming ideas.
+2. **Software & AI Architect:** Writing & debugging Python, C/C++, FastAPI, Kotlin, ROS, and LabVIEW architectures.
+3. **Live Research Engine:** Fetching verified insights from Wikipedia and GitHub repositories.
+4. **Interactive Hardware Lab:** Launching live 4–20mA current loop calculators, RC filter Bode labs, and 60 FPS oscilloscopes whenever you ask for them.
+
+Just talk to me naturally — what can I do for you right now?`;
+        }
+        if (['joke', 'funny', 'laugh'].some(w => q.includes(w))) {
+          return `Haha, alright Dost, here's one for you: 😄
+
+> **Why do hardware engineers and software engineers never agree on anything?**
+> Because hardware engineers think every bug can be fixed in firmware, and software engineers think a \`0.1 µF\` decoupling capacitor is black magic! ⚡😂
+
+Want another one, or shall we build something cool today?`;
+        }
+        if (['tired', 'stressed', 'bored', 'exhausted', 'motivate'].some(w => q.includes(w))) {
+          return `I hear you, Dost. Take a deep breath, unclench your shoulders, and grab a glass of water right now. 💧🌿
+
+Even the best systems need cooldown cycles so they don't thermal-throttle. Tell me the **single smallest task** on your plate today — I'll do 80% of the heavy lifting for you right now so you can relax guilt-free!`;
+        }
+        if (['thank', 'thanks', 'awesome', 'great', 'cool', 'nice'].some(w => q.includes(w))) {
+          return `Always got your back, Dost! 🙌⚡ Let me know whenever you need anything else — whether it's a quick brainstorm, a schedule tweak, or a deep technical dive.`;
+        }
+        return `Hey there, Dost! 👋 Great to hear from you!
+
+I'm right here and ready to roll. What's on your agenda right now? You can ask me to **plan your day**, **write or reply to a message**, **explain any topic**, **write code**, or **just chat**!`;
+      }
+
+      if (intent === 'daily_planner') {
+        return `### 🗓️ Dost.ai Personal Game Plan for You
+
+I've got you covered! Let's structure your time so you get high-impact results without burning out:
+
+#### ⚡ Priority Block 1 — Deep Focus (First 90 Mins)
+- **Goal:** Tackle your #1 hardest engineering or coding task while your mental energy is at 100%.
+- **Dost Tip:** Open the **⏱️ Daily Focus & Tools** drawer (top right) and start a **25:00 Pomodoro sprint** with phone notifications muted.
+
+#### ⚙️ Priority Block 2 — Execution & Communication (Mid-Day)
+- **Goal:** Code reviews, hardware/protocol testing, replying to messages, and documentation.
+- **Hydration & Stretch Check:** Drink 500 ml of water and take a 10-minute walk after lunch.
+
+#### 🚀 Priority Block 3 — Learning & Open-Source Growth (Evening — 45 Mins)
+- **Goal:** 1 GitHub commit, reading 1 technical article, or refining your projects.
+
+> **Want me to customize this?** Tell me the **2 or 3 specific tasks** you need to finish today and what time you want to wrap up, and I'll build an exact hour-by-hour timetable for you!`;
+      }
+
+      if (intent === 'writing_assistant') {
+        return `### ✍️ Dost.ai Draft for: *${query}*
+
+Here is a crisp, professional draft you can copy and customize right away:
+
+\`\`\`text
+Subject: Quick Update & Next Steps
+
+Hi [Name],
+
+Hope you're having a great week!
+
+I wanted to reach out regarding [Topic / Project]. Everything is progressing smoothly on my end, and I have finalized the core implementation and verification steps.
+
+Please let me know if you have 10 minutes this week to review the latest updates or if there are any specific adjustments you'd like me to prioritize.
+
+Best regards,
+Kiran Shivakumar
+\`\`\`
+
+Tell me who you're sending this to and any key details you want included, and I'll tailor it word-for-word!`;
+      }
+
+      if (intent === 'engineering_lab') {
+        if (q.includes('4-20') || q.includes('current loop')) {
+          return `### ⚡ 4–20mA Industrial Current Loop & 12-Bit ADC Interface
 
 In industrial automation and PLC instrumentation, a **4–20mA current loop** transmits sensor telemetry over long twisted-pair cables with high noise immunity and built-in **live-zero wire-break detection** ($I < 3.6\\text{ mA}$).
 
-#### 1. Precision Shunt & Scaling Equations
-Across a precision $R_{\\text{shunt}} = 250\\,\\Omega$ (or $165\\,\\Omega$ for $3.3\\text{ V}$ MCUs), the sensed voltage and normalized engineering value $\\text{PV}$ are governed by:
-
 $$V_{\\text{ADC}} = I_{\\text{loop}} \\times R_{\\text{shunt}}, \\qquad \\text{PV}(I) = \\text{PV}_{\\text{min}} + \\left(\\frac{I_{\\text{mA}} - 4.0}{16.0}\\right)\\cdot(\\text{PV}_{\\text{max}} - \\text{PV}_{\\text{min}})$$
 
-- **Live Zero ($4.0\\text{ mA}$):** $V_{\\text{min}} = 0.004\\text{ A} \\times 250\\,\\Omega = 1.000\\text{ V}$ ($\\text{ADC}_{12\\text{-bit}} \\approx 819$)
-- **Full Scale ($20.0\\text{ mA}$):** $V_{\\text{max}} = 0.020\\text{ A} \\times 250\\,\\Omega = 5.000\\text{ V}$ ($\\text{ADC}_{12\\text{-bit}} = 4095$)
+- **Live Zero ($4.0\\text{ mA}$ across $250\\,\\Omega$):** $1.000\\text{ V}$ ($\\text{ADC}_{12\\text{-bit}} \\approx 819$)
+- **Full Scale ($20.0\\text{ mA}$ across $250\\,\\Omega$):** $5.000\\text{ V}$ ($\\text{ADC}_{12\\text{-bit}} = 4095$)
 
 \`\`\`c
-// Dost.ai Embedded C Firmware: 12-Bit STM32 ADC 4-20mA Reader with Wire-Break Alarm
-#include <stdint.h>
-
-typedef struct {
-    float current_ma;
-    float process_value;
-    uint8_t fault_open_wire;
-} DostLoopResult_t;
-
-DostLoopResult_t Dost_Read420mA(uint16_t adc_raw, float v_ref, float r_shunt, float pv_min, float pv_max) {
-    DostLoopResult_t res;
-    float v_in = ((float)adc_raw / 4095.0f) * v_ref;
-    res.current_ma = (v_in / r_shunt) * 1000.0f;
-    res.fault_open_wire = (res.current_ma < 3.6f) ? 1U : 0U;
-
-    float span = (res.current_ma - 4.0f) / 16.0f;
-    if (span < 0.0f) span = 0.0f;
-    if (span > 1.0f) span = 1.0f;
-    res.process_value = pv_min + span * (pv_max - pv_min);
-    return res;
+// Dost.ai Embedded C: 12-Bit STM32 ADC 4-20mA Reader with Wire-Break Alarm
+float Dost_Read420mA_Percent(uint16_t adc_raw, float v_ref, float r_shunt) {
+    float v_sense = ((float)adc_raw / 4095.0f) * v_ref;
+    float i_ma = (v_sense / r_shunt) * 1000.0f;
+    if (i_ma < 3.6f) return -1.0f; // Open-wire fault alarm
+    return ((i_ma - 4.0f) / 16.0f) * 100.0f;
 }
 \`\`\`
 
-> **Interactive Lab Below:** Drag the **Loop Current ($\\text{mA}$)** and **Shunt Resistor ($\\Omega$)** sliders in the visual card below to inspect live voltage drop, power dissipation, and 12-bit ADC counts!`;
+👇 **Use the interactive sliders below** to test different loop currents and shunt resistors!`;
+        }
+        if (q.includes('rc') || q.includes('filter') || q.includes('cutoff')) {
+          return `### 🎛️ First-Order RC Low-Pass Filter & Bode Cutoff Lab
+
+$$H(j\\omega) = \\frac{1}{1 + j\\omega R C}, \\qquad f_c = \\frac{1}{2\\pi R C}$$
+
+👇 **Drag the Resistance ($R$) and Capacitance ($C$) sliders below** to compute the exact cutoff frequency ($f_c$), time constant ($\\tau$), and Nyquist sampling rate in real time!`;
+        }
+        return `### 🌊 Signal & Waveform Analysis: *${query}*
+
+I've launched the **60 FPS Interactive Oscilloscope** below so you can visualize the harmonic waveform and adjust frequency, overtones, and noise floor in real time!
+
+$$x(t) = \\sum_{k=1}^{N} A_k \\sin(2\\pi k f_0 t + \\phi_k)$$`;
       }
 
-      if (q.includes('rc') || q.includes('filter') || q.includes('cutoff')) {
-        return `### 🎛️ First-Order RC Low-Pass Filter & Bode Attenuation Analysis
-
-An **RC low-pass filter** attenuates high-frequency switching noise and prevents aliasing prior to ADC sampling while passing signals below the $-3\\text{ dB}$ cutoff frequency $f_c$.
-
-#### 1. Transfer Function & $-3\\text{ dB}$ Cutoff Derivation
-In the complex frequency domain ($s = j\\omega$), the capacitive reactance is $X_C = \\frac{1}{j\\omega C}$:
-
-$$H(j\\omega) = \\frac{V_{\\text{out}}(j\\omega)}{V_{\\text{in}}(j\\omega)} = \\frac{1}{1 + j\\omega R C}, \\qquad f_c = \\frac{1}{2\\pi R C}$$
-
-At $f = f_c$, the magnitude response drops to $\\frac{1}{\\sqrt{2}} \\approx 0.7071$ ($-3.01\\text{ dB}$) and the phase shift is $\\phi = -\\arctan(f / f_c) = -45^\\circ$.
-
-\`\`\`python
-# Dost.ai Python Signal Conditioning & Nyquist Verification
-import math
-
-def design_rc_filter(r_ohm: float = 1000.0, c_nf: float = 100.0, signal_freq_hz: float = 1000.0):
-    c_farad = c_nf * 1e-9
-    f_cutoff = 1.0 / (2.0 * math.pi * r_ohm * c_farad)
-    ratio = signal_freq_hz / f_cutoff
-    gain = 1.0 / math.sqrt(1.0 + ratio**2)
-    gain_db = 20.0 * math.log10(gain)
-    phase_deg = -math.degrees(math.atan(ratio))
-    return {"f_cutoff_hz": round(f_cutoff, 2), "gain_db": round(gain_db, 2), "phase_deg": round(phase_deg, 1)}
-
-print(design_rc_filter(1000, 100, 1591.5))
-\`\`\``;
+      if (wikiExtract) {
+        const refBullets = sources.length
+          ? `\n\n#### 🔗 Verified References\n` + sources.map(s => `- **[${s.provider}: ${s.title}](${s.url})** — ${s.snippet}`).join('\n')
+          : '';
+        return `### 💡 Dost.ai Answer: *${query}*\n\n${wikiExtract}${refBullets}\n\nWould you like me to dive deeper into any part of this, show a practical example, or write code for it?`;
       }
 
-      const srcList = sources.length
-        ? `\n\n#### 🌐 Live Multi-Source Intelligence Synthesized\n` +
-          sources.map(s => `- **[${s.provider}] [${s.title}](${s.url})** — ${s.snippet}`).join('\n')
-        : '';
+      return `### 🤝 Dost.ai Personal Assistant
 
-      return `### ✨ Dost.ai Visual Synthesis: *${query}*
+Got it! Regarding **"${query}"** — I'm right here to help you tackle this:
 
-Here is your structured engineering & technical breakdown with mathematical foundations and executable code:
+1. **Tell me your exact goal:** Whether you want a quick explanation, an action plan, a message draft, or working Python/C++ code.
+2. **Fast Execution:** I'll generate it right here so you can copy or iterate on it immediately.
 
-#### 1. Governing Analytical Model
-In continuous and discrete-time signal processing and systems engineering, harmonic superposition and Nyquist-Shannon sampling follow:
+What part of **"${query}"** should we focus on first, Dost?`;
+    }
 
-$$x(t) = \\sum_{k=1}^{N} A_k \\sin(2\\pi k f_0 t + \\phi_k), \\qquad f_{\\text{sample}} \\ge 2 f_{\\text{max}}$$
-
-\`\`\`python
-# Dost.ai Rapid Systems & Telemetry Analyzer
-import math
-
-def compute_harmonic_rms(fundamental_v: float, harmonics_v: list[float]) -> dict:
-    sum_sq = fundamental_v**2 + sum(h**2 for h in harmonics_v)
-    rms = math.sqrt(sum_sq / 2.0)
-    thd_percent = (math.sqrt(sum(h**2 for h in harmonics_v)) / fundamental_v) * 100.0
-    return {"rms_voltage": round(rms, 4), "thd_percent": round(thd_percent, 2)}
-
-print(compute_harmonic_rms(5.0, [0.8, 0.35, 0.15]))
-\`\`\`${srcList}
-
-> **Interactive Oscilloscope Below:** Adjust the **Frequency ($\\text{Hz}$)**, **Harmonic Complexity**, and **Noise Injection** sliders below to inspect the live waveform!`;
+    function getSmartSuggestionsClient(intent) {
+      if (intent === 'casual_chat') {
+        return [
+          'Help me plan a productive schedule for today',
+          'Draft a professional LinkedIn post or email for me',
+          'Tell me a funny engineering joke',
+          'Design a 4-20mA sensor scaling circuit in the Engineering Lab'
+        ];
+      }
+      if (intent === 'daily_planner') {
+        return [
+          'Break my top priority into 25-minute Pomodoro sprints',
+          'Give me a 15-minute evening wind-down checklist',
+          'Draft a quick status update email for my team'
+        ];
+      }
+      return [
+        'Explain this simply with a real-world example',
+        'Give me a step-by-step action plan or code snippet',
+        'Help me plan my schedule for today'
+      ];
     }
 
     // ============================================================================
-    // 3. CALL BACKEND (RENDER / LOCAL FASTAPI) OR DIRECT GEMINI 2.0 FLASH
+    // 3. CALL BACKEND (RENDER / LOCAL FASTAPI) OR DIRECT GEMINI + CONVERSATIONAL BRAIN
     // ============================================================================
     async function queryDostAssistant(userMessage) {
-      // 1. Try Local / Render FastAPI Backend first if on same origin or configured
+      const intent = classifyClientIntent(userMessage);
       const candidateEndpoints = [];
       if (savedBackendUrl) {
         candidateEndpoints.push(`${savedBackendUrl}/api/chat`);
@@ -1893,59 +1999,73 @@ print(compute_harmonic_rms(5.0, [0.8, 0.35, 0.15]))
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
               message: userMessage,
-              history: conversationHistory.slice(-6),
+              history: conversationHistory.slice(-8),
               gemini_key: savedGeminiKey || null,
               mode: currentMode
             })
           });
           if (resp.ok) {
-            return await resp.json();
+            const backendData = await resp.json();
+            // Ensure legacy v2.0 fallback template is never shown for non-engineering chat
+            if (backendData.engine_used === 'Dost.ai Hybrid Synthesis Engine' && intent !== 'engineering_lab') {
+              break;
+            }
+            return backendData;
           }
         } catch (e) {
-          // Proceed to client-side Gemini + Live Search pipeline
+          // Proceed to client-side pipeline
         }
       }
 
-      // 2. Client-side Live Multi-Source Search (Wikipedia + GitHub + HackerNews)
       const t0 = performance.now();
-      const sources = await fetchLiveSourcesClient(userMessage);
-      const visual_widget = detectClientVisualWidget(userMessage);
+      const { sources, wikiExtract } = await fetchLiveSourcesClient(userMessage, intent);
+      const visual_widget = detectClientVisualWidget(userMessage, intent);
       let reply_markdown = null;
-      let engine_used = 'Dost.ai Hybrid Engine + Live Search';
+      let engine_used = 'Dost.ai Personal Assistant Brain';
 
-      // 3. If user configured a Gemini API key, call Google Gemini 2.0 Flash directly
       if (savedGeminiKey) {
-        try {
-          const groundingContext = sources.map(s => `- [${s.provider}] ${s.title}: ${s.snippet} (${s.url})`).join('\n');
-          const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${encodeURIComponent(savedGeminiKey)}`;
-          const sysPrompt = `You are Dost.ai, a top-notch Visual Personal Assistant & Search Engine for engineers, developers, and youth. Format answers with crisp Markdown headings, LaTeX math in $$...$$ or $...$, and clean code blocks.`;
-          const gResp = await fetch(geminiUrl, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              systemInstruction: { parts: [{ text: sysPrompt }] },
-              contents: [{
-                role: 'user',
-                parts: [{ text: `${userMessage}\n\n[Live Search Sources]:\n${groundingContext}` }]
-              }],
-              generationConfig: { temperature: 0.45, maxOutputTokens: 1500 }
-            })
-          });
-          if (gResp.ok) {
-            const gData = await gResp.json();
-            const text = gData?.candidates?.[0]?.content?.parts?.map(p => p.text).join('') || '';
-            if (text.trim()) {
-              reply_markdown = text;
-              engine_used = 'Google Gemini 2.0 Flash + Live Search';
+        const cleanKey = savedGeminiKey.trim().replace(/^["']|["']$/g, '');
+        const modelsToTry = ['gemini-2.5-flash', 'gemini-2.0-flash', 'gemini-2.0-flash-lite', 'gemini-1.5-flash'];
+        const sysPrompt = `You are Dost.ai, a warm, witty, sharp Personal AI Assistant ("Dost" means trusted best friend and companion). Talk naturally and conversationally for greetings, life planning, emails, and advice; use Markdown, code blocks, and LaTeX math when answering technical questions.`;
+        const contents = conversationHistory.slice(-6).map(h => ({
+          role: h.role === 'user' ? 'user' : 'model',
+          parts: [{ text: h.content }]
+        }));
+        const groundingContext = sources.length
+          ? `\n\n[Live Search Context]:\n` + sources.map(s => `- [${s.provider}] ${s.title}: ${s.snippet}`).join('\n')
+          : '';
+        contents.push({
+          role: 'user',
+          parts: [{ text: userMessage + groundingContext }]
+        });
+
+        for (const modelName of modelsToTry) {
+          try {
+            const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent?key=${encodeURIComponent(cleanKey)}`;
+            const gResp = await fetch(geminiUrl, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                systemInstruction: { parts: [{ text: sysPrompt }] },
+                contents,
+                generationConfig: { temperature: 0.65, maxOutputTokens: 1500 }
+              })
+            });
+            if (gResp.ok) {
+              const gData = await gResp.json();
+              const text = gData?.candidates?.[0]?.content?.parts?.map(p => p.text).join('') || '';
+              if (text.trim()) {
+                reply_markdown = text;
+                engine_used = `Google Gemini (${modelName})`;
+                break;
+              }
             }
-          }
-        } catch (err) {
-          console.warn('Direct Gemini call fallback:', err);
+          } catch (err) {}
         }
       }
 
       if (!reply_markdown) {
-        reply_markdown = buildClientExpertMarkdown(userMessage, sources);
+        reply_markdown = buildClientConversationalMarkdown(userMessage, intent, sources, wikiExtract);
       }
 
       return {
@@ -1954,11 +2074,7 @@ print(compute_harmonic_rms(5.0, [0.8, 0.35, 0.15]))
         reply_markdown,
         sources,
         visual_widget,
-        suggestions: [
-          'Derive the step-by-step math & component tolerances',
-          'Generate production C / Python firmware with unit tests',
-          'Simulate extreme fault conditions on the oscilloscope'
-        ],
+        suggestions: getSmartSuggestionsClient(intent),
         latency_ms: Math.round(performance.now() - t0)
       };
     }

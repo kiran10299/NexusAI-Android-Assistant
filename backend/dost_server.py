@@ -273,8 +273,7 @@ async def call_gemini_api(
     message: str,
     history: List[ChatMessage],
     sources: List[SourceItem],
-) -> Optional[str]:
-    url = f"https://generativelanguage.googleapis.com/v1beta/models/{GEMINI_MODEL}:generateContent?key={api_key}"
+) -> Optional[tuple[str, str]]:
     grounding_text = "\n".join(
         [f"- [{s.provider}] {s.title}: {s.snippet} ({s.url})" for s in sources]
     )
@@ -297,15 +296,30 @@ async def call_gemini_api(
             "maxOutputTokens": 1600,
         },
     }
-    resp = await client.post(url, json=payload, timeout=20.0)
-    if resp.status_code == 200:
-        data = resp.json()
-        candidates = data.get("candidates", [])
-        if candidates:
-            parts = candidates[0].get("content", {}).get("parts", [])
-            text = "".join(p.get("text", "") for p in parts)
-            if text.strip():
-                return text
+    models_to_try = [
+        "gemini-2.5-flash",
+        GEMINI_MODEL,
+        "gemini-2.0-flash-lite",
+        "gemini-1.5-flash",
+    ]
+    seen = set()
+    for model_name in models_to_try:
+        if not model_name or model_name in seen:
+            continue
+        seen.add(model_name)
+        url = f"https://generativelanguage.googleapis.com/v1beta/models/{model_name}:generateContent?key={api_key}"
+        try:
+            resp = await client.post(url, json=payload, timeout=18.0)
+            if resp.status_code == 200:
+                data = resp.json()
+                candidates = data.get("candidates", [])
+                if candidates:
+                    parts = candidates[0].get("content", {}).get("parts", [])
+                    text = "".join(p.get("text", "") for p in parts)
+                    if text.strip():
+                        return text, model_name
+        except Exception:
+            continue
     return None
 
 
@@ -393,7 +407,7 @@ async def chat_endpoint(req: ChatRequest):
 
     active_key = (req.gemini_key or DEFAULT_GEMINI_KEY or "").strip()
 
-    async with httpx.AsyncClient(trust_env=False, timeout=2.5) as client:
+    async with httpx.AsyncClient(trust_env=False, timeout=22.0) as client:
         wiki_task = search_wikipedia(client, msg)
         gh_task = search_github(client, msg)
         hn_task = search_hackernews(client, msg)
@@ -405,9 +419,10 @@ async def chat_endpoint(req: ChatRequest):
 
         if active_key:
             try:
-                reply_md = await call_gemini_api(client, active_key, msg, req.history, sources)
-                if reply_md:
-                    engine_used = f"Google Gemini ({GEMINI_MODEL}) + Live Search"
+                gemini_out = await call_gemini_api(client, active_key, msg, req.history, sources)
+                if gemini_out:
+                    reply_md, used_model = gemini_out
+                    engine_used = f"Google Gemini ({used_model}) + Live Search"
             except Exception:
                 reply_md = None
 

@@ -1597,7 +1597,32 @@
 
     const DEFAULT_RENDER_URL = 'https://dost-ai-personal-assistant.onrender.com';
     let savedGeminiKey = localStorage.getItem('dost_gemini_key') || '';
-    let savedBackendUrl = localStorage.getItem('dost_backend_url') || DEFAULT_RENDER_URL;
+    let savedBackendUrl = (localStorage.getItem('dost_backend_url') || DEFAULT_RENDER_URL).replace(/\/+$/, '');
+
+    // Automatically wake & verify the live Render Python FastAPI Backend on startup
+    async function verifyLiveRenderBackend() {
+      try {
+        const resp = await fetch(`${savedBackendUrl}/api/health`, { method: 'GET' });
+        if (resp.ok) {
+          const info = await resp.json();
+          const badge = document.getElementById('activeEngineBadgeText');
+          const sideTitle = document.getElementById('sidebarEngineTitle');
+          const sideSub = document.getElementById('sidebarEngineSub');
+          if (info.gemini_configured) {
+            badge.textContent = `Dost.ai · Render Cloud (${info.model || 'Gemini 2.0'}) Online`;
+            sideTitle.textContent = 'Render + Gemini 2.0 Online';
+            sideSub.textContent = 'dost-ai-personal-assistant.onrender.com';
+          } else {
+            badge.textContent = 'Dost.ai · Render Python Backend Online';
+            sideTitle.textContent = 'Render FastAPI Connected';
+            sideSub.textContent = 'Add GEMINI_API_KEY in Render Env or Setup';
+          }
+        }
+      } catch (e) {
+        // Silent fallback if waking from cold start
+      }
+    }
+    setTimeout(verifyLiveRenderBackend, 150);
 
     function updateEngineBadges() {
       const badge = document.getElementById('activeEngineBadgeText');

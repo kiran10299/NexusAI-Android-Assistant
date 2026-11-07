@@ -1595,8 +1595,9 @@
     let conversationHistory = [];
     let widgetCounter = 0;
 
+    const DEFAULT_RENDER_URL = 'https://dost-ai-personal-assistant.onrender.com';
     let savedGeminiKey = localStorage.getItem('dost_gemini_key') || '';
-    let savedBackendUrl = localStorage.getItem('dost_backend_url') || '';
+    let savedBackendUrl = localStorage.getItem('dost_backend_url') || DEFAULT_RENDER_URL;
 
     function updateEngineBadges() {
       const badge = document.getElementById('activeEngineBadgeText');

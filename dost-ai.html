@@ -6,14 +6,14 @@
   <meta name="theme-color" content="#04060e" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <title>Dost.ai — Personal AI Assistant & Visual Search Engine</title>
+  <title>Dost.ai v3.0 — Antigravity Personal AI Assistant & Live Tab Tracker</title>
 
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 
-  <!-- KaTeX for Crisp Mathematical Equations -->
+  <!-- KaTeX for Mathematical Equations -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
@@ -28,11 +28,11 @@
   <style>
     :root {
       --bg-void: #04060e;
-      --bg-surface: rgba(12, 17, 34, 0.72);
-      --bg-card: rgba(17, 24, 48, 0.68);
-      --bg-card-hover: rgba(25, 35, 68, 0.85);
+      --bg-surface: rgba(11, 16, 32, 0.78);
+      --bg-card: rgba(16, 23, 45, 0.72);
+      --bg-card-hover: rgba(24, 34, 66, 0.88);
       --border-glass: rgba(255, 255, 255, 0.08);
-      --border-glow: rgba(56, 189, 248, 0.38);
+      --border-glow: rgba(56, 189, 248, 0.42);
       --text-main: #f8fafc;
       --text-secondary: #94a3b8;
       --text-muted: #64748b;
@@ -64,16 +64,15 @@
       -webkit-font-smoothing: antialiased;
     }
 
-    /* Ambient Aurora Mesh Background */
     .aurora-bg {
       position: fixed;
       inset: 0;
       z-index: 0;
       pointer-events: none;
       background:
-        radial-gradient(circle at 18% 12%, rgba(56, 189, 248, 0.13) 0%, transparent 42%),
-        radial-gradient(circle at 82% 18%, rgba(192, 132, 252, 0.13) 0%, transparent 45%),
-        radial-gradient(circle at 50% 88%, rgba(99, 102, 241, 0.11) 0%, transparent 50%);
+        radial-gradient(circle at 16% 12%, rgba(56, 189, 248, 0.14) 0%, transparent 42%),
+        radial-gradient(circle at 84% 16%, rgba(192, 132, 252, 0.13) 0%, transparent 45%),
+        radial-gradient(circle at 50% 88%, rgba(52, 211, 153, 0.09) 0%, transparent 50%);
     }
 
     .aurora-grid {
@@ -84,12 +83,11 @@
       background-image:
         linear-gradient(to right, rgba(255,255,255,0.02) 1px, transparent 1px),
         linear-gradient(to bottom, rgba(255,255,255,0.02) 1px, transparent 1px);
-      background-size: 44px 44px;
-      mask-image: radial-gradient(ellipse at center, black 35%, transparent 80%);
-      -webkit-mask-image: radial-gradient(ellipse at center, black 35%, transparent 80%);
+      background-size: 42px 42px;
+      mask-image: radial-gradient(ellipse at center, black 40%, transparent 82%);
+      -webkit-mask-image: radial-gradient(ellipse at center, black 40%, transparent 82%);
     }
 
-    /* Main App Shell */
     .app-layout {
       position: relative;
       z-index: 1;
@@ -99,16 +97,16 @@
       overflow: hidden;
     }
 
-    /* Left Sleek Navigation Rail / Sidebar */
+    /* Left Antigravity Control Sidebar */
     .sidebar {
-      width: 280px;
-      background: rgba(8, 12, 26, 0.82);
-      backdrop-filter: blur(24px);
-      -webkit-backdrop-filter: blur(24px);
+      width: 285px;
+      background: rgba(7, 10, 22, 0.88);
+      backdrop-filter: blur(26px);
+      -webkit-backdrop-filter: blur(26px);
       border-right: 1px solid var(--border-glass);
       display: flex;
       flex-direction: column;
-      padding: 20px 16px;
+      padding: 18px 14px;
       transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
       flex-shrink: 0;
     }
@@ -117,14 +115,14 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 4px 6px 18px;
+      padding: 4px 6px 14px;
       border-bottom: 1px solid var(--border-glass);
     }
 
     .brand-logo {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 11px;
       text-decoration: none;
       color: var(--text-main);
     }
@@ -132,7 +130,7 @@
     .brand-orb-mini {
       width: 36px;
       height: 36px;
-      border-radius: 12px;
+      border-radius: 11px;
       background: linear-gradient(135deg, #38bdf8 0%, #818cf8 50%, #c084fc 100%);
       display: flex;
       align-items: center;
@@ -146,7 +144,7 @@
 
     .brand-title {
       font-family: var(--font-display);
-      font-size: 1.25rem;
+      font-size: 1.22rem;
       font-weight: 700;
       letter-spacing: -0.02em;
       background: linear-gradient(90deg, #ffffff 0%, #bae6fd 55%, #e9d5ff 100%);
@@ -155,25 +153,25 @@
     }
 
     .brand-subtitle {
-      font-size: 0.68rem;
-      color: var(--accent-cyan);
+      font-size: 0.65rem;
+      color: var(--accent-emerald);
       font-family: var(--font-mono);
       letter-spacing: 0.06em;
       text-transform: uppercase;
       display: block;
     }
 
-    .new-thread-btn {
-      margin-top: 16px;
+    .brief-me-btn {
+      margin-top: 14px;
       width: 100%;
-      padding: 11px 14px;
+      padding: 11px 13px;
       border-radius: 12px;
-      border: 1px solid rgba(56, 189, 248, 0.35);
-      background: linear-gradient(135deg, rgba(56, 189, 248, 0.14), rgba(129, 140, 248, 0.12));
-      color: var(--text-main);
+      border: 1px solid rgba(52, 211, 153, 0.4);
+      background: linear-gradient(135deg, rgba(52, 211, 153, 0.16), rgba(56, 189, 248, 0.14));
+      color: #f8fafc;
       font-family: var(--font-sans);
-      font-weight: 600;
-      font-size: 0.86rem;
+      font-weight: 700;
+      font-size: 0.84rem;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -181,62 +179,61 @@
       transition: all 0.2s ease;
     }
 
-    .new-thread-btn:hover {
-      background: linear-gradient(135deg, rgba(56, 189, 248, 0.24), rgba(129, 140, 248, 0.22));
-      box-shadow: 0 6px 20px rgba(56, 189, 248, 0.2);
+    .brief-me-btn:hover {
+      background: linear-gradient(135deg, rgba(52, 211, 153, 0.26), rgba(56, 189, 248, 0.24));
+      box-shadow: 0 6px 20px rgba(52, 211, 153, 0.22);
       transform: translateY(-1px);
     }
 
     .sidebar-section-label {
-      font-size: 0.68rem;
+      font-size: 0.66rem;
       font-family: var(--font-mono);
       text-transform: uppercase;
       letter-spacing: 0.08em;
       color: var(--text-muted);
-      margin: 20px 6px 8px;
-    }
-
-    .mode-pills {
-      display: flex;
-      flex-direction: column;
-      gap: 5px;
-    }
-
-    .mode-btn {
+      margin: 16px 6px 8px;
       display: flex;
       align-items: center;
-      gap: 10px;
-      padding: 9px 12px;
+      justify-content: space-between;
+    }
+
+    /* Live Mini-Tabs Summary in Sidebar */
+    .sidebar-tabs-preview {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .mini-tab-row {
+      padding: 9px 11px;
       border-radius: 10px;
-      border: 1px solid transparent;
-      background: transparent;
-      color: var(--text-secondary);
-      font-size: 0.84rem;
-      font-weight: 500;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
       cursor: pointer;
-      transition: all 0.18s ease;
-      text-align: left;
+      transition: all 0.18s;
+      font-size: 0.81rem;
+      color: var(--text-secondary);
     }
 
-    .mode-btn:hover {
-      background: rgba(255, 255, 255, 0.04);
-      color: var(--text-main);
-    }
-
-    .mode-btn.active {
-      background: rgba(56, 189, 248, 0.12);
+    .mini-tab-row:hover {
+      background: rgba(56, 189, 248, 0.1);
       border-color: rgba(56, 189, 248, 0.3);
-      color: #f8fafc;
+      color: #fff;
+    }
+
+    .mini-badge {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      padding: 2px 7px;
+      border-radius: 999px;
+      background: rgba(56, 189, 248, 0.16);
+      color: var(--accent-cyan);
       font-weight: 600;
     }
 
-    .mode-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-    }
-
-    /* Quick Engineering & Youth Presets in Sidebar */
     .history-list {
       flex: 1;
       overflow-y: auto;
@@ -252,24 +249,20 @@
       background: rgba(255, 255, 255, 0.025);
       border: 1px solid rgba(255, 255, 255, 0.04);
       color: var(--text-secondary);
-      font-size: 0.79rem;
+      font-size: 0.77rem;
       line-height: 1.35;
       cursor: pointer;
       transition: all 0.18s ease;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
     }
 
     .history-item:hover {
-      background: rgba(56, 189, 248, 0.09);
-      border-color: rgba(56, 189, 248, 0.28);
+      background: rgba(56, 189, 248, 0.1);
+      border-color: rgba(56, 189, 248, 0.3);
       color: var(--text-main);
     }
 
     .sidebar-footer {
-      padding-top: 14px;
+      padding-top: 12px;
       border-top: 1px solid var(--border-glass);
       display: flex;
       flex-direction: column;
@@ -279,17 +272,12 @@
     .engine-status-card {
       padding: 10px 12px;
       border-radius: 12px;
-      background: rgba(15, 23, 42, 0.75);
+      background: rgba(15, 23, 42, 0.78);
       border: 1px solid var(--border-glass);
       display: flex;
       align-items: center;
       justify-content: space-between;
       cursor: pointer;
-      transition: border-color 0.2s;
-    }
-
-    .engine-status-card:hover {
-      border-color: var(--accent-cyan);
     }
 
     .status-led {
@@ -306,7 +294,7 @@
       50% { opacity: 0.55; transform: scale(1.18); }
     }
 
-    /* Center Main Workspace */
+    /* Main Stage */
     .main-stage {
       flex: 1;
       display: flex;
@@ -316,77 +304,84 @@
       overflow: hidden;
     }
 
-    /* Top Glass Header */
+    /* Top Bar + Antigravity Workspace Tabs Bar */
     .top-bar {
-      height: 62px;
-      padding: 0 24px;
+      min-height: 60px;
+      padding: 8px 20px;
       display: flex;
       align-items: center;
       justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
       border-bottom: 1px solid var(--border-glass);
-      background: rgba(6, 9, 20, 0.65);
-      backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
-      flex-shrink: 0;
-      z-index: 10;
+      background: rgba(6, 9, 20, 0.78);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      z-index: 15;
     }
 
-    .top-bar-left {
+    .workspace-tabs {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 6px;
+      overflow-x: auto;
+      padding: 2px 0;
     }
 
-    .mobile-menu-btn {
-      display: none;
-      background: rgba(255,255,255,0.06);
-      border: 1px solid var(--border-glass);
-      color: var(--text-main);
-      width: 36px;
-      height: 36px;
+    .ws-tab {
+      padding: 7px 13px;
       border-radius: 10px;
-      cursor: pointer;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .model-badge {
+      border: 1px solid transparent;
+      background: rgba(255, 255, 255, 0.035);
+      color: var(--text-secondary);
+      font-size: 0.8rem;
+      font-weight: 600;
       display: inline-flex;
       align-items: center;
-      gap: 8px;
-      padding: 6px 12px;
-      border-radius: 999px;
-      background: rgba(56, 189, 248, 0.1);
-      border: 1px solid rgba(56, 189, 248, 0.26);
-      font-family: var(--font-mono);
-      font-size: 0.74rem;
-      color: #e0f2fe;
+      gap: 7px;
       cursor: pointer;
-      transition: all 0.2s;
+      white-space: nowrap;
+      transition: all 0.18s ease;
     }
 
-    .model-badge:hover {
-      background: rgba(56, 189, 248, 0.18);
-      box-shadow: 0 0 15px rgba(56, 189, 248, 0.25);
+    .ws-tab:hover {
+      background: rgba(255, 255, 255, 0.08);
+      color: #fff;
+    }
+
+    .ws-tab.active {
+      background: linear-gradient(135deg, rgba(56, 189, 248, 0.18), rgba(129, 140, 248, 0.18));
+      border-color: rgba(56, 189, 248, 0.45);
+      color: #ffffff;
+      box-shadow: 0 0 18px rgba(56, 189, 248, 0.16);
+    }
+
+    .ws-tab-count {
+      font-family: var(--font-mono);
+      font-size: 0.67rem;
+      padding: 1px 6px;
+      border-radius: 999px;
+      background: rgba(56, 189, 248, 0.2);
+      color: var(--accent-cyan);
     }
 
     .top-bar-actions {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
     }
 
     .glass-action-btn {
-      padding: 7px 13px;
+      padding: 7px 12px;
       border-radius: 10px;
       background: rgba(255, 255, 255, 0.05);
       border: 1px solid var(--border-glass);
       color: var(--text-secondary);
-      font-size: 0.78rem;
+      font-size: 0.77rem;
       font-weight: 600;
       display: inline-flex;
       align-items: center;
-      gap: 7px;
+      gap: 6px;
       cursor: pointer;
       transition: all 0.2s;
       text-decoration: none;
@@ -398,35 +393,47 @@
       border-color: rgba(255, 255, 255, 0.2);
     }
 
-    .glass-action-btn.primary-glow {
-      background: linear-gradient(135deg, rgba(56, 189, 248, 0.18), rgba(192, 132, 252, 0.18));
-      border-color: rgba(56, 189, 248, 0.4);
-      color: #f8fafc;
+    .mobile-menu-btn {
+      display: none;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid var(--border-glass);
+      color: var(--text-main);
+      width: 34px;
+      height: 34px;
+      border-radius: 9px;
+      cursor: pointer;
+      align-items: center;
+      justify-content: center;
     }
 
-    /* Scrollable Chat & Visual Stream */
-    .chat-viewport {
+    /* Tab Panels Container */
+    .tab-panel {
+      display: none;
       flex: 1;
       overflow-y: auto;
-      padding: 28px 24px 160px;
+      padding: 24px 24px 160px;
       scroll-behavior: smooth;
     }
 
-    .chat-container {
+    .tab-panel.active {
+      display: block;
+    }
+
+    .panel-inner {
       max-width: 920px;
       margin: 0 auto;
       display: flex;
       flex-direction: column;
-      gap: 24px;
+      gap: 20px;
     }
 
-    /* Hero Centerpiece (Dost.ai 3D Neural Orb + Greeting) */
+    /* Hero Centerpiece */
     .dost-hero {
       display: flex;
       flex-direction: column;
       align-items: center;
       text-align: center;
-      padding: 18px 16px 10px;
+      padding: 10px 16px 6px;
       transition: all 0.35s ease;
     }
 
@@ -434,27 +441,25 @@
       flex-direction: row;
       justify-content: space-between;
       padding: 10px 18px;
-      background: rgba(15, 23, 42, 0.55);
+      background: rgba(15, 23, 42, 0.6);
       border: 1px solid var(--border-glass);
-      border-radius: 18px;
-      margin-bottom: 4px;
+      border-radius: 16px;
     }
 
     .orb-stage {
       position: relative;
-      width: 170px;
-      height: 170px;
+      width: 145px;
+      height: 145px;
       display: flex;
       align-items: center;
       justify-content: center;
-      margin-bottom: 14px;
+      margin-bottom: 10px;
       cursor: pointer;
-      transition: all 0.35s ease;
     }
 
     .dost-hero.compact .orb-stage {
-      width: 68px;
-      height: 68px;
+      width: 58px;
+      height: 58px;
       margin-bottom: 0;
     }
 
@@ -466,17 +471,16 @@
 
     .orb-state-pill {
       position: absolute;
-      bottom: 2px;
+      bottom: 0;
       padding: 3px 10px;
       border-radius: 999px;
-      background: rgba(4, 6, 14, 0.85);
+      background: rgba(4, 6, 14, 0.88);
       border: 1px solid rgba(56, 189, 248, 0.4);
       font-family: var(--font-mono);
-      font-size: 0.65rem;
+      font-size: 0.63rem;
       letter-spacing: 0.08em;
       text-transform: uppercase;
       color: var(--accent-cyan);
-      pointer-events: none;
     }
 
     .dost-hero.compact .orb-state-pill {
@@ -485,142 +489,150 @@
 
     .hero-greeting {
       font-family: var(--font-display);
-      font-size: clamp(1.65rem, 3.2vw, 2.35rem);
+      font-size: clamp(1.5rem, 2.8vw, 2.1rem);
       font-weight: 700;
       letter-spacing: -0.025em;
-      line-height: 1.2;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
     }
 
     .dost-hero.compact .hero-greeting {
-      font-size: 1.05rem;
+      font-size: 1.0rem;
       margin-bottom: 2px;
       text-align: left;
     }
 
     .gradient-name {
-      background: linear-gradient(135deg, #38bdf8 0%, #818cf8 50%, #e879f9 100%);
+      background: linear-gradient(135deg, #38bdf8 0%, #818cf8 50%, #34d399 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
 
     .hero-tagline {
-      max-width: 620px;
+      max-width: 640px;
       color: var(--text-secondary);
-      font-size: 0.94rem;
-      line-height: 1.55;
-      margin-bottom: 22px;
+      font-size: 0.9rem;
+      line-height: 1.5;
     }
 
     .dost-hero.compact .hero-tagline {
-      font-size: 0.78rem;
-      margin-bottom: 0;
+      font-size: 0.76rem;
       text-align: left;
     }
 
-    /* Bento Starter Cards Grid */
-    .starter-bento {
+    /* Live Status Ticker Bar right under Hero */
+    .live-ticker-bar {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 12px;
-      width: 100%;
-      max-width: 840px;
-      margin-top: 4px;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 10px;
     }
 
-    .dost-hero.compact + .starter-bento {
-      display: none;
-    }
-
-    .bento-card {
-      padding: 16px 18px;
-      border-radius: 16px;
-      background: var(--bg-card);
+    .ticker-card {
+      padding: 12px 14px;
+      border-radius: 14px;
+      background: rgba(15, 23, 42, 0.68);
       border: 1px solid var(--border-glass);
-      text-align: left;
-      cursor: pointer;
-      transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .bento-card:hover {
-      background: var(--bg-card-hover);
-      border-color: rgba(56, 189, 248, 0.42);
-      transform: translateY(-2px);
-      box-shadow: 0 12px 32px rgba(2, 6, 23, 0.65), 0 0 20px rgba(56, 189, 248, 0.12);
-    }
-
-    .bento-card-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
+      cursor: pointer;
+      transition: all 0.2s;
     }
 
-    .bento-tag {
+    .ticker-card:hover {
+      border-color: rgba(56, 189, 248, 0.4);
+      transform: translateY(-1px);
+    }
+
+    .ticker-label {
       font-family: var(--font-mono);
-      font-size: 0.68rem;
+      font-size: 0.66rem;
       text-transform: uppercase;
-      letter-spacing: 0.06em;
-      padding: 3px 8px;
-      border-radius: 6px;
-      background: rgba(56, 189, 248, 0.12);
-      color: var(--accent-cyan);
-    }
-
-    .bento-title {
-      font-weight: 600;
-      font-size: 0.92rem;
-      color: var(--text-main);
-    }
-
-    .bento-desc {
-      font-size: 0.79rem;
       color: var(--text-secondary);
-      line-height: 1.4;
     }
 
-    /* Message Bubbles & Rich Visual Cards */
+    .ticker-val {
+      font-family: var(--font-display);
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #fff;
+      margin-top: 2px;
+    }
+
+    /* Antigravity Agent Step Pills inside Chat Cards */
+    .agent-steps-box {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      padding: 10px 13px;
+      border-radius: 12px;
+      background: rgba(56, 189, 248, 0.05);
+      border: 1px solid rgba(56, 189, 248, 0.18);
+    }
+
+    .agent-steps-title {
+      font-family: var(--font-mono);
+      font-size: 0.66rem;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: var(--accent-cyan);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .agent-step-pill {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-mono);
+      font-size: 0.74rem;
+      color: #cbd5e1;
+    }
+
+    .agent-step-tool {
+      padding: 2px 7px;
+      border-radius: 5px;
+      background: rgba(129, 140, 248, 0.16);
+      color: #c7d2fe;
+      font-weight: 600;
+    }
+
+    /* Message Bubbles */
     .msg-row {
       display: flex;
       flex-direction: column;
       gap: 12px;
-      animation: fadeSlideUp 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+      animation: fadeSlideUp 0.28s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     @keyframes fadeSlideUp {
-      from { opacity: 0; transform: translateY(12px); }
+      from { opacity: 0; transform: translateY(10px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
     .msg-user {
       align-self: flex-end;
       max-width: 78%;
-      padding: 14px 18px;
+      padding: 13px 18px;
       border-radius: 18px 18px 4px 18px;
-      background: linear-gradient(135deg, rgba(56, 189, 248, 0.22), rgba(99, 102, 241, 0.25));
-      border: 1px solid rgba(56, 189, 248, 0.38);
+      background: linear-gradient(135deg, rgba(56, 189, 248, 0.24), rgba(99, 102, 241, 0.26));
+      border: 1px solid rgba(56, 189, 248, 0.4);
       color: #f8fafc;
-      font-size: 0.95rem;
-      line-height: 1.55;
-      box-shadow: 0 8px 25px rgba(2, 6, 23, 0.45);
+      font-size: 0.94rem;
+      line-height: 1.5;
     }
 
     .msg-assistant-card {
       width: 100%;
-      padding: 22px 24px;
+      padding: 20px 22px;
       border-radius: 20px;
-      background: rgba(13, 19, 38, 0.78);
+      background: rgba(12, 18, 36, 0.82);
       backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
       border: 1px solid rgba(255, 255, 255, 0.09);
       box-shadow: 0 14px 40px rgba(2, 6, 23, 0.6);
       display: flex;
       flex-direction: column;
-      gap: 18px;
+      gap: 15px;
     }
 
     .assistant-meta-bar {
@@ -629,7 +641,7 @@
       justify-content: space-between;
       flex-wrap: wrap;
       gap: 8px;
-      padding-bottom: 12px;
+      padding-bottom: 10px;
       border-bottom: 1px solid rgba(255, 255, 255, 0.07);
     }
 
@@ -643,7 +655,7 @@
       width: 28px;
       height: 28px;
       border-radius: 8px;
-      background: linear-gradient(135deg, #38bdf8, #c084fc);
+      background: linear-gradient(135deg, #38bdf8, #34d399);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -653,16 +665,9 @@
       color: #020617;
     }
 
-    .assistant-name-label {
-      font-family: var(--font-display);
-      font-weight: 700;
-      font-size: 0.92rem;
-      color: #f8fafc;
-    }
-
     .engine-pill {
       font-family: var(--font-mono);
-      font-size: 0.69rem;
+      font-size: 0.68rem;
       padding: 3px 9px;
       border-radius: 999px;
       background: rgba(52, 211, 153, 0.12);
@@ -670,206 +675,164 @@
       color: var(--accent-emerald);
     }
 
-    /* Perplexity-Style Live Search Sources Carousel */
-    .sources-section {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-
-    .sources-header {
-      font-family: var(--font-mono);
-      font-size: 0.7rem;
-      text-transform: uppercase;
-      letter-spacing: 0.07em;
-      color: var(--text-secondary);
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .sources-carousel {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
-      gap: 10px;
-    }
-
-    .source-card {
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      gap: 6px;
-      padding: 11px 13px;
-      border-radius: 12px;
-      background: rgba(255, 255, 255, 0.035);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      text-decoration: none;
-      color: var(--text-main);
-      transition: all 0.18s ease;
-    }
-
-    .source-card:hover {
-      background: rgba(56, 189, 248, 0.09);
-      border-color: rgba(56, 189, 248, 0.35);
-      transform: translateY(-2px);
-    }
-
-    .source-card-top {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 6px;
-    }
-
-    .source-provider {
-      font-family: var(--font-mono);
-      font-size: 0.66rem;
-      padding: 2px 7px;
-      border-radius: 5px;
-      background: rgba(56, 189, 248, 0.14);
-      color: var(--accent-cyan);
-      font-weight: 600;
-    }
-
-    .source-badge {
-      font-family: var(--font-mono);
-      font-size: 0.65rem;
-      color: var(--accent-amber);
-    }
-
-    .source-title {
-      font-size: 0.82rem;
-      font-weight: 600;
-      color: #f1f5f9;
-      display: -webkit-box;
-      -webkit-line-clamp: 1;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-    }
-
-    .source-snippet {
-      font-size: 0.74rem;
-      color: var(--text-secondary);
-      line-height: 1.35;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-    }
-
-    /* Rich Rendered Markdown Content */
+    /* Rendered Markdown */
     .rendered-markdown {
-      font-size: 0.94rem;
-      line-height: 1.7;
+      font-size: 0.93rem;
+      line-height: 1.68;
       color: #e2e8f0;
     }
 
-    .rendered-markdown h1,
-    .rendered-markdown h2,
-    .rendered-markdown h3,
-    .rendered-markdown h4 {
+    .rendered-markdown h3, .rendered-markdown h4 {
       font-family: var(--font-display);
-      color: #ffffff;
-      margin: 16px 0 8px;
-      letter-spacing: -0.015em;
-    }
-
-    .rendered-markdown h3 {
-      font-size: 1.12rem;
       color: #bae6fd;
+      margin: 12px 0 6px;
     }
 
-    .rendered-markdown h4 {
-      font-size: 0.98rem;
-      color: #e9d5ff;
-    }
-
-    .rendered-markdown p {
-      margin-bottom: 12px;
-    }
-
-    .rendered-markdown ul,
-    .rendered-markdown ol {
-      margin: 8px 0 14px 20px;
-    }
-
-    .rendered-markdown li {
-      margin-bottom: 6px;
-    }
-
-    .rendered-markdown strong {
-      color: #ffffff;
-      font-weight: 700;
-    }
-
+    .rendered-markdown p { margin-bottom: 10px; }
+    .rendered-markdown ul, .rendered-markdown ol { margin: 6px 0 12px 20px; }
+    .rendered-markdown li { margin-bottom: 5px; }
+    .rendered-markdown strong { color: #fff; }
     .rendered-markdown blockquote {
-      margin: 12px 0;
+      margin: 10px 0;
       padding: 10px 14px;
       border-left: 3px solid var(--accent-cyan);
       background: rgba(56, 189, 248, 0.07);
       border-radius: 0 10px 10px 0;
       color: #bae6fd;
-      font-size: 0.88rem;
     }
 
     .rendered-markdown pre {
       position: relative;
-      margin: 14px 0;
-      border-radius: 14px;
-      background: #090d1a !important;
+      margin: 12px 0;
+      border-radius: 12px;
+      background: #080c18 !important;
       border: 1px solid rgba(255, 255, 255, 0.1);
-      padding: 38px 16px 16px;
+      padding: 36px 14px 14px;
       overflow-x: auto;
       font-family: var(--font-mono);
-      font-size: 0.82rem;
-      line-height: 1.55;
+      font-size: 0.81rem;
     }
 
     .code-header-bar {
       position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 30px;
+      top: 0; left: 0; right: 0;
+      height: 28px;
       padding: 0 12px;
       background: rgba(255, 255, 255, 0.05);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.07);
       display: flex;
       align-items: center;
       justify-content: space-between;
       font-family: var(--font-mono);
-      font-size: 0.68rem;
+      font-size: 0.66rem;
       color: var(--text-secondary);
     }
 
     .copy-code-btn {
-      background: rgba(56, 189, 248, 0.14);
+      background: rgba(56, 189, 248, 0.15);
       border: 1px solid rgba(56, 189, 248, 0.3);
       color: var(--accent-cyan);
       padding: 2px 8px;
       border-radius: 5px;
       font-family: var(--font-mono);
-      font-size: 0.66rem;
+      font-size: 0.65rem;
       cursor: pointer;
     }
 
-    .copy-code-btn:hover {
-      background: rgba(56, 189, 248, 0.28);
+    .suggestions-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+    }
+
+    .suggestion-chip {
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--text-secondary);
+      font-size: 0.76rem;
+      cursor: pointer;
+      transition: all 0.18s;
+    }
+
+    .suggestion-chip:hover {
+      background: rgba(56, 189, 248, 0.14);
+      border-color: rgba(56, 189, 248, 0.4);
       color: #fff;
     }
 
-    .katex-display {
-      padding: 12px 16px;
-      border-radius: 12px;
-      background: rgba(15, 23, 42, 0.85);
-      border: 1px solid rgba(129, 140, 248, 0.25);
-      overflow-x: auto;
-      margin: 12px 0 !important;
+    /* TAB 2, 3, 4 Cards (Tasks, Live Radar, Memory Vault) */
+    .board-card {
+      padding: 20px;
+      border-radius: 18px;
+      background: rgba(13, 19, 38, 0.82);
+      border: 1px solid var(--border-glass);
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
     }
 
-    /* Interactive Generative Visual Widget Card inside Assistant Reply */
+    .board-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .board-title {
+      font-family: var(--font-display);
+      font-size: 1.15rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 9px;
+    }
+
+    .task-item-card {
+      padding: 14px 16px;
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      transition: all 0.2s;
+    }
+
+    .task-item-card:hover {
+      border-color: rgba(56, 189, 248, 0.35);
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .task-item-card.done {
+      opacity: 0.52;
+      text-decoration: line-through;
+    }
+
+    .priority-badge {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      padding: 2px 8px;
+      border-radius: 6px;
+      font-weight: 700;
+    }
+
+    .priority-HIGH {
+      background: rgba(251, 113, 133, 0.16);
+      color: var(--accent-rose);
+      border: 1px solid rgba(251, 113, 133, 0.35);
+    }
+
+    .priority-MEDIUM {
+      background: rgba(251, 191, 36, 0.15);
+      color: var(--accent-amber);
+      border: 1px solid rgba(251, 191, 36, 0.35);
+    }
+
+    /* Visual Lab Widgets */
     .visual-lab-widget {
-      margin-top: 6px;
       padding: 18px;
       border-radius: 16px;
       background: linear-gradient(145deg, rgba(8, 13, 28, 0.92), rgba(15, 23, 45, 0.88));
@@ -879,31 +842,12 @@
       gap: 14px;
     }
 
-    .visual-lab-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
-
-    .visual-lab-title {
-      font-family: var(--font-display);
-      font-size: 0.92rem;
-      font-weight: 700;
-      color: var(--accent-cyan);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
     .widget-canvas-wrap {
       width: 100%;
-      height: 175px;
+      height: 180px;
       border-radius: 12px;
       background: #040711;
       border: 1px solid rgba(255, 255, 255, 0.07);
-      position: relative;
       overflow: hidden;
     }
 
@@ -966,50 +910,25 @@
 
     .telemetry-kpi-label {
       font-family: var(--font-mono);
-      font-size: 0.66rem;
+      font-size: 0.65rem;
       color: var(--text-secondary);
       text-transform: uppercase;
     }
 
     .telemetry-kpi-value {
       font-family: var(--font-mono);
-      font-size: 1.02rem;
+      font-size: 1.0rem;
       font-weight: 700;
       color: #f8fafc;
     }
 
-    /* Follow-up Smart Suggestion Chips */
-    .suggestions-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      padding-top: 4px;
-    }
-
-    .suggestion-chip {
-      padding: 7px 13px;
-      border-radius: 999px;
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      color: var(--text-secondary);
-      font-size: 0.78rem;
-      cursor: pointer;
-      transition: all 0.18s ease;
-    }
-
-    .suggestion-chip:hover {
-      background: rgba(56, 189, 248, 0.14);
-      border-color: rgba(56, 189, 248, 0.4);
-      color: #fff;
-    }
-
-    /* Floating Bottom Command Bar */
+    /* Floating Command Dock */
     .command-dock {
       position: absolute;
-      bottom: 18px;
-      left: 24px;
-      right: 24px;
-      z-index: 20;
+      bottom: 16px;
+      left: 20px;
+      right: 20px;
+      z-index: 25;
       pointer-events: none;
     }
 
@@ -1017,28 +936,21 @@
       max-width: 880px;
       margin: 0 auto;
       pointer-events: auto;
-      background: rgba(10, 15, 32, 0.88);
+      background: rgba(9, 14, 30, 0.92);
       backdrop-filter: blur(24px);
-      -webkit-backdrop-filter: blur(24px);
-      border: 1px solid rgba(56, 189, 248, 0.32);
-      border-radius: 22px;
-      padding: 10px 14px;
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.75), 0 0 28px rgba(56, 189, 248, 0.12);
+      border: 1px solid rgba(56, 189, 248, 0.36);
+      border-radius: 20px;
+      padding: 9px 12px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), 0 0 28px rgba(56, 189, 248, 0.14);
       display: flex;
       align-items: center;
       gap: 10px;
-      transition: border-color 0.2s, box-shadow 0.2s;
-    }
-
-    .command-box:focus-within {
-      border-color: var(--accent-cyan);
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.82), 0 0 34px rgba(56, 189, 248, 0.24);
     }
 
     .voice-mic-btn {
-      width: 42px;
-      height: 42px;
-      border-radius: 14px;
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
       border: 1px solid rgba(255, 255, 255, 0.1);
       background: rgba(255, 255, 255, 0.05);
       color: var(--accent-cyan);
@@ -1046,16 +958,6 @@
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      flex-shrink: 0;
-      transition: all 0.2s;
-    }
-
-    .voice-mic-btn.listening {
-      background: rgba(251, 113, 133, 0.22);
-      border-color: var(--accent-rose);
-      color: var(--accent-rose);
-      box-shadow: 0 0 20px rgba(251, 113, 133, 0.45);
-      animation: pulseLed 1s infinite;
     }
 
     .command-input {
@@ -1065,63 +967,50 @@
       outline: none;
       color: var(--text-main);
       font-family: var(--font-sans);
-      font-size: 0.96rem;
+      font-size: 0.94rem;
       padding: 6px 4px;
     }
 
-    .command-input::placeholder {
-      color: var(--text-muted);
-    }
-
     .send-btn {
-      height: 42px;
-      padding: 0 18px;
-      border-radius: 14px;
+      height: 40px;
+      padding: 0 16px;
+      border-radius: 12px;
       border: none;
-      background: linear-gradient(135deg, #38bdf8 0%, #818cf8 55%, #c084fc 100%);
+      background: linear-gradient(135deg, #38bdf8 0%, #818cf8 55%, #34d399 100%);
       color: #020617;
       font-family: var(--font-display);
       font-weight: 700;
-      font-size: 0.86rem;
+      font-size: 0.84rem;
       cursor: pointer;
       display: flex;
       align-items: center;
       gap: 6px;
-      transition: all 0.2s;
-      flex-shrink: 0;
     }
 
-    .send-btn:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 6px 20px rgba(56, 189, 248, 0.4);
-    }
-
-    /* Slide-Over Youth & Engineering Daily Companion Drawer */
-    .companion-drawer {
+    /* Live Toast Notification */
+    .toast-notification {
       position: fixed;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      width: 350px;
-      max-width: 92vw;
-      background: rgba(8, 12, 26, 0.95);
-      backdrop-filter: blur(28px);
-      border-left: 1px solid var(--border-glass);
-      z-index: 50;
-      padding: 22px 18px;
+      top: 74px;
+      right: 22px;
+      z-index: 90;
+      padding: 12px 16px;
+      border-radius: 14px;
+      background: rgba(11, 17, 34, 0.95);
+      border: 1px solid var(--accent-emerald);
+      box-shadow: 0 14px 35px rgba(0, 0, 0, 0.75);
+      display: none;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.82rem;
+      max-width: 360px;
+      animation: fadeSlideUp 0.25s ease;
+    }
+
+    .toast-notification.show {
       display: flex;
-      flex-direction: column;
-      gap: 18px;
-      transform: translateX(105%);
-      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-      overflow-y: auto;
     }
 
-    .companion-drawer.open {
-      transform: translateX(0);
-    }
-
-    /* Settings Modal for Gemini Key & Render Backend */
+    /* Settings Modal */
     .modal-backdrop {
       position: fixed;
       inset: 0;
@@ -1145,49 +1034,33 @@
       border: 1px solid rgba(56, 189, 248, 0.35);
       border-radius: 22px;
       padding: 24px;
-      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.85);
       display: flex;
       flex-direction: column;
-      gap: 16px;
+      gap: 14px;
     }
 
     .modal-input {
       width: 100%;
-      padding: 11px 14px;
-      border-radius: 12px;
+      padding: 10px 13px;
+      border-radius: 10px;
       background: rgba(255, 255, 255, 0.04);
       border: 1px solid rgba(255, 255, 255, 0.12);
       color: var(--text-main);
       font-family: var(--font-mono);
-      font-size: 0.83rem;
+      font-size: 0.82rem;
       outline: none;
-    }
-
-    .modal-input:focus {
-      border-color: var(--accent-cyan);
     }
 
     @media (max-width: 900px) {
       .sidebar {
         position: fixed;
-        top: 0;
-        bottom: 0;
-        left: 0;
+        top: 0; bottom: 0; left: 0;
         z-index: 60;
         transform: translateX(-105%);
       }
-      .sidebar.open {
-        transform: translateX(0);
-      }
-      .mobile-menu-btn {
-        display: inline-flex;
-      }
-      .starter-bento {
-        grid-template-columns: 1fr;
-      }
-      .msg-user {
-        max-width: 90%;
-      }
+      .sidebar.open { transform: translateX(0); }
+      .mobile-menu-btn { display: inline-flex; }
+      .msg-user { max-width: 90%; }
     }
   </style>
 </head>
@@ -1195,70 +1068,85 @@
   <div class="aurora-bg"></div>
   <div class="aurora-grid"></div>
 
+  <!-- Live Proactive Update Toast -->
+  <div class="toast-notification" id="liveToast">
+    <span style="font-size:1.1rem;">⚡</span>
+    <div>
+      <div style="font-weight:700;color:var(--accent-emerald);font-size:0.76rem;font-family:var(--font-mono);" id="toastTitle">DOST.AI TAB UPDATE</div>
+      <div id="toastBody" style="color:#e2e8f0;font-size:0.8rem;">Synced active tabs & telemetry.</div>
+    </div>
+  </div>
+
   <div class="app-layout">
-    <!-- Left Sidebar -->
+    <!-- Left Antigravity Mission Control Sidebar -->
     <aside class="sidebar" id="sidebar">
       <div class="brand-header">
         <a href="dost-ai.html" class="brand-logo">
           <div class="brand-orb-mini">D</div>
           <div>
             <span class="brand-title">Dost.ai</span>
-            <span class="brand-subtitle">Gemini Visual Assistant</span>
+            <span class="brand-subtitle">Antigravity Personal Agent</span>
           </div>
         </a>
       </div>
 
-      <button class="new-thread-btn" onclick="resetConversation()">
-        <span>+ New Dost.ai Session</span>
-        <span style="font-family:var(--font-mono);font-size:0.72rem;opacity:0.7;">Ctrl+K</span>
+      <button class="brief-me-btn" onclick="requestFullBriefing()">
+        <span>⚡ Brief Me on All Tabs</span>
+        <span style="font-family:var(--font-mono);font-size:0.68rem;">LIVE</span>
       </button>
 
-      <div class="sidebar-section-label">Intelligence Modes</div>
-      <div class="mode-pills" id="modePills">
-        <button class="mode-btn active" data-mode="auto" onclick="setAssistantMode('auto', this)">
-          <span class="mode-dot" style="background:var(--accent-cyan);"></span>
-          All-Rounder Personal Dost
-        </button>
-        <button class="mode-btn" data-mode="engineering" onclick="setAssistantMode('engineering', this)">
-          <span class="mode-dot" style="background:var(--accent-emerald);"></span>
-          Hardware, PLC & Embedded Lab
-        </button>
-        <button class="mode-btn" data-mode="code" onclick="setAssistantMode('code', this)">
-          <span class="mode-dot" style="background:var(--accent-violet);"></span>
-          Full-Stack & Algorithm Architect
-        </button>
-        <button class="mode-btn" data-mode="youth" onclick="setAssistantMode('youth', this)">
-          <span class="mode-dot" style="background:var(--accent-amber);"></span>
-          Career, Research & Exam Prep
-        </button>
+      <div class="sidebar-section-label">
+        <span>Active Monitored Tabs</span>
+        <span style="color:var(--accent-emerald);">● SYNCED</span>
+      </div>
+      <div class="sidebar-tabs-preview">
+        <div class="mini-tab-row" onclick="switchWorkspaceTab('tasks')">
+          <span>📋 Active Tasks & Reminders</span>
+          <span class="mini-badge" id="sideTaskCount">3</span>
+        </div>
+        <div class="mini-tab-row" onclick="switchWorkspaceTab('radar')">
+          <span>📡 Portfolio & GitHub Radar</span>
+          <span class="mini-badge" id="sideRadarCount" style="color:var(--accent-emerald);">LIVE</span>
+        </div>
+        <div class="mini-tab-row" onclick="switchWorkspaceTab('memory')">
+          <span>🧠 Dost Memory Vault</span>
+          <span class="mini-badge" id="sideMemCount">3</span>
+        </div>
+        <div class="mini-tab-row" onclick="switchWorkspaceTab('lab')">
+          <span>⚡ Hardware & Signal Lab</span>
+          <span class="mini-badge">60 FPS</span>
+        </div>
       </div>
 
-      <div class="sidebar-section-label">Quick Assistant Actions</div>
-      <div class="history-list" id="quickPromptsList">
-        <div class="history-item" onclick="triggerPrompt('Hey Dost! How are you doing today? Help me plan a productive schedule for today')">
-          🗓️ Plan My Day & Deep-Work Schedule
+      <div class="sidebar-section-label">Quick Agent Commands</div>
+      <div class="history-list">
+        <div class="history-item" onclick="triggerPrompt('Hey Dost! Give me a full status briefing on all my open tabs, portfolio visitors, and GitHub repos')">
+          📡 "Give me a full status briefing on all my open tabs"
         </div>
-        <div class="history-item" onclick="triggerPrompt('Write a professional email to my manager/client updating them on our project milestone')">
-          ✉️ Draft a Professional Email or Update
+        <div class="history-item" onclick="triggerPrompt('Keep a tab on finishing the LabVIEW Modbus driver validation by 6 PM today')">
+          📌 "Keep a tab on finishing the LabVIEW driver by 6 PM"
         </div>
-        <div class="history-item" onclick="triggerPrompt('Design a 4-20mA current loop sensor interface for a 12-bit STM32 ADC with wire-break detection')">
-          ⚡ 4–20mA Current Loop & STM32 12-Bit ADC Lab
+        <div class="history-item" onclick="triggerPrompt('Remember that my test bench PLC IP is 192.168.1.50 and gateway is 192.168.1.1')">
+          🧠 "Remember that my test bench PLC IP is 192.168.1.50"
         </div>
-        <div class="history-item" onclick="triggerPrompt('Calculate and visualize an RC low-pass anti-aliasing filter cutoff frequency')">
-          🎛️ Interactive RC Low-Pass Filter & Cutoff Lab
+        <div class="history-item" onclick="triggerPrompt('Write a professional update email to my team summarizing today\'s progress')">
+          ✍️ "Draft a professional update email for my team"
+        </div>
+        <div class="history-item" onclick="triggerPrompt('Design a 4-20mA current loop sensor interface for a 12-bit STM32 ADC')">
+          ⚡ "Launch 4–20mA Current Loop & ADC Simulator"
         </div>
       </div>
 
       <div class="sidebar-footer">
         <div class="engine-status-card" onclick="openSettingsModal()">
           <div style="display:flex;align-items:center;gap:10px;">
-            <span class="status-led" id="sidebarLed"></span>
+            <span class="status-led"></span>
             <div>
-              <div style="font-size:0.78rem;font-weight:600;" id="sidebarEngineTitle">Gemini + Live Search</div>
-              <div style="font-size:0.68rem;color:var(--text-secondary);" id="sidebarEngineSub">Click to configure API / Render</div>
+              <div style="font-size:0.76rem;font-weight:600;" id="sidebarEngineTitle">Render + Agent Brain</div>
+              <div style="font-size:0.66rem;color:var(--text-secondary);" id="sidebarEngineSub">dost-ai-personal-assistant</div>
             </div>
           </div>
-          <span style="font-size:0.85rem;color:var(--accent-cyan);">⚙️</span>
+          <span style="color:var(--accent-cyan);">⚙️</span>
         </div>
         <a href="index.html" class="glass-action-btn" style="justify-content:center;width:100%;">
           ← Back to Kiran's Portfolio
@@ -1266,95 +1154,257 @@
       </div>
     </aside>
 
-    <!-- Main Center Stage -->
+    <!-- Main Stage -->
     <main class="main-stage">
-      <!-- Top Glass Header -->
+      <!-- Top Antigravity Multi-Tab Bar -->
       <header class="top-bar">
-        <div class="top-bar-left">
-          <button class="mobile-menu-btn" onclick="toggleSidebar()" aria-label="Menu">☰</button>
-          <div class="model-badge" onclick="openSettingsModal()" id="topModelBadge">
-            <span style="width:7px;height:7px;border-radius:50%;background:var(--accent-cyan);"></span>
-            <span id="activeEngineBadgeText">Dost.ai · Gemini 2.0 + Live Grounding</span>
+        <div style="display:flex;align-items:center;gap:10px;">
+          <button class="mobile-menu-btn" onclick="toggleSidebar()">☰</button>
+          <div class="workspace-tabs">
+            <button class="ws-tab active" id="tabBtn-chat" onclick="switchWorkspaceTab('chat')">
+              💬 Dost Agent Stream
+            </button>
+            <button class="ws-tab" id="tabBtn-tasks" onclick="switchWorkspaceTab('tasks')">
+              📋 Active Tasks & Tabs <span class="ws-tab-count" id="topTaskCount">3</span>
+            </button>
+            <button class="ws-tab" id="tabBtn-radar" onclick="switchWorkspaceTab('radar')">
+              📡 Live Radar & Updates <span class="ws-tab-count" id="topRadarCount">LIVE</span>
+            </button>
+            <button class="ws-tab" id="tabBtn-memory" onclick="switchWorkspaceTab('memory')">
+              🧠 Memory Vault <span class="ws-tab-count" id="topMemCount">3</span>
+            </button>
+            <button class="ws-tab" id="tabBtn-lab" onclick="switchWorkspaceTab('lab')">
+              ⚡ Visual EngiLab
+            </button>
           </div>
         </div>
 
         <div class="top-bar-actions">
-          <button class="glass-action-btn" onclick="toggleVoiceOutput()" id="ttsToggleBtn" title="Toggle Voice Readout">
+          <button class="glass-action-btn" onclick="toggleVoiceOutput()" id="ttsToggleBtn">
             🔊 <span id="ttsStatusLabel">Voice: Off</span>
           </button>
-          <button class="glass-action-btn primary-glow" onclick="toggleCompanionDrawer()">
-            ⏱️ Daily Focus & Tools
-          </button>
           <button class="glass-action-btn" onclick="openSettingsModal()">
-            ⚡ Gemini / Render Setup
+            ⚙️ Gemini / Setup
           </button>
         </div>
       </header>
 
-      <!-- Scrollable Conversation + Visual Canvas -->
-      <div class="chat-viewport" id="chatViewport">
-        <div class="chat-container" id="chatContainer">
-          <!-- Hero Centerpiece -->
+      <!-- ==================================================================== -->
+      <!-- TAB PANEL 1: CONVERSATIONAL ANTIGRAVITY AGENT STREAM                 -->
+      <!-- ==================================================================== -->
+      <div class="tab-panel active" id="panel-chat">
+        <div class="panel-inner">
           <section class="dost-hero" id="dostHero">
-            <div class="orb-stage" onclick="toggleVoiceRecognition()" title="Tap Orb to Talk to Dost.ai">
-              <canvas id="dostOrbCanvas" width="340" height="340"></canvas>
-              <span class="orb-state-pill" id="orbStatePill">NEURAL CORE READY</span>
+            <div class="orb-stage" onclick="toggleVoiceRecognition()" title="Tap Orb to Speak">
+              <canvas id="dostOrbCanvas" width="300" height="300"></canvas>
+              <span class="orb-state-pill" id="orbStatePill">AGENT WATCHING TABS</span>
             </div>
             <div>
               <h1 class="hero-greeting">
-                Hey, I'm <span class="gradient-name">Dost.ai</span> — your personal visual intelligence.
+                Hey Kiran, <span class="gradient-name">Dost.ai</span> is keeping tabs on everything.
               </h1>
               <p class="hero-tagline">
-                Powered by Google Gemini & real-time multi-source search (Wikipedia, GitHub, HackerNews) with interactive oscilloscopes, LaTeX math, and live engineering labs rendered right inside every answer.
+                Talk to me naturally like Antigravity — tell me to <strong>"Keep a tab on [task]"</strong>, <strong>"Remember that [fact]"</strong>, <strong>"Brief me on my updates"</strong>, or ask me anything.
               </p>
             </div>
           </section>
 
-          <!-- Bento Starter Cards -->
-          <section class="starter-bento" id="starterBento">
-            <div class="bento-card" onclick="triggerPrompt('Hey Dost! How are you doing today? Help me plan a productive schedule for my day')">
-              <div class="bento-card-header">
-                <span class="bento-tag">Personal Assistant</span>
-                <span>🤝</span>
+          <!-- Live Status Ticker Cards -->
+          <section class="live-ticker-bar" id="liveTickerBar">
+            <div class="ticker-card" onclick="switchWorkspaceTab('tasks')">
+              <div>
+                <div class="ticker-label">📋 Active Tasks Tracked</div>
+                <div class="ticker-val" id="tickerTasksVal">3 Open Tabs</div>
               </div>
-              <div class="bento-title">Chat & Plan My Day with Dost</div>
-              <div class="bento-desc">Talk naturally like a best friend — organize your schedule, set priorities, or brainstorm ideas.</div>
+              <span style="color:var(--accent-cyan);font-size:1.2rem;">→</span>
             </div>
-
-            <div class="bento-card" onclick="triggerPrompt('Write a clean, professional email to a client/manager sharing our latest project update')">
-              <div class="bento-card-header">
-                <span class="bento-tag">Executive Comms</span>
-                <span>✍️</span>
+            <div class="ticker-card" onclick="switchWorkspaceTab('radar')">
+              <div>
+                <div class="ticker-label">👁️ Portfolio & GitHub Radar</div>
+                <div class="ticker-val" id="tickerRadarVal">Monitoring Live</div>
               </div>
-              <div class="bento-title">Draft Emails, Posts & Messages</div>
-              <div class="bento-desc">Instantly write polished client updates, LinkedIn posts, cover letters, or technical summaries.</div>
+              <span style="color:var(--accent-emerald);font-size:1.2rem;">→</span>
             </div>
-
-            <div class="bento-card" onclick="triggerPrompt('Design a 4-20mA current loop sensor interface for a 12-bit STM32 ADC with wire-break detection and interactive scaling')">
-              <div class="bento-card-header">
-                <span class="bento-tag">Interactive Hardware Lab</span>
-                <span>⚡</span>
+            <div class="ticker-card" onclick="switchWorkspaceTab('memory')">
+              <div>
+                <div class="ticker-label">🧠 Persistent Memory Vault</div>
+                <div class="ticker-val" id="tickerMemVal">3 Notes Stored</div>
               </div>
-              <div class="bento-title">4–20mA & RC Filter Simulator</div>
-              <div class="bento-desc">Derive equations, C firmware, and manipulate live circuit sliders right inside the chat reply.</div>
-            </div>
-
-            <div class="bento-card" onclick="triggerPrompt('What is Retrieval-Augmented Generation (RAG) and how do modern AI agents work?')">
-              <div class="bento-card-header">
-                <span class="bento-tag">Live Knowledge Search</span>
-                <span>🌐</span>
-              </div>
-              <div class="bento-title">Ask Anything & Live Encyclopedia</div>
-              <div class="bento-desc">Synthesizes live Wikipedia & GitHub knowledge into clear, conversational answers.</div>
+              <span style="color:var(--accent-violet);font-size:1.2rem;">→</span>
             </div>
           </section>
 
           <!-- Dynamic Messages Stream -->
-          <div id="messagesStream" style="display:flex;flex-direction:column;gap:22px;"></div>
+          <div id="messagesStream" style="display:flex;flex-direction:column;gap:20px;"></div>
         </div>
       </div>
 
-      <!-- Bottom Floating Command Dock -->
+      <!-- ==================================================================== -->
+      <!-- TAB PANEL 2: ACTIVE TASKS, REMINDERS & PROJECT TABS                  -->
+      <!-- ==================================================================== -->
+      <div class="tab-panel" id="panel-tasks">
+        <div class="panel-inner">
+          <div class="board-card">
+            <div class="board-header">
+              <div>
+                <div class="board-title">📋 Active Tasks, Reminders & Project Tabs</div>
+                <div style="font-size:0.8rem;color:var(--text-secondary);margin-top:2px;">
+                  Add tasks below or simply tell Dost in chat: <em>"Keep a tab on [your task]"</em>
+                </div>
+              </div>
+              <button class="glass-action-btn" onclick="pushTasksSummaryToPhone()">📲 Send Summary to Phone</button>
+            </div>
+
+            <form onsubmit="addTaskFromUI(event)" style="display:flex;gap:8px;flex-wrap:wrap;">
+              <input type="text" id="newTaskTitleInput" class="modal-input" style="flex:1;min-width:220px;" placeholder="Add a new task or tab to track (e.g. Deploy firmware v2.1 at 5 PM)..." required />
+              <select id="newTaskPriorityInput" class="modal-input" style="width:130px;">
+                <option value="HIGH">HIGH Priority</option>
+                <option value="MEDIUM" selected>MEDIUM</option>
+              </select>
+              <button type="submit" class="send-btn">+ Add Tab</button>
+            </form>
+
+            <div id="tasksListContainer" style="display:flex;flex-direction:column;gap:10px;"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================================================================== -->
+      <!-- TAB PANEL 3: LIVE RADAR & STATUS FEED (PORTFOLIO + GITHUB + ALERTS)  -->
+      <!-- ==================================================================== -->
+      <div class="tab-panel" id="panel-radar">
+        <div class="panel-inner">
+          <div class="board-card">
+            <div class="board-header">
+              <div>
+                <div class="board-title">👁️ Live Portfolio Visitor Telemetry (`kiran10299.github.io`)</div>
+                <div style="font-size:0.78rem;color:var(--text-secondary);">
+                  Synced live with <code>ntfy.sh/kiran_shivakumar_portfolio_log_99a7</code>
+                </div>
+              </div>
+              <button class="glass-action-btn" onclick="refreshLiveRadar(true)">🔄 Refresh Now</button>
+            </div>
+            <div id="radarVisitorsList" style="display:flex;flex-direction:column;gap:8px;">
+              <div style="color:var(--text-secondary);font-size:0.84rem;">Scanning live visitor telemetry...</div>
+            </div>
+          </div>
+
+          <div class="board-card">
+            <div class="board-header">
+              <div class="board-title">🐙 GitHub Repositories Watcher (`@kiran10299`)</div>
+              <a href="https://github.com/kiran10299" target="_blank" class="glass-action-btn">Open GitHub ↗</a>
+            </div>
+            <div id="radarGithubList" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px;"></div>
+          </div>
+
+          <div class="board-card">
+            <div class="board-header">
+              <div class="board-title">🔔 Dost.ai Activity & Update Log</div>
+            </div>
+            <div id="radarUpdatesLog" style="display:flex;flex-direction:column;gap:8px;"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================================================================== -->
+      <!-- TAB PANEL 4: DOST MEMORY & NOTES VAULT                               -->
+      <!-- ==================================================================== -->
+      <div class="tab-panel" id="panel-memory">
+        <div class="panel-inner">
+          <div class="board-card">
+            <div class="board-header">
+              <div>
+                <div class="board-title">🧠 Persistent Memory & Notes Vault</div>
+                <div style="font-size:0.8rem;color:var(--text-secondary);margin-top:2px;">
+                  Everything stored here is remembered by Dost.ai in your conversations. Say <em>"Remember that..."</em> in chat or add below!
+                </div>
+              </div>
+            </div>
+
+            <form onsubmit="addMemoryFromUI(event)" style="display:flex;gap:8px;flex-wrap:wrap;">
+              <input type="text" id="newMemTopicInput" class="modal-input" style="width:170px;" placeholder="Topic (e.g. Server IP)" required />
+              <input type="text" id="newMemContentInput" class="modal-input" style="flex:1;min-width:220px;" placeholder="Details to remember..." required />
+              <button type="submit" class="send-btn">🧠 Save to Vault</button>
+            </form>
+
+            <div id="memoryListContainer" style="display:flex;flex-direction:column;gap:10px;"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================================================================== -->
+      <!-- TAB PANEL 5: VISUAL ENGINEERING LAB (OSCILLOSCOPE & 4-20mA)          -->
+      <!-- ==================================================================== -->
+      <div class="tab-panel" id="panel-lab">
+        <div class="panel-inner">
+          <div class="visual-lab-widget">
+            <div class="board-header">
+              <div class="board-title" style="color:var(--accent-cyan);">⚡ Interactive 4–20mA Current Loop & 12-Bit ADC Simulator</div>
+              <span class="engine-pill">Real-Time Hardware Lab</span>
+            </div>
+            <div class="widget-controls-grid">
+              <div class="control-group">
+                <div class="control-label">
+                  <span>Loop Current ($I_{\text{loop}}$)</span>
+                  <span class="control-val" id="val-i-static">12.0 mA</span>
+                </div>
+                <input type="range" min="0" max="24" step="0.1" value="12.0" oninput="update420Widget('static')" id="slider-i-static" />
+              </div>
+              <div class="control-group">
+                <div class="control-label">
+                  <span>Shunt Resistor ($R_{\text{shunt}}$)</span>
+                  <span class="control-val" id="val-r-static">250 Ω</span>
+                </div>
+                <input type="range" min="100" max="500" step="5" value="250" oninput="update420Widget('static')" id="slider-r-static" />
+              </div>
+            </div>
+            <div class="telemetry-readout-row">
+              <div class="telemetry-kpi">
+                <span class="telemetry-kpi-label">ADC Sense Voltage</span>
+                <span class="telemetry-kpi-value" id="kpi-v-static">3.000 V</span>
+              </div>
+              <div class="telemetry-kpi">
+                <span class="telemetry-kpi-label">12-Bit ADC Count (5V)</span>
+                <span class="telemetry-kpi-value" id="kpi-adc-static">2458 / 4095</span>
+              </div>
+              <div class="telemetry-kpi">
+                <span class="telemetry-kpi-label">Process Variable (%)</span>
+                <span class="telemetry-kpi-value" id="kpi-pv-static">50.0%</span>
+              </div>
+              <div class="telemetry-kpi">
+                <span class="telemetry-kpi-label">Loop Status</span>
+                <span class="telemetry-kpi-value" id="kpi-stat-static" style="color:var(--accent-emerald);">NOMINAL LOOP</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="visual-lab-widget">
+            <div class="board-header">
+              <div class="board-title" style="color:var(--accent-cyan);">🌊 60 FPS Harmonic Signal Oscilloscope</div>
+              <span class="engine-pill">Live Canvas</span>
+            </div>
+            <div class="widget-canvas-wrap">
+              <canvas id="scope-canvas-static" width="800" height="180"></canvas>
+            </div>
+            <div class="widget-controls-grid">
+              <div class="control-group">
+                <div class="control-label"><span>Frequency</span><span class="control-val" id="val-freq-static">4.0 Hz</span></div>
+                <input type="range" min="1" max="16" step="0.5" value="4.0" id="slider-freq-static" />
+              </div>
+              <div class="control-group">
+                <div class="control-label"><span>Harmonics</span><span class="control-val" id="val-harm-static">3 Harmonics</span></div>
+                <input type="range" min="1" max="7" step="1" value="3" id="slider-harm-static" />
+              </div>
+              <div class="control-group">
+                <div class="control-label"><span>Noise Floor</span><span class="control-val" id="val-noise-static">5%</span></div>
+                <input type="range" min="0" max="35" step="1" value="5" id="slider-noise-static" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom Floating Command Bar (Always accessible across tabs) -->
       <div class="command-dock">
         <form class="command-box" onsubmit="handleFormSubmit(event)">
           <button type="button" class="voice-mic-btn" id="micBtn" onclick="toggleVoiceRecognition()" title="Voice Input">
@@ -1364,11 +1414,11 @@
             type="text"
             id="userPromptInput"
             class="command-input"
-            placeholder="Ask Dost.ai anything — circuits, code, math, career, or live search..."
+            placeholder="Talk to Dost.ai — 'Keep a tab on...', 'Remember that...', 'Brief me', or ask anything..."
             autocomplete="off"
           />
-          <button type="submit" class="send-btn" id="sendBtn">
-            <span>Ask Dost.ai</span>
+          <button type="submit" class="send-btn">
+            <span>Send</span>
             <span>↗</span>
           </button>
         </form>
@@ -1376,618 +1426,367 @@
     </main>
   </div>
 
-  <!-- Right Slide-Over Youth & Engineering Daily Companion Drawer -->
-  <aside class="companion-drawer" id="companionDrawer">
-    <div style="display:flex;align-items:center;justify-content:space-between;">
-      <div style="font-family:var(--font-display);font-weight:700;font-size:1.05rem;">⏱️ Dost.ai Daily Focus Hub</div>
-      <button class="glass-action-btn" onclick="toggleCompanionDrawer()">✕</button>
-    </div>
-
-    <!-- Pomodoro Focus Timer Card -->
-    <div style="padding:16px;border-radius:16px;background:rgba(255,255,255,0.03);border:1px solid var(--border-glass);text-align:center;">
-      <div style="font-family:var(--font-mono);font-size:0.7rem;color:var(--accent-cyan);text-transform:uppercase;letter-spacing:0.08em;">Deep Work Sprint</div>
-      <div id="pomoDisplay" style="font-family:var(--font-mono);font-size:2.4rem;font-weight:700;margin:10px 0;color:#fff;">25:00</div>
-      <div style="display:flex;gap:8px;justify-content:center;">
-        <button class="glass-action-btn primary-glow" onclick="togglePomodoro()" id="pomoStartBtn">▶ Start</button>
-        <button class="glass-action-btn" onclick="resetPomodoro()">↺ Reset</button>
-      </div>
-    </div>
-
-    <!-- Quick Unit & Decibel Converter -->
-    <div style="padding:16px;border-radius:16px;background:rgba(255,255,255,0.03);border:1px solid var(--border-glass);display:flex;flex-direction:column;gap:10px;">
-      <div style="font-family:var(--font-mono);font-size:0.7rem;color:var(--accent-emerald);text-transform:uppercase;">Instant Voltage Ratio → dB Calculator</div>
-      <div style="display:flex;gap:8px;align-items:center;">
-        <input type="number" id="dbGainInput" value="0.707" step="0.01" class="modal-input" oninput="updateQuickDb()" />
-        <span style="font-family:var(--font-mono);font-size:0.78rem;color:var(--text-secondary);">Vout/Vin</span>
-      </div>
-      <div id="dbGainResult" style="font-family:var(--font-mono);font-size:0.95rem;font-weight:700;color:var(--accent-cyan);">
-        -3.01 dB (Power: 50.0%)
-      </div>
-    </div>
-
-    <!-- Daily Engineering Habits Checklist -->
-    <div style="padding:16px;border-radius:16px;background:rgba(255,255,255,0.03);border:1px solid var(--border-glass);display:flex;flex-direction:column;gap:10px;">
-      <div style="font-family:var(--font-mono);font-size:0.7rem;color:var(--accent-violet);text-transform:uppercase;">Daily Growth Checklist</div>
-      <label style="display:flex;align-items:center;gap:10px;font-size:0.84rem;cursor:pointer;">
-        <input type="checkbox" checked style="accent-color:var(--accent-cyan);" />
-        <span>1 Deep Architecture / Circuit Problem</span>
-      </label>
-      <label style="display:flex;align-items:center;gap:10px;font-size:0.84rem;cursor:pointer;">
-        <input type="checkbox" style="accent-color:var(--accent-cyan);" />
-        <span>Push 1 Open-Source Commit on GitHub</span>
-      </label>
-      <label style="display:flex;align-items:center;gap:10px;font-size:0.84rem;cursor:pointer;">
-        <input type="checkbox" style="accent-color:var(--accent-cyan);" />
-        <span>Review 1 Datasheet or Research Paper</span>
-      </label>
-    </div>
-  </aside>
-
-  <!-- Gemini & Render Backend Configuration Modal -->
+  <!-- Settings Modal -->
   <div class="modal-backdrop" id="settingsModal">
     <div class="modal-card">
       <div style="display:flex;align-items:center;justify-content:space-between;">
-        <div style="font-family:var(--font-display);font-size:1.15rem;font-weight:700;">⚡ Dost.ai Gemini & Free Render Backend</div>
+        <div style="font-family:var(--font-display);font-size:1.1rem;font-weight:700;">⚙️ Dost.ai Engine & Cloud Settings</div>
         <button class="glass-action-btn" onclick="closeSettingsModal()">✕</button>
       </div>
-
-      <p style="font-size:0.82rem;color:var(--text-secondary);line-height:1.5;">
-        <strong>Dost.ai</strong> works immediately out-of-the-box! For direct <strong>Google Gemini 2.0 Flash</strong> responses or your own free <strong>Render.com Python Backend</strong>, paste your key or URL below:
-      </p>
-
       <div>
-        <label style="font-family:var(--font-mono);font-size:0.72rem;color:var(--accent-cyan);display:block;margin-bottom:6px;">
-          1. GOOGLE GEMINI API KEY (Get free at aistudio.google.com)
+        <label style="font-family:var(--font-mono);font-size:0.7rem;color:var(--accent-cyan);display:block;margin-bottom:5px;">
+          GOOGLE GEMINI API KEY (Optional — overrides server key)
         </label>
         <input type="password" id="geminiKeyInput" class="modal-input" placeholder="AIzaSy..." />
       </div>
-
       <div>
-        <label style="font-family:var(--font-mono);font-size:0.72rem;color:var(--accent-violet);display:block;margin-bottom:6px;">
-          2. RENDER.COM PYTHON BACKEND URL (Optional — auto-detected if hosted on Render)
+        <label style="font-family:var(--font-mono);font-size:0.7rem;color:var(--accent-violet);display:block;margin-bottom:5px;">
+          RENDER PYTHON BACKEND URL
         </label>
         <input type="text" id="backendUrlInput" class="modal-input" placeholder="https://dost-ai-personal-assistant.onrender.com" />
       </div>
-
-      <div style="padding:12px;border-radius:12px;background:rgba(56,189,248,0.07);border:1px solid rgba(56,189,248,0.2);font-size:0.76rem;color:#bae6fd;line-height:1.45;">
-        💡 <strong>Free Hosting on Render.com:</strong> This repository includes <code>backend/dost_server.py</code> and <code>render.yaml</code>. Connect your GitHub repo on <strong>render.com → New Blueprint</strong>, paste your <code>GEMINI_API_KEY</code> in Render Environment Variables, and your personal assistant backend runs 24/7 for free!
-      </div>
-
-      <div style="display:flex;justify-content:flex-end;gap:10px;margin-top:4px;">
+      <div style="display:flex;justify-content:flex-end;gap:10px;">
         <button class="glass-action-btn" onclick="closeSettingsModal()">Cancel</button>
-        <button class="send-btn" onclick="saveSettings()">Save & Activate</button>
+        <button class="send-btn" onclick="saveSettings()">Save</button>
       </div>
     </div>
   </div>
 
   <script>
     // ============================================================================
-    // 1. DOST.AI 3D VOLUMETRIC FLUID & PARTICLE NEURAL ORB ENGINE
+    // 1. PERSISTENT STATEFUL TABS (TASKS, MEMORY VAULT, RADAR UPDATES)
     // ============================================================================
-    const orbCanvas = document.getElementById('dostOrbCanvas');
-    const orbCtx = orbCanvas.getContext('2d');
-    let orbState = 'IDLE'; // IDLE | LISTENING | SEARCHING | SPEAKING
-    let orbTime = 0;
-
-    // Generate Fibonacci Sphere 3D Points for the Neural Core
-    const NUM_PARTICLES = 110;
-    const spherePoints = [];
-    const goldenRatio = (1 + Math.sqrt(5)) / 2;
-    for (let i = 0; i < NUM_PARTICLES; i++) {
-      const theta = 2 * Math.PI * i / goldenRatio;
-      const phi = Math.acos(1 - 2 * (i + 0.5) / NUM_PARTICLES);
-      spherePoints.push({
-        x: Math.cos(theta) * Math.sin(phi),
-        y: Math.sin(theta) * Math.sin(phi),
-        z: Math.cos(phi),
-        phase: Math.random() * Math.PI * 2
-      });
-    }
-
-    function setOrbState(state, labelText) {
-      orbState = state;
-      const pill = document.getElementById('orbStatePill');
-      if (pill) {
-        pill.textContent = labelText || state;
-      }
-    }
-
-    function renderDostOrb() {
-      const w = orbCanvas.width;
-      const h = orbCanvas.height;
-      const cx = w / 2;
-      const cy = h / 2;
-      orbCtx.clearRect(0, 0, w, h);
-
-      let speed = 0.018;
-      let baseRadius = 92;
-      let primaryHue = 198;   // Cyan
-      let secondaryHue = 268; // Violet
-      let warpAmp = 6;
-
-      if (orbState === 'LISTENING') {
-        speed = 0.045;
-        primaryHue = 155;
-        secondaryHue = 190;
-        warpAmp = 15;
-      } else if (orbState === 'SEARCHING') {
-        speed = 0.068;
-        primaryHue = 38;
-        secondaryHue = 290;
-        warpAmp = 18;
-      } else if (orbState === 'SPEAKING') {
-        speed = 0.042;
-        primaryHue = 195;
-        secondaryHue = 315;
-        warpAmp = 14;
-      }
-
-      orbTime += speed;
-
-      // Outer Ambient Glow Halo
-      const haloGrad = orbCtx.createRadialGradient(cx, cy, baseRadius * 0.2, cx, cy, baseRadius * 1.55);
-      haloGrad.addColorStop(0, `hsla(${primaryHue}, 95%, 62%, 0.32)`);
-      haloGrad.addColorStop(0.55, `hsla(${secondaryHue}, 90%, 58%, 0.14)`);
-      haloGrad.addColorStop(1, 'rgba(4, 6, 14, 0)');
-      orbCtx.fillStyle = haloGrad;
-      orbCtx.beginPath();
-      orbCtx.arc(cx, cy, baseRadius * 1.55, 0, Math.PI * 2);
-      orbCtx.fill();
-
-      // Multi-layered Harmonic Plasma Ribbons
-      for (let ring = 0; ring < 3; ring++) {
-        orbCtx.beginPath();
-        const ringHue = ring % 2 === 0 ? primaryHue : secondaryHue;
-        orbCtx.strokeStyle = `hsla(${ringHue}, 92%, 68%, ${0.42 - ring * 0.1})`;
-        orbCtx.lineWidth = 2.2 - ring * 0.4;
-
-        for (let a = 0; a <= Math.PI * 2 + 0.05; a += 0.08) {
-          const wave =
-            Math.sin(a * (3 + ring) + orbTime * (1.6 + ring * 0.4)) * warpAmp +
-            Math.cos(a * (5 - ring) - orbTime * 1.2) * (warpAmp * 0.55);
-          const r = baseRadius + wave - ring * 8;
-          const px = cx + Math.cos(a) * r;
-          const py = cy + Math.sin(a) * r;
-          if (a === 0) orbCtx.moveTo(px, py);
-          else orbCtx.lineTo(px, py);
-        }
-        orbCtx.closePath();
-        orbCtx.stroke();
-      }
-
-      // 3D Rotating Fibonacci Neural Core Particles
-      const rotY = orbTime * 0.85;
-      const rotX = orbTime * 0.55;
-      const cosY = Math.cos(rotY), sinY = Math.sin(rotY);
-      const cosX = Math.cos(rotX), sinX = Math.sin(rotX);
-
-      for (let i = 0; i < spherePoints.length; i++) {
-        const p = spherePoints[i];
-        const pulse = 1 + 0.08 * Math.sin(orbTime * 2.5 + p.phase);
-        let x1 = p.x * cosY - p.z * sinY;
-        let z1 = p.z * cosY + p.x * sinY;
-        let y1 = p.y * cosX - z1 * sinX;
-        let z2 = z1 * cosX + p.y * sinX;
-
-        const scale = 220 / (220 + z2 * 75);
-        const sx = cx + x1 * baseRadius * 0.78 * pulse * scale;
-        const sy = cy + y1 * baseRadius * 0.78 * pulse * scale;
-        const alpha = Math.max(0.15, (z2 + 1.2) / 2.2);
-        const dotSize = Math.max(1.2, 2.8 * scale);
-
-        orbCtx.fillStyle = z2 > 0
-          ? `hsla(${primaryHue}, 95%, 75%, ${alpha})`
-          : `hsla(${secondaryHue}, 85%, 65%, ${alpha * 0.6})`;
-        orbCtx.beginPath();
-        orbCtx.arc(sx, sy, dotSize, 0, Math.PI * 2);
-        orbCtx.fill();
-      }
-
-      requestAnimationFrame(renderDostOrb);
-    }
-    requestAnimationFrame(renderDostOrb);
-
-    // ============================================================================
-    // 2. CONFIGURATION, STATE & MULTI-SOURCE LIVE SEARCH ENGINE
-    // ============================================================================
-    let currentMode = 'auto';
+    const DEFAULT_RENDER_URL = 'https://dost-ai-personal-assistant.onrender.com';
+    let savedGeminiKey = localStorage.getItem('dost_gemini_key') || '';
+    let savedBackendUrl = (localStorage.getItem('dost_backend_url') || DEFAULT_RENDER_URL).replace(/\/+$/, '');
     let voiceReadoutEnabled = false;
     let conversationHistory = [];
     let widgetCounter = 0;
 
-    const DEFAULT_RENDER_URL = 'https://dost-ai-personal-assistant.onrender.com';
-    let savedGeminiKey = localStorage.getItem('dost_gemini_key') || '';
-    let savedBackendUrl = (localStorage.getItem('dost_backend_url') || DEFAULT_RENDER_URL).replace(/\/+$/, '');
+    const INITIAL_STATE = {
+      tasks: [
+        { id: 't-1', title: 'Review Ducom Aerospace Tribology DAQ & Vision pipeline telemetry', category: 'Engineering', priority: 'HIGH', status: 'active', due: 'Today · 17:00' },
+        { id: 't-2', title: 'Verify OmniComm Studio USB camera & Modbus RTU fieldbus packets', category: 'Open Source', priority: 'MEDIUM', status: 'active', due: 'Today · 19:30' },
+        { id: 't-3', title: 'Check portfolio visitor logs & recruiter outreach messages', category: 'Career & Network', priority: 'HIGH', status: 'active', due: 'Daily · 20:00' }
+      ],
+      memories: [
+        { id: 'm-1', topic: 'Owner Profile', content: 'Kiran Shivakumar — Application Engineer (Mechatronics, LabVIEW, QMH/DQMH, Python, ROS, Computer Vision/YOLO) in Bengaluru.', timestamp: 'Pinned' },
+        { id: 'm-2', topic: 'Portfolio Telemetry & PIN', content: 'Portfolio: https://kiran10299.github.io/ | Owner Console: Ctrl+Shift+L or ?owner=kiran (PIN: 1029)', timestamp: 'Pinned' },
+        { id: 'm-3', topic: 'Flagship Deployments', content: '1) Dost.ai (dost-ai-personal-assistant.onrender.com), 2) OmniComm Studio, 3) OpenATE-Engine, 4) EdgeVibe-Pro.', timestamp: 'Pinned' }
+      ],
+      updates: [
+        { id: 'u-1', source: 'Dost.ai Core', title: 'Antigravity Multi-Tab Agent v3.0 Active', detail: 'Keeping tabs on your Tasks, Memory Vault, GitHub Repos & Portfolio Visitors.', time: 'Just now' }
+      ]
+    };
 
-    // Automatically wake & verify the live Render Python FastAPI Backend on startup
-    async function verifyLiveRenderBackend() {
+    let dostState = JSON.parse(localStorage.getItem('dost_v3_state') || 'null') || INITIAL_STATE;
+    let liveVisitorsCache = [];
+    let liveGithubCache = [];
+
+    function saveDostState() {
+      localStorage.setItem('dost_v3_state', JSON.stringify(dostState));
+      renderAllTabsUI();
+      // Sync asynchronously to Render backend
+      fetch(`${savedBackendUrl}/api/state`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ tasks: dostState.tasks, memories: dostState.memories })
+      }).catch(() => {});
+    }
+
+    function showToast(title, body) {
+      const t = document.getElementById('liveToast');
+      document.getElementById('toastTitle').textContent = title;
+      document.getElementById('toastBody').textContent = body;
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 4200);
+    }
+
+    function switchWorkspaceTab(tabName) {
+      ['chat', 'tasks', 'radar', 'memory', 'lab'].forEach(name => {
+        document.getElementById(`tabBtn-${name}`)?.classList.toggle('active', name === tabName);
+        document.getElementById(`panel-${name}`)?.classList.toggle('active', name === tabName);
+      });
+      if (tabName === 'radar') {
+        refreshLiveRadar(false);
+      }
+    }
+
+    function renderAllTabsUI() {
+      const activeTasks = dostState.tasks.filter(t => t.status !== 'done');
+      const memCount = dostState.memories.length;
+
+      // Update counters
+      document.getElementById('topTaskCount').textContent = activeTasks.length;
+      document.getElementById('sideTaskCount').textContent = activeTasks.length;
+      document.getElementById('topMemCount').textContent = memCount;
+      document.getElementById('sideMemCount').textContent = memCount;
+      document.getElementById('tickerTasksVal').textContent = `${activeTasks.length} Open Tabs`;
+      document.getElementById('tickerMemVal').textContent = `${memCount} Notes Stored`;
+
+      // Render Tasks Tab
+      const tasksContainer = document.getElementById('tasksListContainer');
+      if (tasksContainer) {
+        tasksContainer.innerHTML = dostState.tasks.map(t => `
+          <div class="task-item-card ${t.status === 'done' ? 'done' : ''}">
+            <label style="display:flex;align-items:center;gap:12px;cursor:pointer;flex:1;">
+              <input type="checkbox" ${t.status === 'done' ? 'checked' : ''} onchange="toggleTaskDone('${t.id}')" style="width:18px;height:18px;accent-color:var(--accent-emerald);" />
+              <div>
+                <div style="font-weight:600;font-size:0.9rem;color:#f8fafc;">${t.title}</div>
+                <div style="font-family:var(--font-mono);font-size:0.7rem;color:var(--text-secondary);margin-top:2px;">
+                  ${t.category || 'Personal Tab'} · ${t.due || 'Tracked'}
+                </div>
+              </div>
+            </label>
+            <div style="display:flex;align-items:center;gap:8px;">
+              <span class="priority-badge priority-${t.priority || 'MEDIUM'}">${t.priority || 'MEDIUM'}</span>
+              <button class="glass-action-btn" onclick="deleteTaskItem('${t.id}')" title="Delete">✕</button>
+            </div>
+          </div>
+        `).join('');
+      }
+
+      // Render Memory Vault Tab
+      const memContainer = document.getElementById('memoryListContainer');
+      if (memContainer) {
+        memContainer.innerHTML = dostState.memories.map(m => `
+          <div class="task-item-card">
+            <div style="flex:1;">
+              <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
+                <span class="mini-badge">${m.topic || 'Note'}</span>
+                <span style="font-family:var(--font-mono);font-size:0.68rem;color:var(--text-muted);">${m.timestamp || ''}</span>
+              </div>
+              <div style="font-size:0.88rem;color:#e2e8f0;line-height:1.45;">${m.content}</div>
+            </div>
+            <button class="glass-action-btn" onclick="deleteMemoryItem('${m.id}')">✕</button>
+          </div>
+        `).join('');
+      }
+
+      // Render Updates Log in Radar Tab
+      const updatesContainer = document.getElementById('radarUpdatesLog');
+      if (updatesContainer) {
+        updatesContainer.innerHTML = (dostState.updates || []).slice(0, 8).map(u => `
+          <div class="task-item-card">
+            <div>
+              <div style="font-weight:600;font-size:0.85rem;color:var(--accent-cyan);">${u.title}</div>
+              <div style="font-size:0.78rem;color:var(--text-secondary);">${u.detail}</div>
+            </div>
+            <span style="font-family:var(--font-mono);font-size:0.7rem;color:var(--text-muted);">${u.time}</span>
+          </div>
+        `).join('');
+      }
+    }
+
+    function toggleTaskDone(id) {
+      const t = dostState.tasks.find(x => x.id === id);
+      if (t) {
+        t.status = t.status === 'done' ? 'active' : 'done';
+        dostState.updates.unshift({
+          id: 'u-' + Date.now(),
+          source: 'Tasks Tab',
+          title: t.status === 'done' ? `Completed: ${t.title}` : `Re-opened: ${t.title}`,
+          detail: 'Updated via Active Tasks Tab',
+          time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+        });
+        saveDostState();
+      }
+    }
+
+    function deleteTaskItem(id) {
+      dostState.tasks = dostState.tasks.filter(x => x.id !== id);
+      saveDostState();
+    }
+
+    function addTaskFromUI(e) {
+      e.preventDefault();
+      const input = document.getElementById('newTaskTitleInput');
+      const prio = document.getElementById('newTaskPriorityInput').value;
+      const title = input.value.trim();
+      if (!title) return;
+      dostState.tasks.unshift({
+        id: 't-' + Date.now(),
+        title,
+        category: 'Active Tab',
+        priority: prio,
+        status: 'active',
+        due: 'Tracked by Dost.ai'
+      });
+      dostState.updates.unshift({
+        id: 'u-' + Date.now(),
+        source: 'Tasks Tab',
+        title: `New Tab Added: ${title}`,
+        detail: `Priority: ${prio}`,
+        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+      });
+      input.value = '';
+      saveDostState();
+      showToast('📌 TAB ADDED', title);
+    }
+
+    function addMemoryFromUI(e) {
+      e.preventDefault();
+      const topicEl = document.getElementById('newMemTopicInput');
+      const contentEl = document.getElementById('newMemContentInput');
+      const topic = topicEl.value.trim();
+      const content = contentEl.value.trim();
+      if (!content) return;
+      dostState.memories.unshift({
+        id: 'm-' + Date.now(),
+        topic: topic || 'Note',
+        content,
+        timestamp: new Date().toLocaleDateString()
+      });
+      topicEl.value = '';
+      contentEl.value = '';
+      saveDostState();
+      showToast('🧠 MEMORY SAVED', `${topic}: ${content.slice(0, 45)}`);
+    }
+
+    function deleteMemoryItem(id) {
+      dostState.memories = dostState.memories.filter(x => x.id !== id);
+      saveDostState();
+    }
+
+    async function pushTasksSummaryToPhone() {
+      const active = dostState.tasks.filter(t => t.status !== 'done');
+      const msg = `Dost.ai Active Tabs (${active.length} Open):\n` + active.map((t, i) => `${i+1}. [${t.priority}] ${t.title}`).join('\n');
       try {
-        const resp = await fetch(`${savedBackendUrl}/api/health`, { method: 'GET' });
-        if (resp.ok) {
-          const info = await resp.json();
-          const badge = document.getElementById('activeEngineBadgeText');
-          const sideTitle = document.getElementById('sidebarEngineTitle');
-          const sideSub = document.getElementById('sidebarEngineSub');
-          if (info.gemini_configured) {
-            badge.textContent = `Dost.ai · Render Cloud (${info.model || 'Gemini 2.0'}) Online`;
-            sideTitle.textContent = 'Render + Gemini 2.0 Online';
-            sideSub.textContent = 'dost-ai-personal-assistant.onrender.com';
-          } else {
-            badge.textContent = 'Dost.ai · Render Python Backend Online';
-            sideTitle.textContent = 'Render FastAPI Connected';
-            sideSub.textContent = 'Add GEMINI_API_KEY in Render Env or Setup';
-          }
-        }
+        await fetch('https://ntfy.sh/kiran_shivakumar_portfolio_alerts_99a7', {
+          method: 'POST',
+          body: msg,
+          headers: { 'Title': 'Dost.ai Active Tabs Briefing', 'Priority': 'default' }
+        });
+        showToast('📲 SENT TO PHONE', 'Pushed active tabs briefing to your ntfy alert channel!');
       } catch (e) {
-        // Silent fallback if waking from cold start
+        showToast('⚠️ OFFLINE', 'Saved locally in Active Tasks tab.');
       }
     }
-    setTimeout(verifyLiveRenderBackend, 150);
 
-    function updateEngineBadges() {
-      const badge = document.getElementById('activeEngineBadgeText');
-      const sideTitle = document.getElementById('sidebarEngineTitle');
-      const sideSub = document.getElementById('sidebarEngineSub');
-      if (savedGeminiKey) {
-        badge.textContent = 'Dost.ai · Gemini 2.0 Flash (Direct Key Active)';
-        sideTitle.textContent = 'Gemini 2.0 Flash Active';
-        sideSub.textContent = 'Direct API + Live Search';
-      } else if (savedBackendUrl) {
-        badge.textContent = 'Dost.ai · Render Python Backend Active';
-        sideTitle.textContent = 'Render FastAPI Connected';
-        sideSub.textContent = savedBackendUrl.replace(/^https?:\/\//, '').slice(0, 26);
-      } else {
-        badge.textContent = 'Dost.ai · Hybrid Cloud + Live Search Ready';
-        sideTitle.textContent = 'Gemini + Live Search';
-        sideSub.textContent = 'Click to add Gemini Key / Render';
-      }
-    }
-    updateEngineBadges();
-
-    function setAssistantMode(mode, btnEl) {
-      currentMode = mode;
-      document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
-      if (btnEl) btnEl.classList.add('active');
-    }
-
-    function toggleSidebar() {
-      document.getElementById('sidebar').classList.toggle('open');
-    }
-
-    function toggleCompanionDrawer() {
-      document.getElementById('companionDrawer').classList.toggle('open');
-    }
-
-    function openSettingsModal() {
-      document.getElementById('geminiKeyInput').value = savedGeminiKey;
-      document.getElementById('backendUrlInput').value = savedBackendUrl;
-      document.getElementById('settingsModal').classList.add('open');
-    }
-
-    function closeSettingsModal() {
-      document.getElementById('settingsModal').classList.remove('open');
-    }
-
-    function saveSettings() {
-      savedGeminiKey = document.getElementById('geminiKeyInput').value.trim();
-      savedBackendUrl = document.getElementById('backendUrlInput').value.trim().replace(/\/+$/, '');
-      localStorage.setItem('dost_gemini_key', savedGeminiKey);
-      localStorage.setItem('dost_backend_url', savedBackendUrl);
-      updateEngineBadges();
-      closeSettingsModal();
-    }
-
-    function resetConversation() {
-      conversationHistory = [];
-      document.getElementById('messagesStream').innerHTML = '';
-      document.getElementById('dostHero').classList.remove('compact');
-      setOrbState('IDLE', 'NEURAL CORE READY');
-    }
-
-    function classifyClientIntent(query) {
-      const q = query.toLowerCase().trim();
-      const words = q.split(/\s+/);
-
-      if (['4-20', '4 to 20', 'current loop', 'rc filter', 'low pass', 'low-pass', 'cutoff', 'bode', 'ohm', 'oscilloscope', 'pwm', 'fourier', 'harmonic', 'nyquist', 'shunt'].some(k => q.includes(k))) {
-        return 'engineering_lab';
-      }
-
-      const greetings = [
-        'hi', 'hello', 'hey', 'hii', 'heyy', 'yo', 'namaste', 'good morning',
-        'good afternoon', 'good evening', 'good night', 'how are you', 'how r u',
-        'what\'s up', 'whats up', 'sup', 'who are you', 'what is your name',
-        'whats your name', 'are you there', 'can we talk', 'talk to me',
-        'thank you', 'thanks', 'cool', 'awesome', 'great', 'nice', 'okay', 'ok',
-        'tell me a joke', 'motivate me', 'i am tired', 'i\'m tired', 'i am bored',
-        'i feel stressed', 'help me', 'what can you do'
-      ];
-      if (greetings.includes(q) || (words.length <= 7 && greetings.some(g => q.includes(g)))) {
-        return 'casual_chat';
-      }
-
-      if (['plan my day', 'schedule', 'routine', 'time table', 'timetable', 'to-do', 'todo', 'organize', 'productive', 'study plan', 'workout', 'remind me', 'habit', 'prioritize'].some(k => q.includes(k))) {
-        return 'daily_planner';
-      }
-
-      if (['write an email', 'draft', 'email to', 'linkedin post', 'cover letter', 'message to', 'reply to', 'summarize'].some(k => q.includes(k))) {
-        return 'writing_assistant';
-      }
-
-      if (['write code', 'python', 'javascript', 'c++', 'fastapi', 'react', 'kotlin', 'android', 'sql', 'algorithm', 'debug', 'labview'].some(k => q.includes(k))) {
-        return 'coding_assistant';
-      }
-
-      return 'knowledge_qa';
-    }
-
-    function extractSearchTopic(rawQuery) {
-      const stop = new Set([
-        'what','is','are','was','were','who','how','does','do','did','work','explain',
-        'tell','me','about','the','a','an','in','for','to','with','and','or','calculate',
-        'design','show','simulate','please','dost','dost.ai','hey','hi','hello','can',
-        'you','give','write','code','example','formula','interactive','launch','create',
-        'today','doing','help','my','your'
-      ]);
-      const words = rawQuery.replace(/[^\w\s\-\.]/g, ' ').split(/\s+/).filter(w => w.length > 1 && !stop.has(w.toLowerCase()));
-      return words.slice(0, 4).join(' ');
-    }
-
-    async function fetchLiveSourcesClient(query, intent) {
-      if (intent === 'casual_chat' || intent === 'daily_planner' || intent === 'writing_assistant') {
-        return { sources: [], wikiExtract: '' };
-      }
-      const topic = extractSearchTopic(query);
-      if (!topic) return { sources: [], wikiExtract: '' };
-
-      const sources = [];
-      let wikiExtract = '';
-
-      const wikiPromise = fetch(`https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(topic)}&utf8=1&format=json&origin=*&srlimit=2`)
-        .then(r => r.json())
-        .then(async data => {
-          const items = (data?.query?.search || []).slice(0, 2);
-          for (let i = 0; i < items.length; i++) {
-            const item = items[i];
-            let snip = item.snippet.replace(/<[^>]+>/g, '').slice(0, 180);
+    // ============================================================================
+    // 2. LIVE RADAR WATCHER (PORTFOLIO VISITORS + GITHUB REPOS)
+    // ============================================================================
+    async function refreshLiveRadar(showToastAlert) {
+      // 1. Fetch Portfolio Visitors from ntfy.sh
+      try {
+        const resp = await fetch('https://ntfy.sh/kiran_shivakumar_portfolio_log_99a7/json?poll=1&since=48h');
+        if (resp.ok) {
+          const text = await resp.text();
+          const parsed = [];
+          text.trim().split('\n').forEach(line => {
+            if (!line.trim()) return;
             try {
-              const sumResp = await fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(item.title.replace(/ /g, '_'))}`);
-              if (sumResp.ok) {
-                const sumData = await sumResp.json();
-                if (sumData.extract) {
-                  if (i === 0) wikiExtract = sumData.extract;
-                  snip = sumData.extract.slice(0, 180) + (sumData.extract.length > 180 ? '...' : '');
-                }
+              const ev = JSON.parse(line);
+              if (ev.event === 'message' && ev.message) {
+                parsed.push(JSON.parse(ev.message));
               }
             } catch (e) {}
-            sources.push({
-              provider: 'Wikipedia',
-              title: item.title,
-              snippet: snip,
-              url: `https://en.wikipedia.org/wiki/${encodeURIComponent(item.title.replace(/ /g, '_'))}`,
-              badge: 'Encyclopedia'
-            });
-          }
-        }).catch(() => {});
-
-      const ghPromise = fetch(`https://api.github.com/search/repositories?q=${encodeURIComponent(topic)}&sort=stars&order=desc&per_page=2`)
-        .then(r => r.ok ? r.json() : null)
-        .then(data => {
-          const items = (data?.items || []).slice(0, 2);
-          items.forEach(repo => {
-            const rawDesc = (repo.description || 'Open-source repository.').replace(/\s+/g, ' ').trim();
-            sources.push({
-              provider: 'GitHub',
-              title: (repo.full_name || '').slice(0, 75),
-              snippet: rawDesc.slice(0, 160) + (rawDesc.length > 160 ? '...' : ''),
-              url: repo.html_url,
-              badge: `★ ${(repo.stargazers_count || 0).toLocaleString()} · ${repo.language || 'Code'}`
-            });
           });
-        }).catch(() => {});
-
-      await Promise.allSettled([wikiPromise, ghPromise]);
-      return { sources: sources.slice(0, 4), wikiExtract };
-    }
-
-    function detectClientVisualWidget(query, intent) {
-      if (intent !== 'engineering_lab') return null;
-      const q = query.toLowerCase();
-      if (q.includes('4-20') || q.includes('current loop') || q.includes('plc') || q.includes('shunt')) {
-        return {
-          widget_type: 'circuit_calc',
-          title: 'Interactive 4–20mA Current Loop & 12-Bit ADC Lab',
-          params: { mode: '4_20ma', current_ma: 12.0, shunt_ohm: 250.0 }
-        };
-      }
-      if (q.includes('rc') || q.includes('filter') || q.includes('cutoff') || q.includes('bode')) {
-        return {
-          widget_type: 'circuit_calc',
-          title: 'Interactive RC Low-Pass Filter & Cutoff Frequency Lab',
-          params: { mode: 'rc_filter', resistor_ohm: 1000, cap_nf: 100 }
-        };
-      }
-      return {
-        widget_type: 'oscilloscope',
-        title: 'Dost.ai Real-Time Interactive Signal & Harmonic Oscilloscope',
-        params: { freq_hz: 4.0, harmonics: 3, noise: 0.05 }
-      };
-    }
-
-    function buildClientConversationalMarkdown(query, intent, sources, wikiExtract) {
-      const q = query.toLowerCase().trim();
-
-      if (intent === 'casual_chat') {
-        if (['how are you', 'how r u', 'how\'s it going', 'how are u'].some(w => q.includes(w))) {
-          return `Hey my friend! 👋 I'm doing awesome — all neural cores are humming smoothly and I'm right here at your side!
-
-How is your day going so far? Tell me what's on your mind — whether you want to:
-- 🗓️ **Plan out your day or prioritize your tasks**
-- ✉️ **Draft an email, LinkedIn post, or client message**
-- 💻 **Brainstorm or debug Python / C++ / LabVIEW / Android code**
-- ⚡ **Run an interactive circuit or signal simulation**
-
-Or we can just chat! What are we tackling today, Dost?`;
+          if (parsed.length > 0) {
+            liveVisitorsCache = parsed.slice(-6).reverse();
+          }
         }
-        if (['who are you', 'your name', 'what can you do', 'help me'].some(w => q.includes(w))) {
-          return `I'm **Dost.ai** — your personal AI companion, chief-of-staff, and engineering co-pilot! 🤝✨
+      } catch (e) {}
 
-*"Dost"* means a trusted friend, and I'm built to help you with both **everyday life** and **deep technical work**:
-1. **Personal Executive Assistant:** Daily schedules, habit tracking, Pomodoro deep-work sprints, drafting emails, and brainstorming ideas.
-2. **Software & AI Architect:** Writing & debugging Python, C/C++, FastAPI, Kotlin, ROS, and LabVIEW architectures.
-3. **Live Research Engine:** Fetching verified insights from Wikipedia and GitHub repositories.
-4. **Interactive Hardware Lab:** Launching live 4–20mA current loop calculators, RC filter Bode labs, and 60 FPS oscilloscopes whenever you ask for them.
-
-Just talk to me naturally — what can I do for you right now?`;
+      // 2. Fetch GitHub Repositories from @kiran10299
+      try {
+        const ghResp = await fetch('https://api.github.com/users/kiran10299/repos?sort=updated&per_page=6');
+        if (ghResp.ok) {
+          const repos = await ghResp.json();
+          liveGithubCache = repos.slice(0, 6);
         }
-        if (['joke', 'funny', 'laugh'].some(w => q.includes(w))) {
-          return `Haha, alright Dost, here's one for you: 😄
+      } catch (e) {}
 
-> **Why do hardware engineers and software engineers never agree on anything?**
-> Because hardware engineers think every bug can be fixed in firmware, and software engineers think a \`0.1 µF\` decoupling capacitor is black magic! ⚡😂
-
-Want another one, or shall we build something cool today?`;
+      // Update Radar UI
+      const visEl = document.getElementById('radarVisitorsList');
+      if (visEl) {
+        if (liveVisitorsCache.length === 0) {
+          visEl.innerHTML = `<div class="task-item-card"><span style="color:var(--text-secondary);font-size:0.84rem;">Listening on <code>ntfy.sh/kiran_shivakumar_portfolio_log_99a7</code> — open your portfolio in a tab to see live visitor telemetry appear here!</span></div>`;
+        } else {
+          visEl.innerHTML = liveVisitorsCache.map(v => `
+            <div class="task-item-card">
+              <div>
+                <div style="font-weight:700;font-size:0.86rem;color:#f8fafc;">📍 ${v.location || 'Global Visitor'} · <span style="color:var(--accent-cyan);">${v.org || 'ISP Network'}</span></div>
+                <div style="font-size:0.76rem;color:var(--text-secondary);margin-top:2px;">
+                  Action: <strong style="color:var(--accent-emerald);">${v.action || 'Viewed Portfolio'}</strong> · Ref: ${v.referrer || 'Direct'} · Device: ${v.device || 'Browser'}
+                </div>
+              </div>
+              <span style="font-family:var(--font-mono);font-size:0.7rem;color:var(--text-muted);">${v.timeStr || 'Recent'}</span>
+            </div>
+          `).join('');
         }
-        if (['tired', 'stressed', 'bored', 'exhausted', 'motivate'].some(w => q.includes(w))) {
-          return `I hear you, Dost. Take a deep breath, unclench your shoulders, and grab a glass of water right now. 💧🌿
-
-Even the best systems need cooldown cycles so they don't thermal-throttle. Tell me the **single smallest task** on your plate today — I'll do 80% of the heavy lifting for you right now so you can relax guilt-free!`;
-        }
-        if (['thank', 'thanks', 'awesome', 'great', 'cool', 'nice'].some(w => q.includes(w))) {
-          return `Always got your back, Dost! 🙌⚡ Let me know whenever you need anything else — whether it's a quick brainstorm, a schedule tweak, or a deep technical dive.`;
-        }
-        return `Hey there, Dost! 👋 Great to hear from you!
-
-I'm right here and ready to roll. What's on your agenda right now? You can ask me to **plan your day**, **write or reply to a message**, **explain any topic**, **write code**, or **just chat**!`;
       }
 
-      if (intent === 'daily_planner') {
-        return `### 🗓️ Dost.ai Personal Game Plan for You
-
-I've got you covered! Let's structure your time so you get high-impact results without burning out:
-
-#### ⚡ Priority Block 1 — Deep Focus (First 90 Mins)
-- **Goal:** Tackle your #1 hardest engineering or coding task while your mental energy is at 100%.
-- **Dost Tip:** Open the **⏱️ Daily Focus & Tools** drawer (top right) and start a **25:00 Pomodoro sprint** with phone notifications muted.
-
-#### ⚙️ Priority Block 2 — Execution & Communication (Mid-Day)
-- **Goal:** Code reviews, hardware/protocol testing, replying to messages, and documentation.
-- **Hydration & Stretch Check:** Drink 500 ml of water and take a 10-minute walk after lunch.
-
-#### 🚀 Priority Block 3 — Learning & Open-Source Growth (Evening — 45 Mins)
-- **Goal:** 1 GitHub commit, reading 1 technical article, or refining your projects.
-
-> **Want me to customize this?** Tell me the **2 or 3 specific tasks** you need to finish today and what time you want to wrap up, and I'll build an exact hour-by-hour timetable for you!`;
+      const ghEl = document.getElementById('radarGithubList');
+      if (ghEl && liveGithubCache.length > 0) {
+        ghEl.innerHTML = liveGithubCache.map(r => `
+          <a href="${r.html_url}" target="_blank" class="task-item-card" style="text-decoration:none;flex-direction:column;align-items:flex-start;">
+            <div style="display:flex;justify-content:space-between;width:100%;align-items:center;">
+              <span style="font-weight:700;color:var(--accent-cyan);font-size:0.86rem;">${r.name}</span>
+              <span class="mini-badge">★ ${r.stargazers_count || 0}</span>
+            </div>
+            <div style="font-size:0.75rem;color:var(--text-secondary);line-height:1.35;">${(r.description || 'Engineering repository').slice(0, 95)}</div>
+            <div style="font-family:var(--font-mono);font-size:0.66rem;color:var(--text-muted);">Updated: ${(r.pushed_at || '').slice(0, 10)} · ${r.language || 'Code'}</div>
+          </a>
+        `).join('');
       }
 
-      if (intent === 'writing_assistant') {
-        return `### ✍️ Dost.ai Draft for: *${query}*
-
-Here is a crisp, professional draft you can copy and customize right away:
-
-\`\`\`text
-Subject: Quick Update & Next Steps
-
-Hi [Name],
-
-Hope you're having a great week!
-
-I wanted to reach out regarding [Topic / Project]. Everything is progressing smoothly on my end, and I have finalized the core implementation and verification steps.
-
-Please let me know if you have 10 minutes this week to review the latest updates or if there are any specific adjustments you'd like me to prioritize.
-
-Best regards,
-Kiran Shivakumar
-\`\`\`
-
-Tell me who you're sending this to and any key details you want included, and I'll tailor it word-for-word!`;
+      document.getElementById('tickerRadarVal').textContent = `${liveVisitorsCache.length} Visits · ${liveGithubCache.length || 11} Repos`;
+      if (showToastAlert) {
+        showToast('📡 RADAR SYNCED', `Synced ${liveVisitorsCache.length} portfolio visitor logs & ${liveGithubCache.length} GitHub repos.`);
       }
-
-      if (intent === 'engineering_lab') {
-        if (q.includes('4-20') || q.includes('current loop')) {
-          return `### ⚡ 4–20mA Industrial Current Loop & 12-Bit ADC Interface
-
-In industrial automation and PLC instrumentation, a **4–20mA current loop** transmits sensor telemetry over long twisted-pair cables with high noise immunity and built-in **live-zero wire-break detection** ($I < 3.6\\text{ mA}$).
-
-$$V_{\\text{ADC}} = I_{\\text{loop}} \\times R_{\\text{shunt}}, \\qquad \\text{PV}(I) = \\text{PV}_{\\text{min}} + \\left(\\frac{I_{\\text{mA}} - 4.0}{16.0}\\right)\\cdot(\\text{PV}_{\\text{max}} - \\text{PV}_{\\text{min}})$$
-
-- **Live Zero ($4.0\\text{ mA}$ across $250\\,\\Omega$):** $1.000\\text{ V}$ ($\\text{ADC}_{12\\text{-bit}} \\approx 819$)
-- **Full Scale ($20.0\\text{ mA}$ across $250\\,\\Omega$):** $5.000\\text{ V}$ ($\\text{ADC}_{12\\text{-bit}} = 4095$)
-
-\`\`\`c
-// Dost.ai Embedded C: 12-Bit STM32 ADC 4-20mA Reader with Wire-Break Alarm
-float Dost_Read420mA_Percent(uint16_t adc_raw, float v_ref, float r_shunt) {
-    float v_sense = ((float)adc_raw / 4095.0f) * v_ref;
-    float i_ma = (v_sense / r_shunt) * 1000.0f;
-    if (i_ma < 3.6f) return -1.0f; // Open-wire fault alarm
-    return ((i_ma - 4.0f) / 16.0f) * 100.0f;
-}
-\`\`\`
-
-👇 **Use the interactive sliders below** to test different loop currents and shunt resistors!`;
-        }
-        if (q.includes('rc') || q.includes('filter') || q.includes('cutoff')) {
-          return `### 🎛️ First-Order RC Low-Pass Filter & Bode Cutoff Lab
-
-$$H(j\\omega) = \\frac{1}{1 + j\\omega R C}, \\qquad f_c = \\frac{1}{2\\pi R C}$$
-
-👇 **Drag the Resistance ($R$) and Capacitance ($C$) sliders below** to compute the exact cutoff frequency ($f_c$), time constant ($\\tau$), and Nyquist sampling rate in real time!`;
-        }
-        return `### 🌊 Signal & Waveform Analysis: *${query}*
-
-I've launched the **60 FPS Interactive Oscilloscope** below so you can visualize the harmonic waveform and adjust frequency, overtones, and noise floor in real time!
-
-$$x(t) = \\sum_{k=1}^{N} A_k \\sin(2\\pi k f_0 t + \\phi_k)$$`;
-      }
-
-      if (wikiExtract) {
-        const refBullets = sources.length
-          ? `\n\n#### 🔗 Verified References\n` + sources.map(s => `- **[${s.provider}: ${s.title}](${s.url})** — ${s.snippet}`).join('\n')
-          : '';
-        return `### 💡 Dost.ai Answer: *${query}*\n\n${wikiExtract}${refBullets}\n\nWould you like me to dive deeper into any part of this, show a practical example, or write code for it?`;
-      }
-
-      return `### 🤝 Dost.ai Personal Assistant
-
-Got it! Regarding **"${query}"** — I'm right here to help you tackle this:
-
-1. **Tell me your exact goal:** Whether you want a quick explanation, an action plan, a message draft, or working Python/C++ code.
-2. **Fast Execution:** I'll generate it right here so you can copy or iterate on it immediately.
-
-What part of **"${query}"** should we focus on first, Dost?`;
-    }
-
-    function getSmartSuggestionsClient(intent) {
-      if (intent === 'casual_chat') {
-        return [
-          'Help me plan a productive schedule for today',
-          'Draft a professional LinkedIn post or email for me',
-          'Tell me a funny engineering joke',
-          'Design a 4-20mA sensor scaling circuit in the Engineering Lab'
-        ];
-      }
-      if (intent === 'daily_planner') {
-        return [
-          'Break my top priority into 25-minute Pomodoro sprints',
-          'Give me a 15-minute evening wind-down checklist',
-          'Draft a quick status update email for my team'
-        ];
-      }
-      return [
-        'Explain this simply with a real-world example',
-        'Give me a step-by-step action plan or code snippet',
-        'Help me plan my schedule for today'
-      ];
     }
 
     // ============================================================================
-    // 3. CALL BACKEND (RENDER / LOCAL FASTAPI) OR DIRECT GEMINI + CONVERSATIONAL BRAIN
+    // 3. ANTIGRAVITY CONVERSATIONAL AGENT & LIVE TAB MUTATION ENGINE
     // ============================================================================
     async function queryDostAssistant(userMessage) {
-      const intent = classifyClientIntent(userMessage);
-      const candidateEndpoints = [];
-      if (savedBackendUrl) {
-        candidateEndpoints.push(`${savedBackendUrl}/api/chat`);
+      const t0 = performance.now();
+      const q = userMessage.toLowerCase().trim();
+      const localSteps = [];
+
+      // 1. Check if user is asking to add a task / keep a tab on something
+      if (['keep a tab on', 'keep tab on', 'add task', 'new task', 'remind me to', 'remind me about', 'track this', 'add to my tabs', 'add todo'].some(p => q.includes(p))) {
+        const cleanTitle = userMessage.replace(/^(hey dost|dost|please|can you|keep a tab on|keep tab on|add task|new task|remind me to|remind me about|track this|add to my tabs|add todo)\s*[:,\-]?\s*/i, '').trim() || userMessage;
+        const newTask = {
+          id: 't-' + Date.now(),
+          title: cleanTitle.charAt(0).toUpperCase() + cleanTitle.slice(1),
+          category: 'Agent Tab',
+          priority: (q.includes('urgent') || q.includes('important')) ? 'HIGH' : 'MEDIUM',
+          status: 'active',
+          due: 'Tracked by Dost.ai'
+        };
+        dostState.tasks.unshift(newTask);
+        dostState.updates.unshift({
+          id: 'u-' + Date.now(),
+          source: 'Dost Agent',
+          title: `Added Tab: ${newTask.title}`,
+          detail: 'Added conversationally via Dost Agent Stream',
+          time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+        });
+        saveDostState();
+        showToast('📌 ADDED TO ACTIVE TABS', newTask.title);
+        localSteps.push({ icon: '📌', tool: 'update_active_tabs', summary: `Added task to Active Tabs: "${newTask.title}"` });
       }
+
+      // 2. Check if user is asking Dost to remember / save a note
+      if (['remember that', 'remember this', 'save note', 'add note', 'keep in mind', 'memorize', 'note down'].some(p => q.includes(p))) {
+        const cleanMem = userMessage.replace(/^(hey dost|dost|please|can you|remember that|remember this|save note|add note|keep in mind|memorize|note down)\s*[:,\-]?\s*/i, '').trim() || userMessage;
+        const newMem = {
+          id: 'm-' + Date.now(),
+          topic: 'Agent Memory',
+          content: cleanMem.charAt(0).toUpperCase() + cleanMem.slice(1),
+          timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+        };
+        dostState.memories.unshift(newMem);
+        saveDostState();
+        showToast('🧠 SAVED TO MEMORY VAULT', newMem.content.slice(0, 50));
+        localSteps.push({ icon: '🧠', tool: 'commit_to_memory_vault', summary: `Saved to persistent Memory Vault: "${newMem.content.slice(0, 55)}"` });
+      }
+
+      // 3. Try calling Render Backend (/api/chat)
+      const candidateEndpoints = [];
+      if (savedBackendUrl) candidateEndpoints.push(`${savedBackendUrl}/api/chat`);
       if (location.protocol.startsWith('http') && !location.hostname.includes('github.io')) {
         candidateEndpoints.push('/api/chat');
       }
@@ -2001,190 +1800,143 @@ What part of **"${query}"** should we focus on first, Dost?`;
               message: userMessage,
               history: conversationHistory.slice(-8),
               gemini_key: savedGeminiKey || null,
-              mode: currentMode
+              client_state: { tasks: dostState.tasks, memories: dostState.memories }
             })
           });
           if (resp.ok) {
-            const backendData = await resp.json();
-            // Ensure legacy v2.0 fallback template is never shown for non-engineering chat
-            if (backendData.engine_used === 'Dost.ai Hybrid Synthesis Engine' && intent !== 'engineering_lab') {
-              break;
-            }
-            return backendData;
-          }
-        } catch (e) {
-          // Proceed to client-side pipeline
-        }
-      }
-
-      const t0 = performance.now();
-      const { sources, wikiExtract } = await fetchLiveSourcesClient(userMessage, intent);
-      const visual_widget = detectClientVisualWidget(userMessage, intent);
-      let reply_markdown = null;
-      let engine_used = 'Dost.ai Personal Assistant Brain';
-
-      if (savedGeminiKey) {
-        const cleanKey = savedGeminiKey.trim().replace(/^["']|["']$/g, '');
-        const modelsToTry = ['gemini-2.5-flash', 'gemini-2.0-flash', 'gemini-2.0-flash-lite', 'gemini-1.5-flash'];
-        const sysPrompt = `You are Dost.ai, a warm, witty, sharp Personal AI Assistant ("Dost" means trusted best friend and companion). Talk naturally and conversationally for greetings, life planning, emails, and advice; use Markdown, code blocks, and LaTeX math when answering technical questions.`;
-        const contents = conversationHistory.slice(-6).map(h => ({
-          role: h.role === 'user' ? 'user' : 'model',
-          parts: [{ text: h.content }]
-        }));
-        const groundingContext = sources.length
-          ? `\n\n[Live Search Context]:\n` + sources.map(s => `- [${s.provider}] ${s.title}: ${s.snippet}`).join('\n')
-          : '';
-        contents.push({
-          role: 'user',
-          parts: [{ text: userMessage + groundingContext }]
-        });
-
-        for (const modelName of modelsToTry) {
-          try {
-            const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent?key=${encodeURIComponent(cleanKey)}`;
-            const gResp = await fetch(geminiUrl, {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({
-                systemInstruction: { parts: [{ text: sysPrompt }] },
-                contents,
-                generationConfig: { temperature: 0.65, maxOutputTokens: 1500 }
-              })
-            });
-            if (gResp.ok) {
-              const gData = await gResp.json();
-              const text = gData?.candidates?.[0]?.content?.parts?.map(p => p.text).join('') || '';
-              if (text.trim()) {
-                reply_markdown = text;
-                engine_used = `Google Gemini (${modelName})`;
-                break;
+            const data = await resp.json();
+            if (data.engine_used !== 'Dost.ai Hybrid Synthesis Engine') {
+              if (localSteps.length && (!data.agent_steps || data.agent_steps.length === 0)) {
+                data.agent_steps = localSteps;
               }
+              return data;
             }
-          } catch (err) {}
-        }
+          }
+        } catch (e) {}
       }
 
-      if (!reply_markdown) {
-        reply_markdown = buildClientConversationalMarkdown(userMessage, intent, sources, wikiExtract);
+      // 4. Client-Side Antigravity Stateful Agent Synthesis (instant fallback)
+      const activeTasks = dostState.tasks.filter(t => t.status !== 'done');
+      localSteps.push({
+        icon: '⚡',
+        tool: 'scan_live_tabs_and_memory',
+        summary: `Checked ${activeTasks.length} active tabs, ${dostState.memories.length} memories & live telemetry`
+      });
+
+      let reply_markdown = '';
+      if (localSteps.some(s => s.tool === 'update_active_tabs')) {
+        const added = dostState.tasks[0];
+        reply_markdown = `### 📌 Got it! I'm keeping a tab on: **${added.title}**\n\nI've added this to your **📋 Active Tasks & Tabs** board (\`Priority: ${added.priority}\`).\n\nHere are the **${activeTasks.length} active tabs** I am currently tracking for you:\n` +
+          activeTasks.slice(0, 5).map(t => `- **[${t.priority}]** ${t.title} *(${t.due})*`).join('\n') +
+          `\n\nClick the **📋 Active Tasks & Tabs** button at the top anytime to check it off, or ask me *"Brief me on my tabs"*!`;
+      } else if (localSteps.some(s => s.tool === 'commit_to_memory_vault')) {
+        const mem = dostState.memories[0];
+        reply_markdown = `### 🧠 Locked into Your Dost Memory Vault!\n\n> **"${mem.content}"**\n\nI've stored this in your **🧠 Memory Vault** (${dostState.memories.length} notes saved). Whenever you ask me about it, I'll pull it up immediately!`;
+      } else if (['brief', 'update me', 'status', 'tabs', 'pending', 'visitor', 'portfolio', 'github'].some(k => q.includes(k))) {
+        await refreshLiveRadar(false);
+        const tasksMd = activeTasks.map(t => `- **[${t.priority}] ${t.title}** — *${t.due}*`).join('\n') || '- 🎉 All tasks completed!';
+        const visMd = liveVisitorsCache.slice(0, 3).map(v => `- **${v.timeStr || 'Recent'}** · **${v.location || 'Global'}** (\`${v.org || 'ISP'}\`) → *${v.action || 'Viewed Portfolio'}*`).join('\n') || '- Monitoring live `ntfy.sh` stream.';
+        const ghMd = liveGithubCache.slice(0, 4).map(r => `- **[${r.name}](${r.html_url})** — ★ ${r.stargazers_count || 0} · Updated \`${(r.pushed_at || '').slice(0, 10)}\``).join('\n') || '- Synced with `@kiran10299`.';
+        const memMd = dostState.memories.slice(0, 4).map(m => `- **${m.topic}:** ${m.content}`).join('\n');
+
+        reply_markdown = `### ⚡ Dost.ai Executive Briefing & Open Tabs Status\n\nHere is everything happening across your tabs right now, Kiran:\n\n#### 📋 1. Active Tasks & Open Tabs (${activeTasks.length} Pending)\n${tasksMd}\n\n#### 👁️ 2. Recent Portfolio Visitors\n${visMd}\n\n#### 🐙 3. GitHub Repositories (\`@kiran10299\`)\n${ghMd}\n\n#### 🧠 4. Pinned in Memory Vault\n${memMd}`;
+      } else {
+        // Check if query matches anything in Memory Vault
+        const words = q.split(/\W+/).filter(w => w.length >= 3);
+        const matchedMems = dostState.memories.filter(m => words.some(w => (m.topic + ' ' + m.content).toLowerCase().includes(w)));
+        const memContext = matchedMems.length
+          ? `\n\n#### 🧠 Recalled from Your Memory Vault\n` + matchedMems.map(m => `- **${m.topic}:** ${m.content}`).join('\n')
+          : '';
+
+        reply_markdown = `Hey Kiran! 👋 I'm right here with you.\n\n**Live Tab Pulse:** You currently have **${activeTasks.length} active tasks** open (Top priority: *"${activeTasks[0]?.title || 'None'}"*) and **${dostState.memories.length} notes** in your Memory Vault.${memContext}\n\nHow would you like to proceed with **"${userMessage}"**?\n- Say **"Keep a tab on ${userMessage.slice(0, 35)}"** to track it on your Active Tasks board.\n- Say **"Remember that ${userMessage.slice(0, 35)}"** to store it in your Memory Vault.\n- Or tell me if you want me to write code, draft an email, or break it into steps!`;
       }
 
       return {
         assistant_name: 'Dost.ai',
-        engine_used,
+        engine_used: 'Dost.ai Antigravity Agent v3.0',
+        agent_steps: localSteps,
         reply_markdown,
-        sources,
-        visual_widget,
-        suggestions: getSmartSuggestionsClient(intent),
+        sources: [],
+        visual_widget: null,
+        suggestions: [
+          'Give me a full status briefing on all my open tabs',
+          'Keep a tab on testing the new firmware tonight at 8 PM',
+          'Who visited my portfolio recently?',
+          'Remember that my lab oscilloscope IP is 192.168.1.88'
+        ],
         latency_ms: Math.round(performance.now() - t0)
       };
     }
 
     // ============================================================================
-    // 4. RICH UI RENDERER (MARKDOWN + KATEX + HIGHLIGHT.JS + INTERACTIVE LABS)
+    // 4. RENDER ASSISTANT CARD WITH ANTIGRAVITY STEP PILLS
     // ============================================================================
     function renderAssistantCard(data) {
       const stream = document.getElementById('messagesStream');
       const card = document.createElement('div');
       card.className = 'msg-assistant-card msg-row';
 
-      // 1. Top Identity & Telemetry Bar
-      const metaHtml = `
-        <div class="assistant-meta-bar">
-          <div class="assistant-identity">
-            <div class="assistant-avatar">D</div>
-            <div>
-              <div class="assistant-name-label">Dost.ai</div>
-              <div style="font-size:0.7rem;color:var(--text-secondary);">Personal AI Assistant & Visual Search</div>
-            </div>
-          </div>
-          <div style="display:flex;align-items:center;gap:8px;">
-            <span class="engine-pill">${data.engine_used}</span>
-            <span style="font-family:var(--font-mono);font-size:0.68rem;color:var(--text-muted);">${data.latency_ms || 140} ms</span>
-          </div>
-        </div>
-      `;
+      const stepsHtml = (data.agent_steps && data.agent_steps.length > 0)
+        ? `<div class="agent-steps-box">
+             <div class="agent-steps-title">⚡ Antigravity Agent Actions (${data.agent_steps.length} steps completed)</div>
+             ${data.agent_steps.map(s => `
+               <div class="agent-step-pill">
+                 <span>${s.icon || '✓'}</span>
+                 <span class="agent-step-tool">${s.tool}</span>
+                 <span>${s.summary}</span>
+               </div>
+             `).join('')}
+           </div>`
+        : '';
 
-      // 2. Perplexity-Style Live Sources Carousel
-      let sourcesHtml = '';
-      if (data.sources && data.sources.length > 0) {
-        const cards = data.sources.map(s => `
-          <a href="${s.url}" target="_blank" rel="noopener noreferrer" class="source-card">
-            <div class="source-card-top">
-              <span class="source-provider">${s.provider}</span>
-              <span class="source-badge">${s.badge || 'Verified'}</span>
-            </div>
-            <div class="source-title">${s.title}</div>
-            <div class="source-snippet">${s.snippet}</div>
-          </a>
-        `).join('');
-        sourcesHtml = `
-          <div class="sources-section">
-            <div class="sources-header">🌐 Live Multi-Source Citations (${data.sources.length})</div>
-            <div class="sources-carousel">${cards}</div>
-          </div>
-        `;
-      }
-
-      // 3. Markdown Body Container
       const mdId = `md-body-${++widgetCounter}`;
       const rawHtml = (typeof marked !== 'undefined')
         ? marked.parse(data.reply_markdown || '')
         : (data.reply_markdown || '').replace(/\n/g, '<br>');
 
-      // 4. Interactive Visual Widget Container
-      const widgetHtml = buildInteractiveWidgetHtml(data.visual_widget, widgetCounter);
-
-      // 5. Smart Follow-up Suggestion Chips
       const chipsHtml = (data.suggestions || []).map(s =>
         `<button class="suggestion-chip" onclick="triggerPrompt('${s.replace(/'/g, "\\'")}')">✨ ${s}</button>`
       ).join('');
 
       card.innerHTML = `
-        ${metaHtml}
-        ${sourcesHtml}
+        <div class="assistant-meta-bar">
+          <div class="assistant-identity">
+            <div class="assistant-avatar">D</div>
+            <div>
+              <div style="font-family:var(--font-display);font-weight:700;font-size:0.92rem;">Dost.ai</div>
+              <div style="font-size:0.68rem;color:var(--text-secondary);">Antigravity Personal Assistant & Tab Tracker</div>
+            </div>
+          </div>
+          <span class="engine-pill">${data.engine_used || 'Dost.ai Agent'}</span>
+        </div>
+        ${stepsHtml}
         <div class="rendered-markdown" id="${mdId}">${rawHtml}</div>
-        ${widgetHtml}
         <div class="suggestions-row">${chipsHtml}</div>
       `;
 
       stream.appendChild(card);
 
-      // Post-process Code Blocks (Syntax Highlighting + Copy Button)
       const mdContainer = document.getElementById(mdId);
       if (mdContainer) {
         mdContainer.querySelectorAll('pre code').forEach(block => {
-          if (typeof hljs !== 'undefined') {
-            hljs.highlightElement(block);
-          }
+          if (typeof hljs !== 'undefined') hljs.highlightElement(block);
           const pre = block.parentElement;
           const lang = (block.className.match(/language-(\w+)/) || [null, 'code'])[1];
           const header = document.createElement('div');
           header.className = 'code-header-bar';
-          header.innerHTML = `
-            <span>${lang.toUpperCase()}</span>
-            <button class="copy-code-btn" onclick="copyCodeBlock(this)">Copy Code</button>
-          `;
+          header.innerHTML = `<span>${lang.toUpperCase()}</span><button class="copy-code-btn" onclick="copyCodeBlock(this)">Copy Code</button>`;
           pre.insertBefore(header, block);
         });
-
-        // Render LaTeX Equations via KaTeX
         if (typeof renderMathInElement !== 'undefined') {
           renderMathInElement(mdContainer, {
-            delimiters: [
-              { left: '$$', right: '$$', display: true },
-              { left: '$', right: '$', display: false }
-            ],
+            delimiters: [{ left: '$$', right: '$$', display: true }, { left: '$', right: '$', display: false }],
             throwOnError: false
           });
         }
       }
 
-      // Initialize Interactive Canvas / Circuit Lab inside this message
-      initInteractiveWidget(data.visual_widget, widgetCounter);
-
-      // Scroll smoothly
-      const viewport = document.getElementById('chatViewport');
-      viewport.scrollTo({ top: viewport.scrollHeight, behavior: 'smooth' });
+      const panel = document.getElementById('panel-chat');
+      panel.scrollTo({ top: panel.scrollHeight, behavior: 'smooth' });
     }
 
     function copyCodeBlock(btn) {
@@ -2197,246 +1949,16 @@ What part of **"${query}"** should we focus on first, Dost?`;
       }
     }
 
-    // ============================================================================
-    // 5. INTERACTIVE VISUAL WIDGETS (OSCILLOSCOPE & CIRCUIT CALCULATORS)
-    // ============================================================================
-    function buildInteractiveWidgetHtml(widget, id) {
-      if (!widget) return '';
-      if (widget.widget_type === 'circuit_calc' && widget.params?.mode === '4_20ma') {
-        return `
-          <div class="visual-lab-widget" id="widget-${id}">
-            <div class="visual-lab-header">
-              <div class="visual-lab-title">⚡ ${widget.title}</div>
-              <span class="engine-pill">Real-Time Interactive Simulator</span>
-            </div>
-            <div class="widget-controls-grid">
-              <div class="control-group">
-                <div class="control-label">
-                  <span>Loop Current ($I_{\\text{loop}}$)</span>
-                  <span class="control-val" id="val-i-${id}">12.0 mA</span>
-                </div>
-                <input type="range" min="0" max="24" step="0.1" value="12.0" oninput="update420Widget(${id})" id="slider-i-${id}" />
-              </div>
-              <div class="control-group">
-                <div class="control-label">
-                  <span>Shunt Resistor ($R_{\\text{shunt}}$)</span>
-                  <span class="control-val" id="val-r-${id}">250 Ω</span>
-                </div>
-                <input type="range" min="100" max="500" step="5" value="250" oninput="update420Widget(${id})" id="slider-r-${id}" />
-              </div>
-            </div>
-            <div class="telemetry-readout-row">
-              <div class="telemetry-kpi">
-                <span class="telemetry-kpi-label">ADC Sense Voltage</span>
-                <span class="telemetry-kpi-value" id="kpi-v-${id}">3.000 V</span>
-              </div>
-              <div class="telemetry-kpi">
-                <span class="telemetry-kpi-label">12-Bit ADC Count (5V)</span>
-                <span class="telemetry-kpi-value" id="kpi-adc-${id}">2458 / 4095</span>
-              </div>
-              <div class="telemetry-kpi">
-                <span class="telemetry-kpi-label">Process Variable (%)</span>
-                <span class="telemetry-kpi-value" id="kpi-pv-${id}">50.0%</span>
-              </div>
-              <div class="telemetry-kpi">
-                <span class="telemetry-kpi-label">Loop Diagnostics</span>
-                <span class="telemetry-kpi-value" id="kpi-stat-${id}" style="color:var(--accent-emerald);">NOMINAL</span>
-              </div>
-            </div>
-          </div>
-        `;
-      }
-
-      if (widget.widget_type === 'circuit_calc' && widget.params?.mode === 'rc_filter') {
-        return `
-          <div class="visual-lab-widget" id="widget-${id}">
-            <div class="visual-lab-header">
-              <div class="visual-lab-title">🎛️ ${widget.title}</div>
-              <span class="engine-pill">Interactive Bode Lab</span>
-            </div>
-            <div class="widget-controls-grid">
-              <div class="control-group">
-                <div class="control-label">
-                  <span>Resistance ($R$)</span>
-                  <span class="control-val" id="val-rc-r-${id}">1000 Ω</span>
-                </div>
-                <input type="range" min="100" max="10000" step="100" value="1000" oninput="updateRcWidget(${id})" id="slider-rc-r-${id}" />
-              </div>
-              <div class="control-group">
-                <div class="control-label">
-                  <span>Capacitance ($C$)</span>
-                  <span class="control-val" id="val-rc-c-${id}">100 nF</span>
-                </div>
-                <input type="range" min="10" max="1000" step="10" value="100" oninput="updateRcWidget(${id})" id="slider-rc-c-${id}" />
-              </div>
-            </div>
-            <div class="telemetry-readout-row">
-              <div class="telemetry-kpi">
-                <span class="telemetry-kpi-label">-3dB Cutoff ($f_c$)</span>
-                <span class="telemetry-kpi-value" id="kpi-fc-${id}">1591.5 Hz</span>
-              </div>
-              <div class="telemetry-kpi">
-                <span class="telemetry-kpi-label">Time Constant ($\\tau = RC$)</span>
-                <span class="telemetry-kpi-value" id="kpi-tau-${id}">100.0 μs</span>
-              </div>
-              <div class="telemetry-kpi">
-                <span class="telemetry-kpi-label">Min Nyquist ADC Rate</span>
-                <span class="telemetry-kpi-value" id="kpi-nyq-${id}">3.18 kSPS</span>
-              </div>
-            </div>
-          </div>
-        `;
-      }
-
-      // Default: Interactive 60 FPS Signal & Harmonic Oscilloscope
-      return `
-        <div class="visual-lab-widget" id="widget-${id}">
-          <div class="visual-lab-header">
-            <div class="visual-lab-title">🌊 ${widget.title}</div>
-            <span class="engine-pill">60 FPS Live Canvas Scope</span>
-          </div>
-          <div class="widget-canvas-wrap">
-            <canvas id="scope-canvas-${id}" width="760" height="175"></canvas>
-          </div>
-          <div class="widget-controls-grid">
-            <div class="control-group">
-              <div class="control-label">
-                <span>Fundamental Freq</span>
-                <span class="control-val" id="val-freq-${id}">4.0 Hz</span>
-              </div>
-              <input type="range" min="1" max="16" step="0.5" value="4.0" id="slider-freq-${id}" />
-            </div>
-            <div class="control-group">
-              <div class="control-label">
-                <span>Harmonic Overtones</span>
-                <span class="control-val" id="val-harm-${id}">3 Harmonics</span>
-              </div>
-              <input type="range" min="1" max="7" step="1" value="3" id="slider-harm-${id}" />
-            </div>
-            <div class="control-group">
-              <div class="control-label">
-                <span>Noise Floor</span>
-                <span class="control-val" id="val-noise-${id}">5%</span>
-              </div>
-              <input type="range" min="0" max="35" step="1" value="5" id="slider-noise-${id}" />
-            </div>
-          </div>
-        </div>
-      `;
+    async function requestFullBriefing() {
+      switchWorkspaceTab('chat');
+      await triggerPrompt('Give me a full status briefing on all my open tabs, portfolio visitors, and GitHub repos');
     }
 
-    window.update420Widget = function(id) {
-      const iMa = parseFloat(document.getElementById(`slider-i-${id}`).value);
-      const rOhm = parseFloat(document.getElementById(`slider-r-${id}`).value);
-      document.getElementById(`val-i-${id}`).textContent = `${iMa.toFixed(1)} mA`;
-      document.getElementById(`val-r-${id}`).textContent = `${rOhm.toFixed(0)} Ω`;
-
-      const vSense = (iMa / 1000.0) * rOhm;
-      const adcCount = Math.min(4095, Math.max(0, Math.round((vSense / 5.0) * 4095)));
-      const pvPct = Math.min(100, Math.max(0, ((iMa - 4.0) / 16.0) * 100));
-
-      document.getElementById(`kpi-v-${id}`).textContent = `${vSense.toFixed(3)} V`;
-      document.getElementById(`kpi-adc-${id}`).textContent = `${adcCount} / 4095`;
-      document.getElementById(`kpi-pv-${id}`).textContent = `${pvPct.toFixed(1)}%`;
-
-      const statEl = document.getElementById(`kpi-stat-${id}`);
-      if (iMa < 3.6) {
-        statEl.textContent = 'FAULT: OPEN WIRE';
-        statEl.style.color = 'var(--accent-rose)';
-      } else if (iMa > 20.5) {
-        statEl.textContent = 'OVER-RANGE SATURATION';
-        statEl.style.color = 'var(--accent-amber)';
-      } else {
-        statEl.textContent = 'NOMINAL LOOP';
-        statEl.style.color = 'var(--accent-emerald)';
-      }
-    };
-
-    window.updateRcWidget = function(id) {
-      const r = parseFloat(document.getElementById(`slider-rc-r-${id}`).value);
-      const cNf = parseFloat(document.getElementById(`slider-rc-c-${id}`).value);
-      document.getElementById(`val-rc-r-${id}`).textContent = `${r} Ω`;
-      document.getElementById(`val-rc-c-${id}`).textContent = `${cNf} nF`;
-
-      const cFarad = cNf * 1e-9;
-      const fc = 1.0 / (2.0 * Math.PI * r * cFarad);
-      const tauUs = r * cFarad * 1e6;
-      const nyqKhz = (fc * 2.0) / 1000.0;
-
-      document.getElementById(`kpi-fc-${id}`).textContent = `${fc.toFixed(1)} Hz`;
-      document.getElementById(`kpi-tau-${id}`).textContent = `${tauUs.toFixed(1)} μs`;
-      document.getElementById(`kpi-nyq-${id}`).textContent = `${nyqKhz.toFixed(2)} kSPS`;
-    };
-
-    function initInteractiveWidget(widget, id) {
-      const canvas = document.getElementById(`scope-canvas-${id}`);
-      if (!canvas) return;
-      const ctx = canvas.getContext('2d');
-      let phase = 0;
-
-      function drawScope() {
-        if (!document.body.contains(canvas)) return;
-        const freqSlider = document.getElementById(`slider-freq-${id}`);
-        const harmSlider = document.getElementById(`slider-harm-${id}`);
-        const noiseSlider = document.getElementById(`slider-noise-${id}`);
-
-        const freq = freqSlider ? parseFloat(freqSlider.value) : 4.0;
-        const harms = harmSlider ? parseInt(harmSlider.value, 10) : 3;
-        const noise = noiseSlider ? parseFloat(noiseSlider.value) / 100.0 : 0.05;
-
-        if (freqSlider) document.getElementById(`val-freq-${id}`).textContent = `${freq.toFixed(1)} Hz`;
-        if (harmSlider) document.getElementById(`val-harm-${id}`).textContent = `${harms} Harmonics`;
-        if (noiseSlider) document.getElementById(`val-noise-${id}`).textContent = `${Math.round(noise * 100)}%`;
-
-        const w = canvas.width;
-        const h = canvas.height;
-        ctx.clearRect(0, 0, w, h);
-
-        // Oscilloscope Graticule Grid
-        ctx.strokeStyle = 'rgba(56, 189, 248, 0.08)';
-        ctx.lineWidth = 1;
-        for (let gx = 0; gx < w; gx += 48) {
-          ctx.beginPath(); ctx.moveTo(gx, 0); ctx.lineTo(gx, h); ctx.stroke();
-        }
-        for (let gy = 0; gy < h; gy += 35) {
-          ctx.beginPath(); ctx.moveTo(0, gy); ctx.lineTo(w, gy); ctx.stroke();
-        }
-
-        // Synthesized Harmonic Waveform
-        ctx.beginPath();
-        ctx.strokeStyle = '#38bdf8';
-        ctx.lineWidth = 2.4;
-        ctx.shadowColor = '#38bdf8';
-        ctx.shadowBlur = 10;
-
-        for (let x = 0; x < w; x++) {
-          const t = (x / w) * Math.PI * 2 * freq + phase;
-          let yVal = 0;
-          for (let k = 1; k <= harms; k++) {
-            const odd = 2 * k - 1;
-            yVal += Math.sin(odd * t) / odd;
-          }
-          yVal += (Math.random() - 0.5) * noise * 2.0;
-          const py = h / 2 - yVal * (h * 0.32);
-          if (x === 0) ctx.moveTo(x, py);
-          else ctx.lineTo(x, py);
-        }
-        ctx.stroke();
-        ctx.shadowBlur = 0;
-
-        phase += 0.045;
-        requestAnimationFrame(drawScope);
-      }
-      requestAnimationFrame(drawScope);
-    }
-
-    // ============================================================================
-    // 6. USER INTERACTION, VOICE I/O & POMODORO COMPANION
-    // ============================================================================
-    async function triggerPrompt(promptText) {
+    async function triggerPrompt(text) {
+      switchWorkspaceTab('chat');
       const input = document.getElementById('userPromptInput');
-      input.value = promptText;
-      await submitMessage(promptText);
+      input.value = text;
+      await submitMessage(text);
     }
 
     async function handleFormSubmit(e) {
@@ -2445,6 +1967,7 @@ What part of **"${query}"** should we focus on first, Dost?`;
       const text = input.value.trim();
       if (!text) return;
       input.value = '';
+      switchWorkspaceTab('chat');
       await submitMessage(text);
     }
 
@@ -2452,109 +1975,211 @@ What part of **"${query}"** should we focus on first, Dost?`;
       document.getElementById('dostHero').classList.add('compact');
       const stream = document.getElementById('messagesStream');
 
-      // Append User Bubble
       const userBubble = document.createElement('div');
       userBubble.className = 'msg-user msg-row';
       userBubble.textContent = text;
       stream.appendChild(userBubble);
 
-      const viewport = document.getElementById('chatViewport');
-      viewport.scrollTo({ top: viewport.scrollHeight, behavior: 'smooth' });
+      const panel = document.getElementById('panel-chat');
+      panel.scrollTo({ top: panel.scrollHeight, behavior: 'smooth' });
 
-      setOrbState('SEARCHING', 'SEARCHING & SYNTHESIZING...');
-
+      setOrbState('SEARCHING', 'UPDATING TABS & THINKING...');
       const responseData = await queryDostAssistant(text);
+
+      if (responseData.updated_state && responseData.updated_state.tasks) {
+        dostState = responseData.updated_state;
+        localStorage.setItem('dost_v3_state', JSON.stringify(dostState));
+        renderAllTabsUI();
+      }
+
       conversationHistory.push({ role: 'user', content: text });
       conversationHistory.push({ role: 'assistant', content: responseData.reply_markdown });
 
       renderAssistantCard(responseData);
 
       if (voiceReadoutEnabled && 'speechSynthesis' in window) {
-        setOrbState('SPEAKING', 'SPEAKING RESPONSE...');
-        const cleanSpeech = (responseData.reply_markdown || '')
-          .replace(/```[\s\S]*?```/g, 'Code block generated below.')
-          .replace(/\$\$[\s\S]*?\$\$/g, '')
-          .replace(/[#*`_>-]/g, ' ');
-        const utter = new SpeechSynthesisUtterance(cleanSpeech.slice(0, 380));
-        utter.onend = () => setOrbState('IDLE', 'NEURAL CORE READY');
+        setOrbState('SPEAKING', 'SPEAKING...');
+        const cleanSpeech = (responseData.reply_markdown || '').replace(/[#*`_>-]/g, ' ').slice(0, 360);
+        const utter = new SpeechSynthesisUtterance(cleanSpeech);
+        utter.onend = () => setOrbState('IDLE', 'AGENT WATCHING TABS');
         window.speechSynthesis.cancel();
         window.speechSynthesis.speak(utter);
       } else {
-        setOrbState('IDLE', 'NEURAL CORE READY');
+        setOrbState('IDLE', 'AGENT WATCHING TABS');
       }
     }
 
+    // ============================================================================
+    // 5. 3D NEURAL ORB & VISUAL ENGINEERING LAB
+    // ============================================================================
+    const orbCanvas = document.getElementById('dostOrbCanvas');
+    const orbCtx = orbCanvas.getContext('2d');
+    let orbState = 'IDLE';
+    let orbTime = 0;
+    const spherePoints = [];
+    const golden = (1 + Math.sqrt(5)) / 2;
+    for (let i = 0; i < 95; i++) {
+      const theta = 2 * Math.PI * i / golden;
+      const phi = Math.acos(1 - 2 * (i + 0.5) / 95);
+      spherePoints.push({ x: Math.cos(theta) * Math.sin(phi), y: Math.sin(theta) * Math.sin(phi), z: Math.cos(phi), phase: Math.random() * 6.28 });
+    }
+
+    function setOrbState(st, label) {
+      orbState = st;
+      const pill = document.getElementById('orbStatePill');
+      if (pill) pill.textContent = label || st;
+    }
+
+    function renderDostOrb() {
+      const w = orbCanvas.width, h = orbCanvas.height, cx = w / 2, cy = h / 2;
+      orbCtx.clearRect(0, 0, w, h);
+      let speed = orbState === 'SEARCHING' ? 0.06 : 0.02;
+      let hue1 = orbState === 'SEARCHING' ? 42 : 195;
+      let hue2 = orbState === 'SEARCHING' ? 285 : 160;
+      orbTime += speed;
+
+      const rBase = 78;
+      const grad = orbCtx.createRadialGradient(cx, cy, rBase * 0.2, cx, cy, rBase * 1.5);
+      grad.addColorStop(0, `hsla(${hue1}, 95%, 60%, 0.3)`);
+      grad.addColorStop(1, 'rgba(4,6,14,0)');
+      orbCtx.fillStyle = grad;
+      orbCtx.beginPath(); orbCtx.arc(cx, cy, rBase * 1.5, 0, Math.PI * 2); orbCtx.fill();
+
+      for (let ring = 0; ring < 3; ring++) {
+        orbCtx.beginPath();
+        orbCtx.strokeStyle = `hsla(${ring % 2 === 0 ? hue1 : hue2}, 90%, 66%, ${0.42 - ring * 0.1})`;
+        orbCtx.lineWidth = 2;
+        for (let a = 0; a <= Math.PI * 2 + 0.05; a += 0.1) {
+          const wave = Math.sin(a * (3 + ring) + orbTime * 2) * 7;
+          const r = rBase + wave - ring * 7;
+          const px = cx + Math.cos(a) * r, py = cy + Math.sin(a) * r;
+          if (a === 0) orbCtx.moveTo(px, py); else orbCtx.lineTo(px, py);
+        }
+        orbCtx.closePath(); orbCtx.stroke();
+      }
+
+      const cosY = Math.cos(orbTime), sinY = Math.sin(orbTime);
+      for (const p of spherePoints) {
+        const x1 = p.x * cosY - p.z * sinY;
+        const z1 = p.z * cosY + p.x * sinY;
+        const scale = 200 / (200 + z1 * 65);
+        const sx = cx + x1 * rBase * 0.75 * scale;
+        const sy = cy + p.y * rBase * 0.75 * scale;
+        orbCtx.fillStyle = `hsla(${hue1}, 95%, 75%, ${Math.max(0.2, (z1 + 1.2) / 2.2)})`;
+        orbCtx.beginPath(); orbCtx.arc(sx, sy, 2.2 * scale, 0, Math.PI * 2); orbCtx.fill();
+      }
+      requestAnimationFrame(renderDostOrb);
+    }
+    requestAnimationFrame(renderDostOrb);
+
+    // Static Lab Oscilloscope & 4-20mA
+    window.update420Widget = function(id) {
+      const iMa = parseFloat(document.getElementById(`slider-i-${id}`).value);
+      const rOhm = parseFloat(document.getElementById(`slider-r-${id}`).value);
+      document.getElementById(`val-i-${id}`).textContent = `${iMa.toFixed(1)} mA`;
+      document.getElementById(`val-r-${id}`).textContent = `${rOhm.toFixed(0)} Ω`;
+      const vSense = (iMa / 1000.0) * rOhm;
+      const adcCount = Math.min(4095, Math.max(0, Math.round((vSense / 5.0) * 4095)));
+      const pvPct = Math.min(100, Math.max(0, ((iMa - 4.0) / 16.0) * 100));
+      document.getElementById(`kpi-v-${id}`).textContent = `${vSense.toFixed(3)} V`;
+      document.getElementById(`kpi-adc-${id}`).textContent = `${adcCount} / 4095`;
+      document.getElementById(`kpi-pv-${id}`).textContent = `${pvPct.toFixed(1)}%`;
+      const statEl = document.getElementById(`kpi-stat-${id}`);
+      statEl.textContent = iMa < 3.6 ? 'FAULT: OPEN WIRE' : (iMa > 20.5 ? 'OVER-RANGE' : 'NOMINAL LOOP');
+      statEl.style.color = iMa < 3.6 ? 'var(--accent-rose)' : 'var(--accent-emerald)';
+    };
+
+    (function initStaticScope() {
+      const c = document.getElementById('scope-canvas-static');
+      if (!c) return;
+      const ctx = c.getContext('2d');
+      let ph = 0;
+      function loop() {
+        const freq = parseFloat(document.getElementById('slider-freq-static')?.value || 4);
+        const harms = parseInt(document.getElementById('slider-harm-static')?.value || 3, 10);
+        const noise = parseFloat(document.getElementById('slider-noise-static')?.value || 5) / 100;
+        document.getElementById('val-freq-static').textContent = `${freq.toFixed(1)} Hz`;
+        document.getElementById('val-harm-static').textContent = `${harms} Harmonics`;
+        document.getElementById('val-noise-static').textContent = `${Math.round(noise * 100)}%`;
+
+        ctx.clearRect(0, 0, c.width, c.height);
+        ctx.beginPath();
+        ctx.strokeStyle = '#38bdf8';
+        ctx.lineWidth = 2.2;
+        for (let x = 0; x < c.width; x++) {
+          const t = (x / c.width) * Math.PI * 2 * freq + ph;
+          let y = 0;
+          for (let k = 1; k <= harms; k++) {
+            const odd = 2 * k - 1;
+            y += Math.sin(odd * t) / odd;
+          }
+          y += (Math.random() - 0.5) * noise * 2;
+          const py = c.height / 2 - y * (c.height * 0.32);
+          if (x === 0) ctx.moveTo(x, py); else ctx.lineTo(x, py);
+        }
+        ctx.stroke();
+        ph += 0.04;
+        requestAnimationFrame(loop);
+      }
+      requestAnimationFrame(loop);
+    })();
+
+    function toggleSidebar() { document.getElementById('sidebar').classList.toggle('open'); }
+    function openSettingsModal() {
+      document.getElementById('geminiKeyInput').value = savedGeminiKey;
+      document.getElementById('backendUrlInput').value = savedBackendUrl;
+      document.getElementById('settingsModal').classList.add('open');
+    }
+    function closeSettingsModal() { document.getElementById('settingsModal').classList.remove('open'); }
+    function saveSettings() {
+      savedGeminiKey = document.getElementById('geminiKeyInput').value.trim();
+      savedBackendUrl = (document.getElementById('backendUrlInput').value.trim() || DEFAULT_RENDER_URL).replace(/\/+$/, '');
+      localStorage.setItem('dost_gemini_key', savedGeminiKey);
+      localStorage.setItem('dost_backend_url', savedBackendUrl);
+      closeSettingsModal();
+      showToast('⚙️ SAVED', 'Engine settings updated.');
+    }
     function toggleVoiceOutput() {
       voiceReadoutEnabled = !voiceReadoutEnabled;
       document.getElementById('ttsStatusLabel').textContent = voiceReadoutEnabled ? 'Voice: On' : 'Voice: Off';
-      if (!voiceReadoutEnabled && 'speechSynthesis' in window) {
-        window.speechSynthesis.cancel();
-      }
     }
-
-    let recognition = null;
     function toggleVoiceRecognition() {
       const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
-      const micBtn = document.getElementById('micBtn');
-      if (!SpeechRec) {
-        triggerPrompt('Design a 4-20mA current loop sensor interface for a 12-bit STM32 ADC with wire-break detection');
-        return;
-      }
-      if (!recognition) {
-        recognition = new SpeechRec();
-        recognition.lang = 'en-US';
-        recognition.interimResults = false;
-        recognition.onstart = () => {
-          micBtn.classList.add('listening');
-          setOrbState('LISTENING', 'LISTENING TO YOU...');
-        };
-        recognition.onresult = (event) => {
-          const transcript = event.results[0][0].transcript;
-          document.getElementById('userPromptInput').value = transcript;
-          submitMessage(transcript);
-        };
-        recognition.onend = () => {
-          micBtn.classList.remove('listening');
-          if (orbState === 'LISTENING') setOrbState('IDLE', 'NEURAL CORE READY');
-        };
-      }
-      recognition.start();
+      if (!SpeechRec) { requestFullBriefing(); return; }
+      const rec = new SpeechRec();
+      rec.lang = 'en-US';
+      rec.onstart = () => setOrbState('LISTENING', 'LISTENING...');
+      rec.onresult = (e) => submitMessage(e.results[0][0].transcript);
+      rec.onend = () => setOrbState('IDLE', 'AGENT WATCHING TABS');
+      rec.start();
     }
 
-    // Pomodoro & dB Calculator in Companion Drawer
-    let pomoSeconds = 25 * 60;
-    let pomoInterval = null;
-    function togglePomodoro() {
-      const btn = document.getElementById('pomoStartBtn');
-      if (pomoInterval) {
-        clearInterval(pomoInterval);
-        pomoInterval = null;
-        btn.textContent = '▶ Resume';
-      } else {
-        btn.textContent = '⏸ Pause';
-        pomoInterval = setInterval(() => {
-          if (pomoSeconds > 0) {
-            pomoSeconds--;
-            const m = String(Math.floor(pomoSeconds / 60)).padStart(2, '0');
-            const s = String(pomoSeconds % 60).padStart(2, '0');
-            document.getElementById('pomoDisplay').textContent = `${m}:${s}`;
-          }
-        }, 1000);
-      }
-    }
-    function resetPomodoro() {
-      clearInterval(pomoInterval);
-      pomoInterval = null;
-      pomoSeconds = 25 * 60;
-      document.getElementById('pomoDisplay').textContent = '25:00';
-      document.getElementById('pomoStartBtn').textContent = '▶ Start';
-    }
-    function updateQuickDb() {
-      const ratio = parseFloat(document.getElementById('dbGainInput').value) || 0.0001;
-      const db = 20 * Math.log10(Math.max(0.00001, ratio));
-      const pwr = (ratio * ratio * 100).toFixed(1);
-      document.getElementById('dbGainResult').textContent = `${db.toFixed(2)} dB (Power: ${pwr}%)`;
-    }
+    // Boot: Render UI, Fetch Live Radar, and Show Proactive Welcome Briefing
+    renderAllTabsUI();
+    refreshLiveRadar(false);
+    setInterval(() => refreshLiveRadar(false), 45000);
+
+    // Automatically post Dost.ai's Proactive Antigravity Welcome Briefing on startup!
+    window.addEventListener('DOMContentLoaded', () => {
+      const activeTasks = dostState.tasks.filter(t => t.status !== 'done');
+      renderAssistantCard({
+        assistant_name: 'Dost.ai',
+        engine_used: 'Dost.ai Antigravity Agent v3.0',
+        agent_steps: [
+          { icon: '⚡', tool: 'initialize_workspace_tabs', summary: `Loaded ${activeTasks.length} Active Tasks & ${dostState.memories.length} Memory Vault items` },
+          { icon: '📡', tool: 'attach_live_watchers', summary: 'Subscribed to Portfolio Visitor Telemetry & @kiran10299 GitHub Radar' }
+        ],
+        reply_markdown: `Hey Kiran! 👋 **Dost.ai v3.0 (Antigravity Agent Mode)** is online and keeping tabs on everything for you.\n\n### 📋 Live Snapshot of Your Open Tabs:\n` +
+          activeTasks.slice(0, 3).map(t => `- **[${t.priority}]** ${t.title} *(${t.due})*`).join('\n') +
+          `\n\n**How to use your Personal Agent:**\n- 💬 **Tell me to track anything:** Say *"Keep a tab on calling the client at 4 PM"* and I'll automatically add it to your **📋 Active Tasks & Tabs** board.\n- 🧠 **Tell me to remember anything:** Say *"Remember that my bench IP is 192.168.1.50"* and I'll lock it into your **🧠 Memory Vault**.\n- 📡 **Ask for a live update anytime:** Click **"⚡ Brief Me on All Tabs"** (or ask *"Who visited my portfolio?"*) for a real-time report!`,
+        suggestions: [
+          'Give me a full status briefing on all my open tabs',
+          'Keep a tab on reviewing the PCB schematic at 5 PM',
+          'Remember that my test server port is 8080',
+          'Who visited my portfolio recently?'
+        ]
+      });
+    });
   </script>
 </body>
 </html>
